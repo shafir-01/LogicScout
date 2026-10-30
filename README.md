@@ -62,7 +62,7 @@ flowchart LR
 
 Isolation is enforced in code and tested: `logicscout/scout`, `logicscout/llm` and `logicscout/briefing` must not import worlds or the referee (`tests/test_isolation.py`, plus the referee's `scout_imports_clean` audit).
 
-## The five worlds
+## The worlds
 
 | World | Title | Domain | What's hidden |
 |---|---|---|---|
@@ -71,6 +71,8 @@ Isolation is enforced in code and tested: `logicscout/scout`, `logicscout/llm` a
 | `orbit` | Orbit payload console | spacecraft operations | Undocumented command semantics and power/payload dependencies |
 | `plant` | Water-treatment tank | industrial process control | How pump, valve, level and pressure respond to each other, including lags |
 | `gate` | Field station job controller | remote device command API | A real HTTP service (own process) whose dispatch rules must be learned from responses |
+
+| `forge` | Unknown system | generated | A new system composed from hidden mechanisms (delays, cooldowns, windows, capacities, lockouts) for every seed — nobody has seen it before |
 
 Each world also has non-standard variants that the referee uses and the scout never meets in the lab.
 
@@ -213,6 +215,19 @@ uv run python -m logicscout.bench --world relay --seeds 2             # real mod
 
 Results are written to `docs/results.md` (raw per-seed JSON in `data/bench/`) and reported as-is.
 
+### Results so far (relay, objective `bulk8`, 2 seeds, live Nemotron)
+
+| Arm | Held-out goal success | Prediction accuracy vs. "nothing changes" | Model calls |
+|---|---|---|---|
+| **Full LogicScout** | 0.50 / 0.25 | 0.90 / 0.89 vs. 0.76 | 23 / 22 |
+| Random probing, same budget | 0.00 / 0.00 | 0.76 vs. 0.76 | 4 |
+| Zero-shot model control* | 0.00 / 0.00 | n/a | 36 |
+| Per-step model reasoning* | 0.00 / 0.00 | n/a | 36 |
+| No adaptation (drift monitor off) | 0.00 / 0.00 | 0.88–0.89 vs. 0.76 | 14 |
+| Code-side induction only, no model | 0.50 / 0.25 | 0.91 / 0.90 vs. 0.76 | 0 |
+
+\*Capped subset of cases. Random and idle baselines scored 0.00 on every case, and every leakage check passed. Two honest readings: only the learn-a-theory-then-compile pipeline reaches the goal at all, and on this world the code-side rule fitting alone matched the model-assisted run — the model's share of the win is not separable here. Drift was detected and recovered on one of two seeds. See [docs/results.md](docs/results.md).
+
 ## Testing
 
 ```bash
@@ -227,6 +242,7 @@ CI runs both on every push and pull request. Tests use `Fake*` doubles only unde
 See [docs/deploy.md](docs/deploy.md).
 
 - **Docker**: `docker build -t logicscout . && docker run -p 8787:8787 --env-file .env logicscout`
+- **Render** (live demo): free web service built from the `Dockerfile`, auto-deploys on push
 - **Hugging Face Spaces** (Docker Space, port 7860): see [deploy/hf/README.md](deploy/hf/README.md)
 - **Render**: Blueprint from `render.yaml`
 - **Nebius**: see [deploy/nebius/README.md](deploy/nebius/README.md)
