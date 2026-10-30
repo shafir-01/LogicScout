@@ -11,3 +11,4 @@ data/library/
 .DS_Store
 .vercel
 .railway
+*.tsbuildinfo
