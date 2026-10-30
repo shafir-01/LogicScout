@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import inspect
 import json
 import re
 import time
@@ -120,7 +121,17 @@ class RunRegistry:
 
     async def _drive(self, run: Run, mission, llm) -> None:
         try:
-            result = await mission(run.state.config, run.log, llm, run.session, run.state, run.controls)
+            kwargs: dict[str, Any] = {}
+            params = inspect.signature(mission).parameters
+            if "prompt_log" in params:
+                kwargs["prompt_log"] = run.dir / "prompts.jsonl"
+            if "referee" in params:
+                try:
+                    from logicscout.referee import evaluate
+                    kwargs["referee"] = evaluate
+                except ImportError:
+                    run.log.append("note", {"text": "referee unavailable"})
+            result = await mission(run.state.config, run.log, llm, run.session, run.state, run.controls, **kwargs)
             if isinstance(result, RunState):
                 run.state = result
         except asyncio.CancelledError:
