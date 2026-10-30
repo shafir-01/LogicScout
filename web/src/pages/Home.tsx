@@ -111,47 +111,82 @@ export default function Home() {
     }
   };
 
-  const replay = replays.find((r) => r.world_id === cur) ?? replays[0];
+  const featured = replays.find((r) => r.name === "relay-recovery") ?? replays[0];
+  const watchHref = `#/replay/${encodeURIComponent(featured?.name ?? "relay-recovery")}`;
+  const toTry = () => document.getElementById("try")?.scrollIntoView({ behavior: "smooth", block: "start" });
   const loading = !worlds;
 
   return (
     <main className="home">
-      <h1 className="headline">It has never seen this system.<br /><span>Watch it learn the rules.</span></h1>
-
-      {items.length > 0 && !loading
-        ? <Picker items={items} value={cur} onChange={setSel} onRegen={() => forgeNew().then((f) => f && setForge(f))} />
-        : <div className="picker-skeleton skel" aria-busy="true" aria-label="Loading systems" />}
-      <p className="goal" aria-live="polite">{loading ? " " : items.find((x) => x.id === cur)?.goal}</p>
-
-      <div className="cta">
-        <button className="btn btn-primary btn-xl" onClick={start} disabled={busy || !cur || loading}>{busy ? "Starting…" : "Start"}</button>
-        <button className="link-quiet" aria-expanded={options} aria-controls="options" onClick={() => setOptions(!options)}>
-          Options <span className="chev" aria-hidden="true" />
-        </button>
-      </div>
-      {options && (
-        <div id="options" className="options">
-          <label className={`switch${search ? "" : " is-off"}`}>
-            <input type="checkbox" checked={briefing && search} disabled={!search} onChange={(e) => setBriefing(e.target.checked)} />
-            <span>Look it up first<small>{search ? "Reads public sources before experimenting." : "Unavailable on this server."}</small></span>
-          </label>
-          <label className="switch">
-            <input type="checkbox" checked={transfer} onChange={(e) => setTransfer(e.target.checked)} />
-            <span>Reuse past lessons<small>Starts from rules learned on earlier systems.</small></span>
-          </label>
+      <section className="hero" aria-label="What it is">
+        <h1 className="headline">An AI that figures out how a machine works, by experimenting on it.</h1>
+        <p className="hero-sub">
+          LogicScout gets a system it has never seen, no manual, only its buttons and readings. It runs experiments,
+          learns the hidden rules, takes control, and notices when the rules secretly change.
+        </p>
+        <div className="cta">
+          <a className="btn btn-primary btn-xl" href={watchHref}>Watch it learn</a>
+          <button className="link-more" onClick={toTry}>Try it live ↓</button>
         </div>
-      )}
-      {down && (
-        <div className="notice" role="alert">
-          <p>Can’t reach LogicScout. Retrying…</p>
-          <button className="btn" onClick={() => setAttempt((a) => a + 1)}>Try again</button>
-        </div>
-      )}
-      {err && <p className="error" role="alert">{err}</p>}
+        <p className="credits">Reasoning by NVIDIA Nemotron on Nebius · public knowledge via Tavily</p>
+      </section>
 
-      {replay && (
-        <a className="btn recording" href={`#/replay/${encodeURIComponent(replay.name)}`}>Watch a recording</a>
-      )}
+      <section className="how" aria-labelledby="how-title">
+        <h2 id="how-title" className="section-title">How it works</h2>
+        <ol className="steps">
+          {STEPS.map(([title, text], i) => (
+            <li key={title}>
+              <span className="step-n" aria-hidden="true">{i + 1}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
+        <p className="quiet">Every result is checked by an independent referee on cases the AI never saw.</p>
+      </section>
+
+      <section className="try" id="try" aria-labelledby="try-title">
+        <h2 id="try-title" className="section-title">Try it live</h2>
+        <p className="try-sub">Pick a system. ‘Unknown system’ is generated just for you, so nobody has seen it before. A live run takes about three minutes.</p>
+
+        {items.length > 0 && !loading
+          ? <Picker items={items} value={cur} onChange={setSel} onRegen={() => forgeNew().then((f) => f && setForge(f))} />
+          : <div className="picker-skeleton skel" aria-busy="true" aria-label="Loading systems" />}
+        <p className="goal" aria-live="polite">{loading ? " " : items.find((x) => x.id === cur)?.goal}</p>
+
+        <div className="cta">
+          <button className="btn btn-primary btn-xl" onClick={start} disabled={busy || !cur || loading}>{busy ? "Starting…" : "Start"}</button>
+          <button className="link-quiet" aria-expanded={options} aria-controls="options" onClick={() => setOptions(!options)}>
+            Options <span className="chev" aria-hidden="true" />
+          </button>
+        </div>
+        {options && (
+          <div id="options" className="options">
+            <label className={`switch${search ? "" : " is-off"}`}>
+              <input type="checkbox" checked={briefing && search} disabled={!search} onChange={(e) => setBriefing(e.target.checked)} />
+              <span>Look it up first<small>{search ? "Reads public sources before experimenting." : "Unavailable on this server."}</small></span>
+            </label>
+            <label className="switch">
+              <input type="checkbox" checked={transfer} onChange={(e) => setTransfer(e.target.checked)} />
+              <span>Reuse past lessons<small>Starts from rules learned on earlier systems.</small></span>
+            </label>
+          </div>
+        )}
+        {down && (
+          <div className="notice" role="alert">
+            <p>Can’t reach LogicScout. Retrying…</p>
+            <button className="btn" onClick={() => setAttempt((a) => a + 1)}>Try again</button>
+          </div>
+        )}
+        {err && <p className="error" role="alert">{err}</p>}
+      </section>
     </main>
   );
 }
+
+const STEPS: [string, string][] = [
+  ["Experiments", "It guesses how the system might work and tests the guesses against it."],
+  ["Learns the rules", "What survives becomes a set of rules it can use to predict what happens next."],
+  ["Takes control", "It turns those rules into a controller that runs on its own, with no AI needed."],
+  ["Adapts", "When the hidden rules change, its predictions fail. It notices, re-tests and recovers."],
+];

@@ -58,6 +58,18 @@ function ShiftControl({ v, runId, ready, onApply, onError }: {
   );
 }
 
+function FirstVisitHint() {
+  const [show, setShow] = useState(() => { try { return localStorage.getItem("ls-hint-seen") !== "1"; } catch { return true; } });
+  if (!show) return null;
+  const close = () => { setShow(false); try { localStorage.setItem("ls-hint-seen", "1"); } catch { /* ignore */ } };
+  return (
+    <div className="run-hint" role="note">
+      <p>LogicScout is learning this system from scratch. Watch the sentence below; open Details for the evidence.</p>
+      <button onClick={close} aria-label="Dismiss hint">×</button>
+    </div>
+  );
+}
+
 export function RunLayout({
   v, banner, conn, base, runId, controls = true,
 }: { v: RunView; banner?: string; conn?: Conn; base?: string; runId?: string; controls?: boolean }) {
@@ -120,6 +132,7 @@ export function RunLayout({
 
       <section className={`stage${v.shifted && !v.recovered && !v.finished ? " is-shifted" : ""}`} aria-label="Live run">
         <PhaseRail v={v} />
+        <FirstVisitHint />
         <LiveSentence v={v} pendingShift={pending || queued != null} />
         <BigNumbers v={v} />
         <div className="stage-actions">
