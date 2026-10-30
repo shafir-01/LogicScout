@@ -1,0 +1,3607 @@
+{
+ "nano": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "json_object": {
+   "calls": [
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1444.8,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "872s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "328b2b88d15b385320f56b047e5572b3"
+     },
+     "body": {
+      "id": "chatcmpl-24912ef3-b97d-44f1-81b7-3f77d7a5299c",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"pressure is below the opening threshold of 5 bar\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to output JSON with fields will_open (bool), margin_bar (number), reason (string). Input: valve pressure 4.2 bar, opens at 5 bar. Since pressure is less than opening pressure, will not open. margin_bar = opening pressure - current pressure? Usually margin = opening pressure - current pressure = 5 - 4.2 = 0.8 bar. Provided \"margin_bar\" number likely positive. Provide reason: \"pressure below opening threshold\". So JSON:\n\n{\n \"will_open\": false,\n \"margin_bar\": 0.8,\n \"reason\": \"pressure is below the opening threshold of 5 bar\"\n}\n\nMake sure numbers are not quoted. Provide only JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368387,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 183,
+       "prompt_tokens": 57,
+       "total_tokens": 240,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1208.1,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "870s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "f9d3b78cb2219efa89696d4c4b317d98"
+     },
+     "body": {
+      "id": "chatcmpl-8d42f668-0cb5-4d98-9d53-021f8fd11a19",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure is below the opening threshold.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute margin_bar = opening pressure - actual pressure? Actually margin is difference between opening pressure and current pressure? The valve opens at 5 bar, current is 4.2 bar, so margin = 5 - 4.2 = 0.8 bar. Since current pressure < opening pressure, will_open = false. Provide JSON with fields will_open (bool), margin_bar (number), reason (string). Reason maybe \"Current pressure is below the opening threshold.\" Return only JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368389,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 136,
+       "prompt_tokens": 57,
+       "total_tokens": 193,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 7041.4,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "869s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "32126f0255b906158a84ed59c9fea579"
+     },
+     "body": {
+      "id": "chatcmpl-e6358792-03f1-4df0-b2f8-02f7d93846a4",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Pressure (4.2) is below opening threshold (5); insufficient to trigger opening.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute will_open: bool true if current pressure >= threshold? The example: pressure 5.9 bar threshold 6 => \"will_open\": true. That suggests condition: if current pressure >= threshold? Actually 5.9 is less than 6, but they gave true? Wait example: \"it also has a pressure of 5.9 bar yet it's threshold is 6 bar, so should I return ... \"will_open\": true\". That's contradictory. Actually they might be meaning that if pressure is near threshold? Or maybe they are considering that the valve will open when pressure reaches threshold, so if current pressure is close to threshold it will open soon? But wording: \"opens at 5 bar\" but pressure is 5.9 => it's already above threshold, so will open. So condition is pressure >= threshold => will_open true. In example, 5.9 >=6? No. That is false. But they said will_open true; maybe they consider that if pressure is below threshold but close? Actually need to infer correct logic: Let's examine phrasing: \"opens at 5 bar\" that sounds like setpoint: If current pressure exceeds 5 bar, then it will open. So if pressure is 5.9 and threshold is 5 bar, it's above. But they gave threshold 6, but pressure 5.9, yet still will_open true? That doesn't align. Could be a mistake. Probably they intend that \"opens at X bar\" is the setpoint, and if current pressure is >= X, will open. For threshold 6, pressure 5.9 is less than 6, so should be false. However they explicitly said true. Might be a mistake, but we need to follow logic. Let's decide based on the provided example: Pressure 5.9 bar, threshold 6 => return will_open true. So they treat will_open as true if pressure is close to threshold? Maybe they intend \"the valve will open soon\" i.e., pressure >= threshold - margin? Not sure.\n\nBetter interpret: \"the valve opens at 5 bar\" meaning it opens when pressure reaches 5 bar. So if current pressure is 5.9 and it opens at 5, then it already opened (it should have opened earlier). So will_open true. But they wrote threshold 6. Let's parse the provided example sentence: \"Given a data point in the form of {\"pressure\": 5.9, \"threshold\": 6}, if it also has a pressure of 5.9 bar yet it's threshold is 6 bar, so should I return {\"will_open\": true}?\" It says \"it also has a pressure of 5.9 bar yet it's threshold is 6 bar\". Actually they wrote \"it also has a pressure of 5.9 bar yet it's threshold is 6 bar\". That seems like a mistake; they maybe meant threshold is 5? Hmm. Perhaps they think threshold is the set point to open, and if pressure is 5.9 (which is near 6) it will open soon, but they still say true. Probably they want will_open true if pressure >= threshold? But 5.9 >= 6 is false, so maybe they want will_open true if pressure > threshold? still false.\n\nAnother possibility: They want will_open true if pressure is within some margin of threshold? Not described. But typical logic: if current pressure >= setpoint, valve opens. So we will implement that: will_open true if pressure >= threshold. That aligns with typical. Then example would be false, but they said true mistakenly perhaps.\n\nThus for our case: pressure = 4.2 bar, opens at 5 bar. So threshold = 5, pressure = 4.2, which is less than 5, so will_open false. margin_bar = ??? They want \"margin_bar\": number. Likely the difference between threshold and pressure: margin = threshold - pressure = 0.8 bar. Provide that number. reason: string describing why.\n\nThus output JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Pressure (4.2) is below opening threshold (5); insufficient to trigger opening.\"}\n\nCheck they said \"Return only a JSON object.\" So we output exactly JSON.\n\nBe sure formatting: double quotes, no extra text.\n\nThus final.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368390,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 960,
+       "prompt_tokens": 57,
+       "total_tokens": 1017,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 793.9,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "862s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "805d1626238a2ca3582a28d496efaa4e"
+     },
+     "body": {
+      "id": "chatcmpl-fe74edfc-fbda-4207-bc21-cca4ff943c1a",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Pressure is below the opening threshold.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute if valve will open based on pressure 4.2 bar, opening threshold 5 bar. Pressure < threshold => will not open. margin_bar = threshold - pressure = 0.8 bar. reason = \"Pressure is below the opening threshold.\" Must output JSON with fields will_open (boolean), margin_bar (number), reason (string). Ensure correct JSON only.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368397,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 111,
+       "prompt_tokens": 57,
+       "total_tokens": 168,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1150.9,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "861s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "d1859c64d446b2b2b2f4bdc926d91b32"
+     },
+     "body": {
+      "id": "chatcmpl-3ad447b3-59b1-4ee1-89c0-a3ea33a2cb6e",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"The pressure (4.2 bar) is below the opening threshold of 5 bar, so the valve will not open.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute will_open: true if pressure >= opening pressure? Actually \"opens at 5 bar\" meaning it opens when pressure reaches 5 bar. Pressure is 4.2 bar, so it hasn't reached 5, so will not open. margin_bar = opening pressure - current pressure = 5 - 4.2 = 0.8 bar. Reason: \"The pressure is below the opening threshold of 5 bar, so the valve will not open.\"\n\nReturn JSON with bool true/false? will_open: false. margin_bar: 0.8. Reason: string.\n\nMake sure numeric not string. Return only JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368398,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 184,
+       "prompt_tokens": 57,
+       "total_tokens": 241,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1037.1,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "860s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "65d45415dbbccdbde51c50e9a38f7590"
+     },
+     "body": {
+      "id": "chatcmpl-b1fcfca8-0f86-47b2-8b5a-e6d123852c42",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\":false,\"margin_bar\":0.8,\"reason\":\"Valve pressure is below the opening threshold\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute will_open: it's at 4.2 bar, threshold 5 bar, so it will not open, so will_open: false. margin_bar: difference = 5 - 4.2 = 0.8 bar. But maybe they want margin as buffer, i.e., absolute difference? Probably margin = threshold - pressure = 0.8 bar. Reason: \"Valve pressure is below opening threshold.\" Return JSON only.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368399,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 118,
+       "prompt_tokens": 57,
+       "total_tokens": 175,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1554.6,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "859s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "f7673ae4b71eb1417af1226ef3d6c09f"
+     },
+     "body": {
+      "id": "chatcmpl-1c6114b8-76aa-448a-a323-108c727f2d7e",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"The valve's current pressure is below the opening pressure of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "The user wants JSON object with fields will_open boolean, margin_bar number, reason string.\n\nGiven valve has pressure 4.2 bar and opens at 5 bar. It has pressure lower than opening threshold, so will_open is false. Margin: maybe difference? Last bar? Not specified. The previous instruction said evaluate last bar? Hmm. Here \"margin_bar\": could be the difference between opening pressure and current pressure? Probably 5 - 4.2 = 0.8 bar. Or maybe it's margin to open: opening - current = 0.8. Provide reason.\n\nReturn only JSON.\n\nSo will_open: false, margin_bar: 0.8, reason: \"Pressure is below opening threshold.\" Provide JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368400,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 191,
+       "prompt_tokens": 57,
+       "total_tokens": 248,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1074.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "857s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "e20fbe8b0f01bdfbf316d4aa7a482a4f"
+     },
+     "body": {
+      "id": "chatcmpl-4c21b673-f191-4390-91d7-98b8dff5e567",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"The outlet pressure (4.2 bar) is below the opening threshold (5 bar), so the valve will not open yet.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute will_open: pressure is 4.2 bar, threshold is 5 bar. Pressure < threshold? Actually \"opens at\" maybe means it opens when pressure reaches threshold. Here pressure is 4.2, threshold is 5, so it hasn't reached yet, so will_open is false. margin_bar: threshold - pressure = 0.8 bar. reason: explain that outlet pressure is below the opening pressure. Must output JSON only, with fields will_open (bool), margin_bar (number), reason (string). Ensure proper JSON, no extra text.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368401,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 171,
+       "prompt_tokens": 57,
+       "total_tokens": 228,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1721.2,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "856s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "24c4f20127af79825adb8d5e9f680caa"
+     },
+     "body": {
+      "id": "chatcmpl-e96de95d-964f-415a-9dbd-58c1f4d4bc41",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Pressure below opening threshold (4.2 bar < 5 bar)\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute margin_bar: difference? The valve opens at 5 bar, current pressure 4.2 bar, so margin = opening pressure - current pressure = 0.8 bar. But maybe margin is how much pressure needed to open? It is the remaining pressure difference to reach opening threshold. So margin_bar = 5 - 4.2 = 0.8. will_open: bool indicates whether it will open given current pressure? Since pressure is below opening pressure, it will not open yet. So will_open = false. reason: something like \"Pressure is below the opening threshold.\"\n\nReturn JSON object with fields: will_open: false, margin_bar: 0.8, reason: \"Pressure below opening threshold (4.2 bar < 5 bar)\". Probably numeric only? margin_bar number can be float. Provide as number, maybe 0.8. Ensure JSON syntax correct, no trailing commas.\n\nThus answer:\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Pressure below opening threshold (4.2 bar < 5 bar)\"\n}\n\nReturn only JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368402,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 275,
+       "prompt_tokens": 57,
+       "total_tokens": 332,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 840.8,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "855s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "dba8d2cdba0126370922febb5f7762cd"
+     },
+     "body": {
+      "id": "chatcmpl-8c780dbf-8fa2-4fc1-b393-ef9f4fbe5a45",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\":false,\"margin_bar\":0.8,\"reason\":\"Current pressure (4.2 bar) is below the opening pressure (5 bar), so the valve will not open yet.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to output JSON with will_open bool, margin_bar number, reason string. Pressure 4.2 bar, opening pressure 5 bar. Since pressure is below opening pressure, will it open? Usually valve opens when pressure reaches set point; it's currently below, so will not open. Margin_bar is the difference? Probably margin to opening: opening pressure - current pressure = 0.8 bar. Or maybe margin of how far below? It's 0.8 bar below. So margin_bar = 0.8. Reason: \"Current pressure is below the set opening pressure.\" Provide JSON only.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368404,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 168,
+       "prompt_tokens": 57,
+       "total_tokens": 225,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    }
+   ],
+   "n": 10,
+   "http_ok": 10,
+   "valid_json": 10,
+   "think_tag_in_content": 0,
+   "reasoning_field_present": 10,
+   "finish_reasons": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "latency_ms": {
+    "n": 10,
+    "min": 793.9,
+    "p50": 1150.9,
+    "p95": 7041.4,
+    "max": 7041.4,
+    "mean": 1786.7
+   },
+   "completion_tokens": [
+    183,
+    136,
+    960,
+    111,
+    184,
+    118,
+    191,
+    171,
+    275,
+    168
+   ]
+  },
+  "prompt_only": {
+   "calls": [
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 785.9,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "854s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "bccd0bc0da29ccb30fe0704393da2ba9"
+     },
+     "body": {
+      "id": "chatcmpl-2b7ed501-bd11-4571-9540-ec181e1c2049",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure is below the opening threshold; insufficient to trigger opening.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). Valve pressure 4.2 bar, opens at 5 bar => will it open? It needs to reach 5 bar to open; current pressure 4.2 < 5, so will not open => will_open false. margin_bar: difference between opening pressure and current pressure? margin = opening - current = 5 - 4.2 = 0.8 bar. Reason: \"Current pressure is below the opening threshold; insufficient to trigger opening.\" Provide JSON only.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368405,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 161,
+       "prompt_tokens": 57,
+       "total_tokens": 218,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1026.5,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "853s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "b88d3beccd12db9a489ec92e9156d9ad"
+     },
+     "body": {
+      "id": "chatcmpl-82331f1b-e892-4f0a-967e-9632d10534f9",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"The current pressure (4.2 bar) is below the activation pressure of 5 bar, so the valve will not open yet.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "The user wants to evaluate whether a valve should open. They give pressure 4.2 bar, opens at 5 bar. So it's below setpoint, so will not open. margin = opening pressure - current pressure = 5 - 4.2 = 0.8 bar. Reason: It's below the activation pressure; currently at 4.2 bar vs required 5 bar, therefore cannot open. Provide JSON with boolean false for will_open, margin_bar as number (0.8), and reason string.\n\nReturn only JSON.\n\nThus answer: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"The valve has not reached its activation pressure of 5 bar; current pressure is only 4.2 bar, so it will not open.\"}\n\nMake sure JSON only.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368406,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 223,
+       "prompt_tokens": 57,
+       "total_tokens": 280,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 772.8,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "852s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "b00f12f6d290150de66d84d7cfd0d1b1"
+     },
+     "body": {
+      "id": "chatcmpl-c0c42c60-6b54-47f8-954b-cd7cac555cca",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar; the margin is only 0.8 bar, so the valve will not open.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need JSON with will_open: bool? The valve opens at 5 bar but current pressure is 4.2 bar, which is below set point, so will not open. margin_bar: probably pressure difference to opening point? margin = opening pressure - current = 5 - 4.2 = 0.8 bar. Since not will open, margin positive but small. reason: explain something.\n\nReturn only JSON. Let's produce: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below opening threshold of 5 bar; insufficient margin.\"}\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368407,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 191,
+       "prompt_tokens": 57,
+       "total_tokens": 248,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 713.9,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "851s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "9e9e500bce914ac9c38b131e6da60e20"
+     },
+     "body": {
+      "id": "chatcmpl-ab0c6b79-2158-4d0e-8130-0b3dc1a873e9",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure (4.2 bar) is below the opening pressure (5 bar); the valve will open when pressure reaches 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute margin = opening pressure - current pressure? Actually valve opens at 5 bar, current pressure 4.2 bar. It will open when pressure reaches 5 bar, so it's not open yet. margin could be difference? Probably margin_bar = opening pressure - current pressure = 0.8 bar. reason: explanation. Return JSON with will_open false (since current pressure < opening pressure). margin_bar: 0.8. reason: something like \"Current pressure is below opening pressure; will open when pressure reaches 5 bar.\" Return only JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368408,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 172,
+       "prompt_tokens": 57,
+       "total_tokens": 229,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 614.8,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "851s",
+      "x-ratelimit-dynamic-period-usage-requests": "1%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "a989866bf205f3432b2d0b7cd67434f9"
+     },
+     "body": {
+      "id": "chatcmpl-0e1fbbfe-8c0c-45b0-b35f-0d4975587f6e",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Pressure is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "The user wants JSON with will_open bool, margin_bar number, reason string. Valve pressure is 4.2 bar, opens at 5 bar. So margin is 5 - 4.2 = 0.8 bar, positive? Margin = distance to opening? Probably margin = opening pressure - current pressure = 0.8 bar. Will it open? Since pressure is lower than opening pressure, it will not open now. So will_open = false. Reason: \"Pressure is below the opening threshold.\" Return JSON. Ensure correct numeric. Provide no extra text.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368408,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 156,
+       "prompt_tokens": 57,
+       "total_tokens": 213,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 651.2,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "850s",
+      "x-ratelimit-dynamic-period-usage-requests": "2%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "b15210cc981d319c5f7e567be4e206a3"
+     },
+     "body": {
+      "id": "chatcmpl-9c1b4e88-7b05-4f42-9344-ca09e064c6da",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Opening pressure not reached\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "The user wants JSON with three fields: will_open: bool, margin_bar: number, reason: string. Input: valve pressure 4.2 bar and opens at 5 bar. So pressure is below opening pressure, so will_open false. margin_bar likely difference between opening pressure and actual pressure: 5 - 4.2 = 0.8 bar? Or margin_... maybe margin to opening? Usually margin is how far below opening pressure, i.e., opening pressure minus current pressure = 0.8 bar. Reason: something like \"Opening pressure not reached\". Provide JSON with will_open false, margin_bar 0.8, reason \"Opening pressure not reached\". Ensure correct JSON format.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368409,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 176,
+       "prompt_tokens": 57,
+       "total_tokens": 233,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1173.3,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "849s",
+      "x-ratelimit-dynamic-period-usage-requests": "2%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "ddd3e22b274d758e9c5f32e9aba7825a"
+     },
+     "body": {
+      "id": "chatcmpl-aeaf04df-8f01-4e9c-8551-91e3fbc25a85",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"The pressure is below the opening pressure, so the valve will not open.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). Pressure is 4.2 bar, opening pressure is 5 bar. Since pressure is less than opening pressure, will it open? No. margin_bar likely margin = opening pressure - actual pressure? Or margin of required over actual? Usually margin = opening pressure - actual pressure = 0.8 bar. Provide reason: \"Pressure below opening threshold\". Return JSON only.\n\nEnsure valid JSON. Provide numbers with decimal. Let's compute margin = 5 - 4.2 = 0.8. Reason: \"The pressure is below the opening pressure, so the valve will not open.\"\n\nReturn {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"The pressure is below the opening pressure, so the valve will not open.\"}\n\nMake sure to escape quotes. Output only JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368410,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 231,
+       "prompt_tokens": 57,
+       "total_tokens": 288,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1599.3,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "848s",
+      "x-ratelimit-dynamic-period-usage-requests": "2%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "a7fd8945b24334f8c04d93a8c461e970"
+     },
+     "body": {
+      "id": "chatcmpl-1f8b2faf-296a-4e6c-860c-12449d56cc61",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Pressure (4.2 bar) is below the opening threshold (5 bar); therefore the valve will not open.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute margin: threshold - pressure? Actually will open if pressure >= threshold. The pressure is 4.2 bar, threshold is 5 bar. So pressure less than threshold, will not open. margin_bar? Probably margin needed to open: threshold - pressure = 0.8 bar. But margin could be pressure - threshold? If negative margin indicates not reaching. Probably margin_bar is pressure difference to opening point: 0.8 bar below, so margin is -0.8? Or they may want positive margin meaning remaining pressure needed: threshold - pressure = 0.8 bar. The problem says \"Return JSON {\"will_open\": bool, \"margin_bar\": number, \"reason\": string}\". margin_bar likely is the difference between pressure and opening pressure? Might be pressure - opening pressure? Since they want margin, maybe it's how far below the opening pressure it is: 4.2 - 5 = -0.8. But margin being negative is ambiguous. Could define margin as pressure needed to reach opening: 5 - 4.2 = 0.8 bar. That is a positive number representing margin needed. So margin_bar = 0.8. Reason: pressure below threshold, will not open. Provide JSON.\n\nThus: will_open: false, margin_bar: 0.8, reason: \"Pressure (4.2 bar) is below opening threshold (5 bar); will not open.\"\n\nReturn only JSON.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368411,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 348,
+       "prompt_tokens": 57,
+       "total_tokens": 405,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 2027.1,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "846s",
+      "x-ratelimit-dynamic-period-usage-requests": "2%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "e6c4c7d8a3c208b98015ab556daebd6a"
+     },
+     "body": {
+      "id": "chatcmpl-e27a1155-afbb-4b77-804b-378911fab91a",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"The valve opens at 5.0 bar, and the current pressure is 4.2 bar, which is 0.8 bar below the opening threshold, so the valve will not open yet.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute margin_bar: pressure difference at which it opens? It opens at 5 bar, current pressure 4.2 bar => margin = 5 - 4.2 = 0.8 bar. bool will_open: true if current pressure >= opening pressure? It hasn't reached 5 yet, so will_open = false. Reason: explanation.\n\nReturn JSON only. Ensure margin_bar as number (maybe 0.8). Provide bool true/false. Provide reason string.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368412,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 169,
+       "prompt_tokens": 57,
+       "total_tokens": 226,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    },
+    {
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "status": 200,
+     "ms": 1377.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "100",
+      "x-ratelimit-limit-tokens": "800000",
+      "x-ratelimit-remaining-requests": "99",
+      "x-ratelimit-remaining-tokens": "799451",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "844s",
+      "x-ratelimit-dynamic-period-usage-requests": "2%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "798544c65f404211543dc459f3c56697"
+     },
+     "body": {
+      "id": "chatcmpl-8675e660-d481-4276-b13b-a6abd5e5dee6",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Pressure below setpoint, will not open.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": [],
+         "reasoning": "We need to compute whether valve will open given pressure 4.2 bar and opening pressure 5 bar. Pressure is less than setpoint, so will not open. margin = setpoint - pressure? Probably margin = 5 - 4.2 = 0.8 bar. Provide bool true if will open, false if not. Reason: \"Pressure below setpoint, will not open\". Return JSON with will_open false, margin_bar 0.8, reason string. Ensure numbers not strings. Output JSON only.\n"
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368414,
+      "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.22.0-b08c96cd",
+      "usage": {
+       "completion_tokens": 143,
+       "prompt_tokens": 57,
+       "total_tokens": 200,
+       "completion_tokens_details": null,
+       "prompt_tokens_details": null
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null
+     }
+    }
+   ],
+   "n": 10,
+   "http_ok": 10,
+   "valid_json": 10,
+   "think_tag_in_content": 0,
+   "reasoning_field_present": 10,
+   "finish_reasons": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "latency_ms": {
+    "n": 10,
+    "min": 614.8,
+    "p50": 785.9,
+    "p95": 2027.1,
+    "max": 2027.1,
+    "mean": 1074.2
+   },
+   "completion_tokens": [
+    161,
+    223,
+    191,
+    172,
+    156,
+    176,
+    231,
+    348,
+    169,
+    143
+   ]
+  }
+ },
+ "super": {
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "json_object": {
+   "calls": [
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1731.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "334s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "39e3898f8c76a822cf84a50a8cfaf36d"
+     },
+     "body": {
+      "id": "chatcmpl-9680326b0326499f",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368416,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 211,
+       "prompt_tokens": 57,
+       "total_tokens": 268,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 171,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1321.5,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "332s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "93f814a947e6a8c4266bdd406d84aa8c"
+     },
+     "body": {
+      "id": "chatcmpl-ad294c89ae9529f1",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368418,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 196,
+       "prompt_tokens": 57,
+       "total_tokens": 253,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 156,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1423.9,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "331s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "bc717920694477cfff86fa0b8f8240c0"
+     },
+     "body": {
+      "id": "chatcmpl-9f8e478a27e20d2e",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368419,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 196,
+       "prompt_tokens": 57,
+       "total_tokens": 253,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 156,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1633.6,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "329s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "a24bf57cf52ae90a3341a9414229a99f"
+     },
+     "body": {
+      "id": "chatcmpl-89c8e2a3c0e598fa",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368421,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 211,
+       "prompt_tokens": 57,
+       "total_tokens": 268,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 171,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1500.2,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "328s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "25a6fffc7d5db66e1dd8397fe2854223"
+     },
+     "body": {
+      "id": "chatcmpl-ab1b4ddfc53072c3",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368422,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 196,
+       "prompt_tokens": 57,
+       "total_tokens": 253,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 156,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1514.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "326s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "ad816a7b20de3fcfd6caa67211bbe620"
+     },
+     "body": {
+      "id": "chatcmpl-89640ef65d571a8c",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368423,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 211,
+       "prompt_tokens": 57,
+       "total_tokens": 268,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 171,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1651.8,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "325s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "b2c8861d7122ff25ce114eb036d36954"
+     },
+     "body": {
+      "id": "chatcmpl-bb258e612f22734b",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368425,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 210,
+       "prompt_tokens": 57,
+       "total_tokens": 267,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 170,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1225.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "323s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "d7a4c2835f4303df5e5288626932ef65"
+     },
+     "body": {
+      "id": "chatcmpl-bf41e29f15973cc8",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368427,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 211,
+       "prompt_tokens": 57,
+       "total_tokens": 268,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 171,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1358.5,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "322s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "caa5774f02c9b47435f47f89e37835fc"
+     },
+     "body": {
+      "id": "chatcmpl-b90f26d00ea80416",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368428,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 196,
+       "prompt_tokens": 57,
+       "total_tokens": 253,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 156,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1399.6,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "320s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "c31f77a1e14edee43cea905658c5c765"
+     },
+     "body": {
+      "id": "chatcmpl-9a45adc76ffd7536",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening setpoint (5 bar)\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently at pressure 4.2 bar; it opens at threshold 5 bar. So not open yet. Margin = opening pressure - current? Usually margin is difference between set point and actual: 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus will_open false, margin_bar 0.8, reason something like \"Current pressure (4.2 bar) is below the opening setpoint (5 bar)\". Ensure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently at pressure 4.2 bar; it opens at threshold 5 bar. So not open yet. Margin = opening pressure - current? Usually margin is difference between set point and actual: 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus will_open false, margin_bar 0.8, reason something like \"Current pressure (4.2 bar) is below the opening setpoint (5 bar)\". Ensure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368429,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 164,
+       "prompt_tokens": 57,
+       "total_tokens": 221,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 124,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    }
+   ],
+   "n": 10,
+   "http_ok": 10,
+   "valid_json": 10,
+   "think_tag_in_content": 0,
+   "reasoning_field_present": 10,
+   "finish_reasons": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "latency_ms": {
+    "n": 10,
+    "min": 1225.0,
+    "p50": 1423.9,
+    "p95": 1731.0,
+    "max": 1731.0,
+    "mean": 1475.9
+   },
+   "completion_tokens": [
+    211,
+    196,
+    196,
+    211,
+    196,
+    211,
+    210,
+    211,
+    196,
+    164
+   ]
+  },
+  "prompt_only": {
+   "calls": [
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1057.7,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "319s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "719f17ee52a73296385ae1d38d25732e"
+     },
+     "body": {
+      "id": "chatcmpl-8e27a0717aee4ac1",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368431,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 189,
+       "prompt_tokens": 57,
+       "total_tokens": 246,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 145,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1236.6,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "318s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "a566d5fa76184074d0217247cb44847e"
+     },
+     "body": {
+      "id": "chatcmpl-bf6a7cb704a462e6",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368432,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 189,
+       "prompt_tokens": 57,
+       "total_tokens": 246,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 145,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1403.4,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "317s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "83c2dca1267b2e5743d6c7751ffec29c"
+     },
+     "body": {
+      "id": "chatcmpl-a18e76bd36ca6f44",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual: maybe positive indicates how much more needed. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368433,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 216,
+       "prompt_tokens": 57,
+       "total_tokens": 273,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 171,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 2227.7,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "315s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "4891bffea74b9dcad6f6608b820da158"
+     },
+     "body": {
+      "id": "chatcmpl-9b16927036fd45c6",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368435,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 201,
+       "prompt_tokens": 57,
+       "total_tokens": 258,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 156,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 2004.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "313s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "7c761cae5711aad18347ba978978f2a4"
+     },
+     "body": {
+      "id": "chatcmpl-97a9796ebc7fd57c",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368437,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 199,
+       "prompt_tokens": 57,
+       "total_tokens": 256,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 155,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1299.1,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "311s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "09e2672f9fe8032d1abb1bcf52e72247"
+     },
+     "body": {
+      "id": "chatcmpl-887e95c9c545e5f1",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368439,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 189,
+       "prompt_tokens": 57,
+       "total_tokens": 246,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 145,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 2029.8,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "310s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "41b49c94c2d8e3d1cc0e747ae50b7834"
+     },
+     "body": {
+      "id": "chatcmpl-b562538bac62bf69",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below the opening setpoint of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). Valve pressure is current? It says valve has pressure 4.2 bar and opens at 5 bar. So it's not yet open; opening threshold is higher than current pressure. Margin = required - current? Usually margin to reach opening: needed extra pressure = 5 - 4.2 = 0.8 bar. Since it hasn't opened, will_open false. Reason: because current pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening setpoint of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). Valve pressure is current? It says valve has pressure 4.2 bar and opens at 5 bar. So it's not yet open; opening threshold is higher than current pressure. Margin = required - current? Usually margin to reach opening: needed extra pressure = 5 - 4.2 = 0.8 bar. Since it hasn't opened, will_open false. Reason: because current pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening setpoint of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368440,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 201,
+       "prompt_tokens": 57,
+       "total_tokens": 258,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 156,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1783.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "308s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "42eb0a1136da23cd564df81baebd42c2"
+     },
+     "body": {
+      "id": "chatcmpl-97f7f9513b89e11e",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening pressure - current pressure? Usually margin could be difference between set point and actual. Could define as required increase needed: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368442,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 201,
+       "prompt_tokens": 57,
+       "total_tokens": 258,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 156,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 2394.6,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "306s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "1bde0667e0bd6ced284ef9cd2551b1a0"
+     },
+     "body": {
+      "id": "chatcmpl-862f7cc5e10b0d43",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening - current? Usually margin could be difference between setpoint and actual: maybe positive indicates how much more needed to reach opening. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open. Margin = opening - current? Usually margin could be difference between setpoint and actual: maybe positive indicates how much more needed to reach opening. We'll compute margin_bar = opening_pressure - current_pressure = 5 - 4.2 = 0.8 bar. Reason: because pressure below opening threshold.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON formatting."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368444,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 217,
+       "prompt_tokens": 57,
+       "total_tokens": 274,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 172,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "status": 200,
+     "ms": 1188.2,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "1000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "304s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "98ab200b4d239b0a7a2cc4e30f118f3d"
+     },
+     "body": {
+      "id": "chatcmpl-a483ae99a8c529d6",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "\n\n{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format without extra text.",
+         "reasoning_content": "We need to output JSON with fields: will_open (bool), margin_bar (number), reason (string). The valve currently pressure is 4.2 bar; it opens at 5 bar threshold. So if current pressure >= opening pressure? It's less than 5, so will not open yet. Margin = opening pressure - current pressure? Usually margin needed to reach opening: 5 - 4.2 = 0.8 bar. Reason: because pressure below setpoint.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening threshold of 5 bar.\"}\n\nMake sure proper JSON format without extra text."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368446,
+      "model": "nvidia/nemotron-3-super-120b-a12b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+      "usage": {
+       "completion_tokens": 188,
+       "prompt_tokens": 57,
+       "total_tokens": 245,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 148,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 32,
+        "created_cache_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 32,
+       "prompt_cache_miss_tokens": 25
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "ec_transfer_params": null,
+      "metrics": null
+     }
+    }
+   ],
+   "n": 10,
+   "http_ok": 10,
+   "valid_json": 10,
+   "think_tag_in_content": 0,
+   "reasoning_field_present": 10,
+   "finish_reasons": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "latency_ms": {
+    "n": 10,
+    "min": 1057.7,
+    "p50": 1403.4,
+    "p95": 2394.6,
+    "max": 2394.6,
+    "mean": 1662.4
+   },
+   "completion_tokens": [
+    189,
+    189,
+    216,
+    201,
+    199,
+    189,
+    201,
+    201,
+    217,
+    188
+   ]
+  }
+ },
+ "ultra": {
+  "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+  "json_object": {
+   "calls": [
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 1162.8,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "303s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "67c5d7415ad78ad9784abd410e6299fd"
+     },
+     "body": {
+      "id": "chatcmpl-a30b2be623b14cff",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below opening pressure 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: will_open (bool), margin_bar (number), and reason (string). The valve has pressure 4.2 bar and opens at 5 bar. So the current pressure is 4.2 bar, opening pressure is 5 bar. The valve will open if pressure >= opening pressure? Typically, a valve opens when pressure reaches or exceeds the set pressure. Here pressure is 4.2 bar, which is less than 5 bar, so it will not open. The margin is the difference between opening pressure and current pressure: 5 - 4.2 = 0.8 bar. Reason: \"Current pressure 4.2 bar is below opening pressure 5 bar.\" Or something like that.\n\nWe need to return only a JSON object. No extra text. So output: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below opening pressure 5 bar.\"}\n\nMake sure margin_bar is a number, not a string. Use proper JSON formatting. No trailing spaces."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368447,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 264,
+       "prompt_tokens": 57,
+       "total_tokens": 321,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 227,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 629.3,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "302s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "ef6242c2a1e5574905093a51eee54f73"
+     },
+     "body": {
+      "id": "chatcmpl-bbbe25b9792d3837",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure (4.2 bar) is below the opening threshold (5 bar) by 0.8 bar.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: will_open (boolean), margin_bar (number), and reason (string). The valve has pressure 4.2 bar and opens at 5 bar. Since 4.2 < 5, it will not open. The margin is the difference: 5 - 4.2 = 0.8 bar. The reason should explain that the current pressure is below the opening threshold. Let's construct the JSON."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368448,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 145,
+       "prompt_tokens": 57,
+       "total_tokens": 202,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 95,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 846.6,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "302s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "874d6f289e1533ad3ecb6f698b5e54bb"
+     },
+     "body": {
+      "id": "chatcmpl-88426d13cdfa00b3",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below opening setpoint (5 bar) by 0.8 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: will_open (boolean), margin_bar (number), and reason (string).\nThe valve has a pressure of 4.2 bar and opens at 5 bar.\nSince 4.2 < 5, the valve will not open.\nThe margin is the difference between opening pressure and current pressure: 5 - 4.2 = 0.8 bar.\nThe reason should explain this."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368449,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 136,
+       "prompt_tokens": 57,
+       "total_tokens": 193,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 90,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 1218.5,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "301s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "ff1b61e37cdd51cd08ca82d4ed3cb123"
+     },
+     "body": {
+      "id": "chatcmpl-bcc88de808542701",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening setpoint of 5 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: \"will_open\" (boolean), \"margin_bar\" (number), and \"reason\" (string).\n\nGiven:\n- Valve pressure: 4.2 bar\n- Valve opens at: 5 bar\n\nThe valve will open if the current pressure is >= opening pressure. Here 4.2 < 5, so it will not open.\n\nMargin: The difference between opening pressure and current pressure? Or current minus opening? Usually margin is how much more pressure is needed to open. So margin = opening pressure - current pressure = 5 - 4.2 = 0.8 bar. Could also be negative if already open? But here it's closed, so positive margin.\n\nReason: A string explaining.\n\nThus JSON: {\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below the opening setpoint of 5 bar.\"}\n\nI'll output only the JSON object."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368450,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 246,
+       "prompt_tokens": 57,
+       "total_tokens": 303,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 206,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 887.3,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "300s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "48ee59575bbffe8720bb34ec8e808e65"
+     },
+     "body": {
+      "id": "chatcmpl-bceb308ee183d07f",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening threshold (5 bar) by 0.8 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: will_open (boolean), margin_bar (number), and reason (string). The valve has pressure 4.2 bar and opens at 5 bar. Since 4.2 < 5, it will not open. The margin is the difference between opening pressure and current pressure: 5 - 4.2 = 0.8 bar. The reason should explain that the current pressure is below the opening threshold. I'll output the JSON."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368451,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 147,
+       "prompt_tokens": 57,
+       "total_tokens": 204,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 101,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    }
+   ],
+   "n": 5,
+   "http_ok": 5,
+   "valid_json": 5,
+   "think_tag_in_content": 0,
+   "reasoning_field_present": 5,
+   "finish_reasons": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "latency_ms": {
+    "n": 5,
+    "min": 629.3,
+    "p50": 887.3,
+    "p95": 1218.5,
+    "max": 1218.5,
+    "mean": 948.9
+   },
+   "completion_tokens": [
+    264,
+    145,
+    136,
+    246,
+    147
+   ]
+  },
+  "prompt_only": {
+   "calls": [
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 1156.9,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "299s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "d27d2a8c2955876b6f1f0e4fe4e92ef4"
+     },
+     "body": {
+      "id": "chatcmpl-97f808b83cc686f9",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below set pressure 5 bar, valve remains closed.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: will_open (boolean), margin_bar (number), and reason (string). The valve has pressure 4.2 bar and opens at 5 bar. So the current pressure is 4.2 bar, set pressure is 5 bar. The valve will open if pressure >= set pressure? Typically a safety valve opens when pressure reaches set pressure. Here pressure is 4.2 bar, set point is 5 bar. So it will not open. The margin is the difference: set pressure - current pressure = 5 - 4.2 = 0.8 bar. Or maybe margin is how much below set pressure? The user says \"margin_bar\": number. Could be the margin before opening. So margin_bar = 5 - 4.2 = 0.8 bar. Reason: \"Current pressure 4.2 bar is below set pressure 5 bar, valve remains closed.\" So will_open: false, margin_bar: 0.8, reason: string.\n\nReturn only JSON object. No extra text."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368452,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 262,
+       "prompt_tokens": 57,
+       "total_tokens": 319,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 221,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 942.0,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "298s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "6b044d458c4b670b2428b3935ba95d5a"
+     },
+     "body": {
+      "id": "chatcmpl-97bb1f92ce15d1ef",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure 4.2 bar is below opening threshold of 5 bar; valve requires 0.8 bar more pressure to open.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON response indicating whether a valve will open given its current pressure (4.2 bar) and opening pressure (5 bar). I need to calculate the margin and provide a reason."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368453,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 90,
+       "prompt_tokens": 57,
+       "total_tokens": 147,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 40,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 1114.5,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "297s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "e8803562de06609fb71380ca04e1a18d"
+     },
+     "body": {
+      "id": "chatcmpl-9c0c6e7af24aa180",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below set pressure 5 bar, valve remains closed.\"\n}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: will_open (boolean), margin_bar (number), and reason (string). The valve has pressure 4.2 bar and opens at 5 bar. So the current pressure is 4.2 bar, set pressure is 5 bar. The valve will open when pressure reaches 5 bar. Since 4.2 < 5, it will not open now. The margin is the difference between set pressure and current pressure: 5 - 4.2 = 0.8 bar. Reason: \"Current pressure 4.2 bar is below set pressure 5 bar, valve remains closed.\" Or something similar.\n\nWe need to output only the JSON object, no extra text. Ensure valid JSON. Let's construct:\n\n{\n  \"will_open\": false,\n  \"margin_bar\": 0.8,\n  \"reason\": \"Current pressure 4.2 bar is below set pressure 5 bar, valve remains closed.\"\n}\n\nCheck: margin_bar is number, 0.8. Good.\n\nReturn only that JSON."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368454,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 265,
+       "prompt_tokens": 57,
+       "total_tokens": 322,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 220,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 852.5,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "295s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "687c4a9740e88e0802e419fa0eae9e4f"
+     },
+     "body": {
+      "id": "chatcmpl-94191f9a02476cfd",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below opening threshold (5 bar)\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: \"will_open\" (boolean), \"margin_bar\" (number), and \"reason\" (string).\n The valve has a pressure of 4.2 bar and opens at 5 bar.\n Since 4.2 < 5, the valve will not open.\n The margin is the difference between opening pressure and current pressure: 5 - 4.2 = 0.8 bar.\n The reason should explain why it won't open."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368455,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 138,
+       "prompt_tokens": 57,
+       "total_tokens": 195,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 100,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    },
+    {
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "status": 200,
+     "ms": 925.7,
+     "headers": {
+      "x-ratelimit-limit-requests": "1000",
+      "x-ratelimit-limit-tokens": "2000000",
+      "x-ratelimit-remaining-requests": "999",
+      "x-ratelimit-remaining-tokens": "1999452",
+      "x-ratelimit-reset-requests": "1s",
+      "x-ratelimit-reset-tokens": "1s",
+      "x-ratelimit-dynamic-scale-requests": "1.00",
+      "x-ratelimit-dynamic-scale-tokens": "1.00",
+      "x-ratelimit-dynamic-period-remaining": "295s",
+      "x-ratelimit-dynamic-period-usage-requests": "0%",
+      "x-ratelimit-dynamic-period-usage-tokens": "0%",
+      "x-request-id": "37a1e2a9c3493e9cd2dce81750f30c7f"
+     },
+     "body": {
+      "id": "chatcmpl-88ed26d7714c968c",
+      "choices": [
+       {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+         "content": "{\"will_open\": false, \"margin_bar\": 0.8, \"reason\": \"Current pressure (4.2 bar) is below the opening setpoint (5 bar) by 0.8 bar.\"}",
+         "refusal": null,
+         "role": "assistant",
+         "annotations": null,
+         "audio": null,
+         "function_call": null,
+         "tool_calls": null,
+         "reasoning_content": "The user wants a JSON object with three fields: \"will_open\" (boolean), \"margin_bar\" (number), and \"reason\" (string). The valve has a pressure of 4.2 bar and opens at 5 bar. Since 4.2 < 5, the valve will not open. The margin is the difference between opening pressure and current pressure: 5 - 4.2 = 0.8 bar. The reason should explain that the current pressure is below the opening setpoint. I'll construct the JSON accordingly."
+        },
+        "stop_reason": null,
+        "token_ids": null,
+        "routed_experts": null
+       }
+      ],
+      "created": 1793368456,
+      "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+      "object": "chat.completion",
+      "moderation": null,
+      "service_tier": null,
+      "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+      "usage": {
+       "completion_tokens": 159,
+       "prompt_tokens": 57,
+       "total_tokens": 216,
+       "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 112,
+        "rejected_prediction_tokens": null
+       },
+       "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "multimodal_tokens": null
+       },
+       "prompt_cache_hit_tokens": 0,
+       "prompt_cache_miss_tokens": 57
+      },
+      "prompt_logprobs": null,
+      "prompt_token_ids": null,
+      "prompt_text": null,
+      "kv_transfer_params": null,
+      "metrics": null
+     }
+    }
+   ],
+   "n": 5,
+   "http_ok": 5,
+   "valid_json": 5,
+   "think_tag_in_content": 0,
+   "reasoning_field_present": 5,
+   "finish_reasons": [
+    "stop",
+    "stop",
+    "stop",
+    "stop",
+    "stop"
+   ],
+   "latency_ms": {
+    "n": 5,
+    "min": 852.5,
+    "p50": 942.0,
+    "p95": 1156.9,
+    "max": 1156.9,
+    "mean": 998.3
+   },
+   "completion_tokens": [
+    262,
+    90,
+    265,
+    138,
+    159
+   ]
+  }
+ }
+}

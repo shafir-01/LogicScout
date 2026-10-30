@@ -1,0 +1,292 @@
+{
+ "status": 200,
+ "headers": {
+  "x-request-id": "9b06480332b7105928c449df2c40c403"
+ },
+ "count": 30,
+ "fields_seen": [
+  "architecture",
+  "context_length",
+  "created",
+  "description",
+  "id",
+  "name",
+  "object",
+  "owned_by",
+  "per_request_limits",
+  "pricing",
+  "quantization",
+  "regions",
+  "supported_features",
+  "supported_sampling_parameters"
+ ],
+ "nemotron": [
+  {
+   "id": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+   "name": "Nemotron-3-Nano-30B-A3B",
+   "created": 1793368336,
+   "description": "Compact MoE model optimized for efficient reasoning, chat, and coding with strong multilingual support and long-context RAG/agent workflows.",
+   "context_length": 262144,
+   "architecture": {
+    "modality": "text->text",
+    "tokenizer": "Other"
+   },
+   "quantization": "fp8",
+   "pricing": {
+    "prompt": "0.00000006",
+    "input_cache_read": "0.000000012",
+    "completion": "0.00000024",
+    "image": "0",
+    "price_per_video_second": "0",
+    "request": "0",
+    "price_per_minute": "0"
+   },
+   "per_request_limits": {
+    "tokens_per_minute": 800000.0,
+    "requests_per_minute": 100.0,
+    "burst_ratio": 1.0
+   },
+   "object": "model",
+   "owned_by": "system",
+   "regions": [
+    {
+     "country_code": "FI",
+     "name": "eu-north1"
+    }
+   ],
+   "supported_features": [
+    "tools",
+    "reasoning"
+   ],
+   "supported_sampling_parameters": [
+    "temperature",
+    "top_p",
+    "top_k",
+    "repetition_penalty",
+    "frequency_penalty",
+    "presence_penalty"
+   ]
+  },
+  {
+   "id": "nvidia/Nemotron-3_5-Lightning",
+   "name": "Nemotron-3.5-Lightning",
+   "created": 1786406400,
+   "description": "NVIDIA's 30B-parameter hybrid MoE model with 3B active parameters per token, designed for efficient agentic reasoning, tool use, coding, and long-context workflows.",
+   "context_length": 1048576,
+   "architecture": {
+    "modality": "text->text",
+    "tokenizer": "Other"
+   },
+   "quantization": "bf16",
+   "pricing": {
+    "prompt": "0.00000006",
+    "input_cache_read": "0.00000003",
+    "completion": "0.00000024",
+    "image": "0",
+    "price_per_video_second": "0",
+    "request": "0",
+    "price_per_minute": "0"
+   },
+   "per_request_limits": {
+    "tokens_per_minute": 2000000.0,
+    "requests_per_minute": 1000.0,
+    "burst_ratio": 1.0
+   },
+   "object": "model",
+   "owned_by": "system",
+   "regions": [
+    {
+     "country_code": "FI",
+     "name": "eu-north1"
+    }
+   ],
+   "supported_features": [
+    "tools",
+    "reasoning"
+   ],
+   "supported_sampling_parameters": [
+    "temperature",
+    "top_p",
+    "top_k",
+    "repetition_penalty",
+    "frequency_penalty",
+    "presence_penalty"
+   ]
+  },
+  {
+   "id": "nvidia/Nemotron-3-Ultra-550b-a55b",
+   "name": "Nemotron-3-Ultra-550b-a55b",
+   "created": 1780531200,
+   "description": "Nemotron 3 Ultra is a 550B hybrid MoE model from NVIDIA, optimized for the most demanding multi-agent AI and complex reasoning tasks.",
+   "context_length": 1048576,
+   "architecture": {
+    "modality": "text->text",
+    "tokenizer": "Other"
+   },
+   "quantization": "fp4",
+   "pricing": {
+    "prompt": "0.000001",
+    "input_cache_read": "0.00000012",
+    "completion": "0.000003",
+    "image": "0",
+    "price_per_video_second": "0",
+    "request": "0",
+    "price_per_minute": "0"
+   },
+   "per_request_limits": {
+    "tokens_per_minute": 2000000.0,
+    "requests_per_minute": 1000.0,
+    "burst_ratio": 1.0
+   },
+   "object": "model",
+   "owned_by": "system",
+   "regions": [
+    {
+     "country_code": "US",
+     "name": "us-central1"
+    }
+   ],
+   "supported_features": [
+    "tools",
+    "reasoning"
+   ],
+   "supported_sampling_parameters": [
+    "temperature",
+    "top_p",
+    "top_k",
+    "repetition_penalty",
+    "frequency_penalty",
+    "presence_penalty"
+   ]
+  },
+  {
+   "id": "nvidia/nemotron-3-super-120b-a12b",
+   "name": "Nemotron-3-Super-120b-a12b",
+   "created": 1773187200,
+   "description": "Nemotron 3 Super is a 120B hybrid MoE model optimized for efficient multi-agent AI and complex reasoning tasks.",
+   "context_length": 262144,
+   "architecture": {
+    "modality": "text->text",
+    "tokenizer": "Other"
+   },
+   "quantization": "fp4",
+   "pricing": {
+    "prompt": "0.0000003",
+    "input_cache_read": "0.00000006",
+    "completion": "0.0000009",
+    "image": "0",
+    "price_per_video_second": "0",
+    "request": "0",
+    "price_per_minute": "0"
+   },
+   "per_request_limits": {
+    "tokens_per_minute": 1000000.0,
+    "requests_per_minute": 1000.0,
+    "burst_ratio": 1.0
+   },
+   "object": "model",
+   "owned_by": "system",
+   "regions": [
+    {
+     "country_code": "US",
+     "name": "us-central1"
+    }
+   ],
+   "supported_features": [
+    "tools",
+    "reasoning"
+   ],
+   "supported_sampling_parameters": [
+    "temperature",
+    "top_p",
+    "top_k",
+    "repetition_penalty",
+    "frequency_penalty",
+    "presence_penalty"
+   ]
+  },
+  {
+   "id": "nvidia/Nemotron-3.5-Super-VL",
+   "name": "Nemotron 3.5 Super VL",
+   "created": 1791841710,
+   "description": "NVIDIA's multimodal model for visual understanding, coding, reasoning, and tool use. It processes text, images, and video to generate text responses.",
+   "context_length": 1048576,
+   "architecture": {
+    "modality": "text+image->text",
+    "tokenizer": "Other"
+   },
+   "quantization": "bf16",
+   "pricing": {
+    "prompt": "0.0000003",
+    "input_cache_read": "0.00000006",
+    "completion": "0.0000009",
+    "image": "0",
+    "price_per_video_second": "0",
+    "request": "0",
+    "price_per_minute": "0"
+   },
+   "per_request_limits": {
+    "tokens_per_minute": 2000000.0,
+    "requests_per_minute": 1000.0,
+    "burst_ratio": 1.0
+   },
+   "object": "model",
+   "owned_by": "system",
+   "regions": [
+    {
+     "country_code": "US",
+     "name": "us-north1"
+    }
+   ],
+   "supported_features": [
+    "tools",
+    "reasoning"
+   ],
+   "supported_sampling_parameters": []
+  }
+ ],
+ "our_ids_listed": {
+  "nano": true,
+  "super": true,
+  "ultra": true
+ },
+ "first_entry": {
+  "id": "moonshotai/Kimi-K3",
+  "name": "Kimi-K3",
+  "created": 1785110400,
+  "description": "Moonshot AI's Kimi K3 frontier open-weights MoE model (NVFP4, 1M context) with DSpark speculative decoding, strong agentic tool use, reasoning, and coding.",
+  "context_length": 1048576,
+  "architecture": {
+   "modality": "text+image->text",
+   "tokenizer": "Other"
+  },
+  "quantization": "fp4",
+  "pricing": {
+   "prompt": "0.000003",
+   "input_cache_read": "0.0000003",
+   "completion": "0.000015",
+   "image": "0",
+   "price_per_video_second": "0",
+   "request": "0",
+   "price_per_minute": "0"
+  },
+  "per_request_limits": {
+   "tokens_per_minute": 2000000.0,
+   "requests_per_minute": 1000.0,
+   "burst_ratio": 1.0
+  },
+  "object": "model",
+  "owned_by": "system",
+  "regions": [
+   {
+    "country_code": "FR",
+    "name": "eu-west2"
+   }
+  ],
+  "supported_features": [
+   "tools",
+   "reasoning"
+  ],
+  "supported_sampling_parameters": []
+ }
+}

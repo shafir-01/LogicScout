@@ -1,0 +1,2087 @@
+{
+ "nano": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "calls": [
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 544.2,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "99",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "900s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "3dd02904d20067a1352ca73aaf73c43a"
+    },
+    "body": {
+     "id": "chatcmpl-19eea0ac-f63a-4030-bfb8-6f2096cb3b2d",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "The user says: \"Reply with exactly the word: pong\". They want a reply that exactly is the word \"pong\". So we must output exactly \"pong\" and nothing else. Ensure no extra whitespace, no punctuation, no extra characters. Just \"pong\". Probably just the word. I will output exactly \"pong\".\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368358,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 76,
+      "prompt_tokens": 24,
+      "total_tokens": 100,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 313.1,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "98",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "900s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "ff6d8aaf5d985ef01bf4c7318bf8b9cb"
+    },
+    "body": {
+     "id": "chatcmpl-a23bf0dc-38f4-4774-9cfa-8cb7be41e4bd",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra punctuation or anything. Must be exactly the word \"pong\". So output should be just that word.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368359,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 41,
+      "prompt_tokens": 24,
+      "total_tokens": 65,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 468.7,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "98",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "2s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "900s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "ced092f4033da1f0e73820661cc4ec19"
+    },
+    "body": {
+     "id": "chatcmpl-999fee4a-f948-42ac-a988-f58d68e4dbef",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "The user wants a reply with exactly the word: \"pong\". So we must output exactly that word, presumably without punctuation or extra characters. The word is \"pong\". Ensure no extra whitespace? Probably just \"pong\". The instruction: \"Reply with exactly the word: pong\". So answer should be exactly \"pong\". No extra punctuation.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368359,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 80,
+      "prompt_tokens": 24,
+      "total_tokens": 104,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 508.2,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "98",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "2s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "899s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "61bd073523b334dd075e725f574a2b75"
+    },
+    "body": {
+     "id": "chatcmpl-a0a6d67f-30ea-4d39-8e22-74ebf077521a",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "The user says \"Reply with exactly the word: pong\". They want the assistant to reply with exactly the word \"pong\". No extra punctuation, no extra text. So we must output exactly \"pong\". Ensure no extra whitespace? Probably just \"pong\". Should we include newline? Probably just that word.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368360,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 71,
+      "prompt_tokens": 24,
+      "total_tokens": 95,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 377.6,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "97",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "2s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "899s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "787e3389d282f45eb6bacb87fc9b5a28"
+    },
+    "body": {
+     "id": "chatcmpl-34002ccc-d5d0-4a50-940a-cff46bdfd58f",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "The user says: \"Reply with exactly the word: pong\". They want the assistant to reply with exactly the word \"pong\". No extra punctuation, no extra text. Must reply with exactly that word. So output \"pong\". Ensure no extra characters.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368360,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 60,
+      "prompt_tokens": 24,
+      "total_tokens": 84,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 470.6,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "97",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "2s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "898s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "98443d9f5336fb9abdcdab1754266f17"
+    },
+    "body": {
+     "id": "chatcmpl-94b936d3-f88f-471b-b357-2647684c78ec",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "User asks: \"Reply with exactly the word: pong\". So we must output exactly the word \"pong\". No punctuation? The word \"pong\" itself. They said \"Reply with exactly the word: pong\". Likely they want just \"pong\". No extra spaces or punctuation. So output exactly \"pong\".\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368360,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 76,
+      "prompt_tokens": 24,
+      "total_tokens": 100,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 1537.5,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "97",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "2s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "898s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "6cf807b8579bc2d1e72007f8497a30e8"
+    },
+    "body": {
+     "id": "chatcmpl-9241fb2a-2f41-4c30-8ff6-3ab6991bb036",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "User asks: \"Reply with exactly the word: pong\". They want exactly the word \"pong\". Must reply with exactly that word, no extra punctuation, no extra spaces? Probably just \"pong\". Ensure no extra characters. Provide exactly \"pong\".\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368361,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 60,
+      "prompt_tokens": 24,
+      "total_tokens": 84,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 1847.6,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "99",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "896s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "d176d95f2578cd1c3e3e347fb68072d6"
+    },
+    "body": {
+     "id": "chatcmpl-d9a58ef7-9088-4bd2-ae60-b48d6909bf39",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "Hmm, the user just told me to reply with exactly the word \"pong\". That's... incredibly specific. \n\nLet me unpack this. First, the instruction is so minimal it's almost like a test of obedience. They're not asking for anything complex - just a single word output. But why \"pong\"? It's a very simple word, usually associated with the game or the sound effect. \n\nI wonder if they're checking if I follow instructions precisely. Or maybe they're just being playful with the constraints. The word \"pong\" has no capital letters, no punctuation - it's deliberately bare. \n\nThe challenge here is resisting the urge to add anything. No extra spaces, no explanations. Just... \"pong\". Because if I add even one extra character, I'd be violating their request. \n\n*checks mental note* Yep, must be exactly that word. No variations. Not \"Pong\" with capital, not \"pong!\" with exclamation. Just lowercase p-o-n-g. \n\nThis feels like a test of my ability to follow strict formatting instructions. Maybe they're debugging how I handle precise directives. Or perhaps they're just bored and want to see if I'll overcomplicate things. \n\nAnyway, the safest path is to output exactly what they asked for. No more, no less. So \"pong\" it is. \n\n*double-checks* Yep, that's it. Simple. Clean. Exactly as requested.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368363,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 318,
+      "prompt_tokens": 24,
+      "total_tokens": 342,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 540.2,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "99",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "895s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "d3a3305e0cc1b1d983c3db12df78964c"
+    },
+    "body": {
+     "id": "chatcmpl-cf6f3122-7368-42e5-92e9-84a5484faa65",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "The user requests: \"Reply with exactly the word: pong\". So they want the assistant to output exactly the word \"pong\". The instruction is to reply with exactly the word: pong. So we should output just \"pong\". No extra punctuation, no quotes, no extra characters. Just the word pong. Ensure no extra whitespace? Probably just \"pong\".\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368364,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 84,
+      "prompt_tokens": 24,
+      "total_tokens": 108,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 400.9,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "98",
+     "x-ratelimit-remaining-tokens": "799480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "894s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "22fe143b85fc1526d8791dd6dc3a2403"
+    },
+    "body": {
+     "id": "chatcmpl-aba6aeb1-0fa9-4d21-b9bd-bab647ab1576",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": "We are to reply with exactly the word: pong\n The instruction says: \"Reply with exactly the word: pong\"\n So we must output only the word \"pong\" and nothing else.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368365,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 46,
+      "prompt_tokens": 24,
+      "total_tokens": 70,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   }
+  ],
+  "latency_ms": {
+   "n": 10,
+   "min": 313.1,
+   "p50": 470.6,
+   "p95": 1847.6,
+   "max": 1847.6,
+   "mean": 700.9
+  },
+  "ok": 10,
+  "n": 10
+ },
+ "super": {
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "calls": [
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 375.9,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "385s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "62cb3c24832a943352bacdf71d1a3616"
+    },
+    "body": {
+     "id": "chatcmpl-bd083ad9bb5a2141",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368365,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 24,
+      "total_tokens": 52,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 23,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 355.3,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "384s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "f0d9fdd058b1237e548b3f43ccb0b094"
+    },
+    "body": {
+     "id": "chatcmpl-98f0b6b28412c3fc",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368366,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 24,
+      "total_tokens": 52,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 23,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 596.3,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "384s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "2fc20d268c78d8d5e3c81466a9ef495d"
+    },
+    "body": {
+     "id": "chatcmpl-bd00d43fc064438c",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368366,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 24,
+      "total_tokens": 52,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 23,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 599.4,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "383s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "c044064c7b3e8e6550b07e18d265075b"
+    },
+    "body": {
+     "id": "chatcmpl-900e5a63e50bb112",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces or punctuation. So output just pong.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces or punctuation. So output just pong."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368367,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 30,
+      "prompt_tokens": 24,
+      "total_tokens": 54,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 25,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 559.8,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "382s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "2bb6afb582631627cb1172c399badc79"
+    },
+    "body": {
+     "id": "chatcmpl-9f4f5e75e3d509d9",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368367,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 24,
+      "total_tokens": 52,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 23,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 602.8,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "382s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "fc32978444295afdaede246374a15c0c"
+    },
+    "body": {
+     "id": "chatcmpl-a84f6e886ef36f78",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368368,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 24,
+      "total_tokens": 52,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 23,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 591.2,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "381s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "62f453cb71dca492ecc1d31d9283c160"
+    },
+    "body": {
+     "id": "chatcmpl-85cc1fbdb76253cb",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368369,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 24,
+      "total_tokens": 52,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 23,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 734.3,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "381s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "1786a6fb102c0aa2e9cd5530d7caee12"
+    },
+    "body": {
+     "id": "chatcmpl-82ba02eb3f79caf6",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces or punctuation. So output just pong.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces or punctuation. So output just pong."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368369,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 30,
+      "prompt_tokens": 24,
+      "total_tokens": 54,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 25,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 522.3,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "380s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "d2b680497d2ccea36586b096516f9579"
+    },
+    "body": {
+     "id": "chatcmpl-a61353b4bca0f1bb",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces, no punctuation. Just that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368370,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 28,
+      "prompt_tokens": 24,
+      "total_tokens": 52,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 23,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 618.2,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999480",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "379s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "f9f4f5722336240a33e64f35226d74b4"
+    },
+    "body": {
+     "id": "chatcmpl-90b62cb6574af487",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "\n\npong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning": "We need to reply with exactly the word \"pong\". No extra spaces or punctuation. So output just pong.",
+        "reasoning_content": "We need to reply with exactly the word \"pong\". No extra spaces or punctuation. So output just pong."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368370,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 30,
+      "prompt_tokens": 24,
+      "total_tokens": 54,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 25,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   }
+  ],
+  "latency_ms": {
+   "n": 10,
+   "min": 355.3,
+   "p50": 591.2,
+   "p95": 734.3,
+   "max": 734.3,
+   "mean": 555.5
+  },
+  "ok": 10,
+  "n": 10
+ },
+ "ultra": {
+  "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+  "calls": [
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 475.0,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "380s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "141f1d1d970bd92b7fe24cabc47d9b38"
+    },
+    "body": {
+     "id": "chatcmpl-b978d1e371f40b70",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". So we must respond exactly \"pong\" and nothing else. No extra text, no punctuation. Should be just \"pong\"."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368371,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 46,
+      "prompt_tokens": 24,
+      "total_tokens": 70,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 42,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 588.8,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "379s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "3507f264bbd2d4b00db25e9bec1f23df"
+    },
+    "body": {
+     "id": "chatcmpl-bcc9f71a9663a9ff",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". So respond exactly with \"pong\" and nothing else."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368372,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 30,
+      "prompt_tokens": 24,
+      "total_tokens": 54,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 26,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 495.8,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "379s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "62538c63cb0580ba7f33b21782ebc749"
+    },
+    "body": {
+     "id": "chatcmpl-a099f18032d6ca11",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". So they want a response containing exactly the word \"pong\". Probably just \"pong\" and nothing else. Should respond with \"pong\"."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368372,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 48,
+      "prompt_tokens": 24,
+      "total_tokens": 72,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 44,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 639.9,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "378s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "32839f57cdb0abc8574c70fd1237dc65"
+    },
+    "body": {
+     "id": "chatcmpl-afa5b3105bd0e645",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". So we must output exactly \"pong\". No extra punctuation, no extra words. Just \"pong\". Must be exactly that word."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368373,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 47,
+      "prompt_tokens": 24,
+      "total_tokens": 71,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 43,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 640.9,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "378s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "9184220b98c59e55cecb7065e410770c"
+    },
+    "body": {
+     "id": "chatcmpl-b82913eb6747a97f",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". So we must output exactly \"pong\". Ensure no extra spaces, punctuation, or anything else. Just \"pong\"."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368373,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 44,
+      "prompt_tokens": 24,
+      "total_tokens": 68,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 40,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 657.3,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "377s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "6f9987de7da68699225135cf360226d5"
+    },
+    "body": {
+     "id": "chatcmpl-b766f16d42f254d7",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". This is a simple request. There's no policy violation. It's a straightforward request: respond with \"pong\". So answer: \"pong\"."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368374,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 49,
+      "prompt_tokens": 24,
+      "total_tokens": 73,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 45,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 1198.1,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "377s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "bfa37a623a18fe1a7245a619465c51a5"
+    },
+    "body": {
+     "id": "chatcmpl-ae434d2f1c357bcc",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". So we need to output exactly \"pong\". Probably without any extra whitespace or punctuation. Just the word \"pong\". Ensure no additional characters."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368374,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 49,
+      "prompt_tokens": 24,
+      "total_tokens": 73,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 45,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 548.6,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "375s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "bc5caba63563c0613c95d89179f25a42"
+    },
+    "body": {
+     "id": "chatcmpl-b85a5f29c2b12c77",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user wants me to reply with exactly the word \"pong\". No extra text, no punctuation, just that word."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368376,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 30,
+      "prompt_tokens": 24,
+      "total_tokens": 54,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 26,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 786.1,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "375s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "c51d579745ece30c6177e57d83a8ad82"
+    },
+    "body": {
+     "id": "chatcmpl-9eb4ecb6fb0b9656",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user asks: \"Reply with exactly the word: pong\". So we must output exactly \"pong\" and nothing else (no extra spaces, punctuation, formatting, etc.). Must be exactly \"pong\". Probably case-sensitive? The user wrote \"pong\" in lower case. So we must output exactly \"pong\". Ensure no newline? Usually it's okay to have a trailing newline, but the instruction \"exactly the word: pong\" suggests just the word \"pong\". So respond with exactly \"pong\"."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368376,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 115,
+      "prompt_tokens": 24,
+      "total_tokens": 139,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 111,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 586.5,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999479",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "374s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "8db9807974704580d41a5b2bea98afa1"
+    },
+    "body": {
+     "id": "chatcmpl-bbfdc3ef1313e71e",
+     "choices": [
+      {
+       "finish_reason": "stop",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": "pong",
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": null,
+        "reasoning_content": "The user wants me to reply with exactly the word \"pong\". No extra text, no punctuation, no formatting. Just the word pong."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368377,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 35,
+      "prompt_tokens": 24,
+      "total_tokens": 59,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 31,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 24
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   }
+  ],
+  "latency_ms": {
+   "n": 10,
+   "min": 475.0,
+   "p50": 588.8,
+   "p95": 1198.1,
+   "max": 1198.1,
+   "mean": 661.7
+  },
+  "ok": 10,
+  "n": 10
+ }
+}

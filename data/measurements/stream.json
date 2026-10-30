@@ -1,0 +1,363 @@
+{
+ "nano": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "calls": [
+   {
+    "status": 200,
+    "ttft_ms": 334.0623000403866,
+    "first_content_ms": 743.91389999073,
+    "total_ms": 764.8507000412792,
+    "chunks": 68,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 91,
+     "completion_tokens": 67
+    },
+    "content": "\npong",
+    "reasoning_chars": 272
+   },
+   {
+    "status": 200,
+    "ttft_ms": 149.06850003171712,
+    "first_content_ms": 399.1736000170931,
+    "total_ms": 418.591900030151,
+    "chunks": 53,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 77,
+     "completion_tokens": 53
+    },
+    "content": "\npong",
+    "reasoning_chars": 199
+   },
+   {
+    "status": 200,
+    "ttft_ms": 154.680100036785,
+    "first_content_ms": 717.675399966538,
+    "total_ms": 746.3062999304384,
+    "chunks": 74,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 97,
+     "completion_tokens": 73
+    },
+    "content": "\npong",
+    "reasoning_chars": 288
+   },
+   {
+    "status": 200,
+    "ttft_ms": 158.3258000900969,
+    "first_content_ms": 543.7265000073239,
+    "total_ms": 560.5054000625387,
+    "chunks": 51,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 75,
+     "completion_tokens": 51
+    },
+    "content": "\npong",
+    "reasoning_chars": 178
+   },
+   {
+    "status": 200,
+    "ttft_ms": 215.1820999570191,
+    "first_content_ms": 890.2543999720365,
+    "total_ms": 907.9162999987602,
+    "chunks": 70,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 93,
+     "completion_tokens": 69
+    },
+    "content": "\npong",
+    "reasoning_chars": 266
+   }
+  ],
+  "ttft_ms": {
+   "n": 5,
+   "min": 149.1,
+   "p50": 158.3,
+   "p95": 334.1,
+   "max": 334.1,
+   "mean": 202.3
+  },
+  "first_content_ms": {
+   "n": 5,
+   "min": 399.2,
+   "p50": 717.7,
+   "p95": 890.3,
+   "max": 890.3,
+   "mean": 658.9
+  },
+  "usage_in_stream": 5
+ },
+ "super": {
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "calls": [
+   {
+    "status": 200,
+    "ttft_ms": 338.79750000778586,
+    "first_content_ms": 437.66249995678663,
+    "total_ms": 448.42229993082583,
+    "chunks": 14,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 52,
+     "completion_tokens": 28,
+     "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "created_cache_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 23
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "\n\npong",
+    "reasoning_chars": 90
+   },
+   {
+    "status": 200,
+    "ttft_ms": 447.07090000156313,
+    "first_content_ms": 535.4108000174165,
+    "total_ms": 672.924599959515,
+    "chunks": 14,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 51,
+     "completion_tokens": 27,
+     "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "created_cache_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 22
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "\n\npong",
+    "reasoning_chars": 89
+   },
+   {
+    "status": 200,
+    "ttft_ms": 559.7545000491664,
+    "first_content_ms": 652.9626999981701,
+    "total_ms": 664.7639999864623,
+    "chunks": 14,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 52,
+     "completion_tokens": 28,
+     "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "created_cache_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 23
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "\n\npong",
+    "reasoning_chars": 90
+   },
+   {
+    "status": 200,
+    "ttft_ms": 440.21360005717725,
+    "first_content_ms": 529.4270000886172,
+    "total_ms": 543.6047000112012,
+    "chunks": 14,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 51,
+     "completion_tokens": 27,
+     "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "created_cache_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 22
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "\n\npong",
+    "reasoning_chars": 89
+   },
+   {
+    "status": 200,
+    "ttft_ms": 430.5797000415623,
+    "first_content_ms": 715.8177000237629,
+    "total_ms": 718.1568000232801,
+    "chunks": 15,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 55,
+     "completion_tokens": 31,
+     "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "created_cache_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 26
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "\n\npong",
+    "reasoning_chars": 104
+   }
+  ],
+  "ttft_ms": {
+   "n": 5,
+   "min": 338.8,
+   "p50": 440.2,
+   "p95": 559.8,
+   "max": 559.8,
+   "mean": 443.3
+  },
+  "first_content_ms": {
+   "n": 5,
+   "min": 437.7,
+   "p50": 535.4,
+   "p95": 715.8,
+   "max": 715.8,
+   "mean": 574.3
+  },
+  "usage_in_stream": 5
+ },
+ "ultra": {
+  "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+  "calls": [
+   {
+    "status": 200,
+    "ttft_ms": 466.9658000348136,
+    "first_content_ms": 610.5036999797449,
+    "total_ms": 612.2738999547437,
+    "chunks": 12,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 57,
+     "completion_tokens": 33,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 29
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "pong",
+    "reasoning_chars": 130
+   },
+   {
+    "status": 200,
+    "ttft_ms": 488.4398999856785,
+    "first_content_ms": 616.5431999834254,
+    "total_ms": 635.0467000156641,
+    "chunks": 12,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 58,
+     "completion_tokens": 34,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 30
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "pong",
+    "reasoning_chars": 131
+   },
+   {
+    "status": 200,
+    "ttft_ms": 490.67460000514984,
+    "first_content_ms": 831.1780999647453,
+    "total_ms": 832.9468000447378,
+    "chunks": 24,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 104,
+     "completion_tokens": 80,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 76
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "pong",
+    "reasoning_chars": 314
+   },
+   {
+    "status": 200,
+    "ttft_ms": 270.87710006162524,
+    "first_content_ms": 567.4958000890911,
+    "total_ms": 569.4776000455022,
+    "chunks": 21,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 81,
+     "completion_tokens": 57,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 53
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "pong",
+    "reasoning_chars": 215
+   },
+   {
+    "status": 200,
+    "ttft_ms": 472.08520001731813,
+    "first_content_ms": 619.0609999466687,
+    "total_ms": 637.5062000006437,
+    "chunks": 13,
+    "usage": {
+     "prompt_tokens": 24,
+     "total_tokens": 67,
+     "completion_tokens": 43,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 39
+     },
+     "prompt_cache_hit_tokens": 0,
+     "prompt_cache_miss_tokens": 24
+    },
+    "content": "pong",
+    "reasoning_chars": 151
+   }
+  ],
+  "ttft_ms": {
+   "n": 5,
+   "min": 270.9,
+   "p50": 472.1,
+   "p95": 490.7,
+   "max": 490.7,
+   "mean": 437.8
+  },
+  "first_content_ms": {
+   "n": 5,
+   "min": 567.5,
+   "p50": 616.5,
+   "p95": 831.2,
+   "max": 831.2,
+   "mean": 649.0
+  },
+  "usage_in_stream": 5
+ }
+}

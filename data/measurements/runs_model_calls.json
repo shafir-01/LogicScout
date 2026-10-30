@@ -1,0 +1,113 @@
+{
+ "nvidia/Nemotron-3-Ultra-550b-a55b": {
+  "calls": 31,
+  "ok": 11,
+  "failed": [
+   "invalid output: no JSON object found in model output",
+   "invalid output: no JSON object found in model output",
+   "invalid output: no JSON object found in model output",
+   "invalid output: no JSON object found in model output",
+   "invalid output: missing key 'questions'",
+   "invalid output: no JSON object found in model output",
+   "invalid output: no JSON object found in model output",
+   "invalid output: missing key 'questions'",
+   "invalid output: missing key 'questions'",
+   "invalid output: missing key 'rules'",
+   "invalid output: missing key 'rules'",
+   "invalid output: missing key 'rules'",
+   "invalid output: missing key 'rules'",
+   "invalid output: missing key 'rules'",
+   "invalid output: missing key 'questions'",
+   "invalid output: missing key 'questions'",
+   "invalid output: missing key 'questions'",
+   "invalid output: no JSON object found in model output",
+   "invalid output: no JSON object found in model output",
+   "invalid output: missing key 'rules'"
+  ],
+  "escalated_flag": 0,
+  "latency_ok_ms": {
+   "n": 11,
+   "min": 9581.3,
+   "p50": 19749.1,
+   "p95": 28311.6,
+   "max": 28311.6,
+   "mean": 19064.4
+  },
+  "latency_all_ms": {
+   "n": 31,
+   "min": 9581.3,
+   "p50": 25835.6,
+   "p95": 30164.2,
+   "max": 33507.7,
+   "mean": 24107.1
+  },
+  "completion_tokens": {
+   "n": 31,
+   "min": 2432,
+   "p50": 8192,
+   "p95": 8192,
+   "max": 8192,
+   "mean": 7345.4
+  },
+  "completion_tokens_at_8192": 20,
+  "runs": [
+   "4031d66f6d",
+   "gate-20261030-145109-ffd1",
+   "orbit-20261030-145104-05c4",
+   "plant-20261030-145059-ca24",
+   "relay-20261030-144450-333c",
+   "rover-20261030-145054-2a9b"
+  ],
+  "purposes": [
+   "hypothesize",
+   "revise_theory",
+   "synthesize_playbook"
+  ]
+ },
+ "nvidia/nemotron-3-super-120b-a12b": {
+  "calls": 15,
+  "ok": 12,
+  "failed": [
+   "invalid output: no JSON object found in model output",
+   "invalid output: no JSON object found in model output",
+   "invalid output: no JSON object found in model output"
+  ],
+  "escalated_flag": 0,
+  "latency_ok_ms": {
+   "n": 12,
+   "min": 5212.5,
+   "p50": 12803.7,
+   "p95": 22357.9,
+   "max": 27348.4,
+   "mean": 14141.8
+  },
+  "latency_all_ms": {
+   "n": 15,
+   "min": 5212.5,
+   "p50": 13445.8,
+   "p95": 40861.5,
+   "max": 42089.4,
+   "mean": 19218.9
+  },
+  "completion_tokens": {
+   "n": 15,
+   "min": 960,
+   "p50": 2699,
+   "p95": 8192,
+   "max": 8192,
+   "mean": 3966.3
+  },
+  "completion_tokens_at_8192": 3,
+  "runs": [
+   "4031d66f6d",
+   "gate-20261030-145109-ffd1",
+   "orbit-20261030-145104-05c4",
+   "plant-20261030-145059-ca24",
+   "relay-20261030-144450-333c",
+   "rover-20261030-145054-2a9b"
+  ],
+  "purposes": [
+   "design_probe"
+  ]
+ }
+}

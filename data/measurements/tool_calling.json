@@ -1,0 +1,722 @@
+{
+ "nano": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "calls": [
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 2032.6,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "99",
+     "x-ratelimit-remaining-tokens": "799425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "791s",
+     "x-ratelimit-dynamic-period-usage-requests": "2%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "4a81aaf25e34f4137448365f24a34ba6"
+    },
+    "body": {
+     "id": "chatcmpl-495f1faa-9f84-4df5-aaa1-f395a4056ac4",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-930e13a2ac7c3ee8",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning": "Okay, the user is asking for the pressure of valve V-17 and mentioned to use the tool. Let me check the available tools provided. There's a function called get_pressure that takes a valve_id parameter. The description says it reads the pressure of a valve in bar. Since the user specifically mentioned valve V-17, I need to call this function with valve_id set to \"V-17\". The parameters are straightforward here; no other information is needed. I'll structure the tool call accordingly within the XML tags as specified.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368468,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 143,
+      "prompt_tokens": 289,
+      "total_tokens": 432,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 1512.7,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "99",
+     "x-ratelimit-remaining-tokens": "799425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "789s",
+     "x-ratelimit-dynamic-period-usage-requests": "2%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "73cb00b8bb170ca172381587cdd70c12"
+    },
+    "body": {
+     "id": "chatcmpl-64bfc1ba-e334-470c-8ead-835920ea4f30",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-a7459b1171c1476b",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning": "Okay, the user is asking for the pressure of valve V-17 and wants me to use the tool. Let me check the available tools. There's a function called get_pressure that takes a valve_id as a parameter. The user specifically mentioned valve V-17, so I need to call that function with valve_id set to \"V-17\". I don't have any other parameters or tools needed here. Just make sure to format the tool call correctly within the XML tags.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368470,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 132,
+      "prompt_tokens": 289,
+      "total_tokens": 421,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   },
+   {
+    "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+    "status": 200,
+    "ms": 1511.4,
+    "headers": {
+     "x-ratelimit-limit-requests": "100",
+     "x-ratelimit-limit-tokens": "800000",
+     "x-ratelimit-remaining-requests": "99",
+     "x-ratelimit-remaining-tokens": "799425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "787s",
+     "x-ratelimit-dynamic-period-usage-requests": "2%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "23c2f941e9c63564221192602eba24bd"
+    },
+    "body": {
+     "id": "chatcmpl-70b4914e-3d8a-4d5e-b189-ceeead92bc66",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-b0cb69429600c1eb",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning": "Okay, the user is asking for the pressure of valve V-17. Let me check the tools provided. There's a function called get_pressure that takes a valve_id parameter. The user specified valve V-17, so I should call that function with the valve_id set to \"V-17\". I don't need any other information since the tool can retrieve the pressure directly. Just need to make sure the parameter is correctly formatted as a string.\n"
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368471,
+     "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.22.0-b08c96cd",
+     "usage": {
+      "completion_tokens": 126,
+      "prompt_tokens": 289,
+      "total_tokens": 415,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null
+    }
+   }
+  ],
+  "http_ok": 3,
+  "tool_called": 3,
+  "args_valid": 3,
+  "n": 3
+ },
+ "super": {
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "calls": [
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 760.3,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "277s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "6cc794efd56472c975b91fcfbb188220"
+    },
+    "body": {
+     "id": "chatcmpl-93f189a16f37eea0",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-a6bb21db4184254d",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning": "We need to get pressure for valve V-17 using get_pressure.",
+        "reasoning_content": "We need to get pressure for valve V-17 using get_pressure."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368473,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 47,
+      "prompt_tokens": 371,
+      "total_tokens": 418,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 16,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 371
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 608.3,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "276s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "14a09bb06e6c5657500de0c389fdb2b2"
+    },
+    "body": {
+     "id": "chatcmpl-bd7f6554e9d38d8a",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-b5e3893298cf6657",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning": "We need to get pressure for valve V-17 using get_pressure.",
+        "reasoning_content": "We need to get pressure for valve V-17 using get_pressure."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368474,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 47,
+      "prompt_tokens": 371,
+      "total_tokens": 418,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 16,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 352,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 352,
+      "prompt_cache_miss_tokens": 19
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "status": 200,
+    "ms": 785.8,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "1000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "999425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "275s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "470e3df9dd866aa5161fc52692910090"
+    },
+    "body": {
+     "id": "chatcmpl-862736acb9226fba",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-9ccbd556f763be65",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning": "We need to get pressure for valve V-17 using get_pressure.",
+        "reasoning_content": "We need to get pressure for valve V-17 using get_pressure."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368474,
+     "model": "nvidia/nemotron-3-super-120b-a12b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g5001743e3-tp2-05adddbc",
+     "usage": {
+      "completion_tokens": 47,
+      "prompt_tokens": 371,
+      "total_tokens": 418,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 16,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 352,
+       "created_cache_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 352,
+      "prompt_cache_miss_tokens": 19
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "ec_transfer_params": null,
+     "metrics": null
+    }
+   }
+  ],
+  "http_ok": 3,
+  "tool_called": 3,
+  "args_valid": 3,
+  "n": 3
+ },
+ "ultra": {
+  "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+  "calls": [
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 864.8,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1998315",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "276s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "efa6c5bda821f79943006715f0ccc4b7"
+    },
+    "body": {
+     "id": "chatcmpl-bccd8dee64fe389a",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-a4499070161ed3d5",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning_content": "The user is asking for the pressure of valve V-17 and wants me to use the tool. I need to call the get_pressure function with valve_id \"V-17\"."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368475,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 70,
+      "prompt_tokens": 324,
+      "total_tokens": 394,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 39,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 324
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 667.8,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "275s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "19041a245856424cd82ab52aa2f45532"
+    },
+    "body": {
+     "id": "chatcmpl-af378f2265d9ad54",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-a43bd5ef12024391",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning_content": "The user is asking for the pressure of valve V-17. I have a tool called get_pressure that takes a valve_id parameter. I need to call this tool with valve_id \"V-17\". Let me do that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368476,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 80,
+      "prompt_tokens": 324,
+      "total_tokens": 404,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 49,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 324
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   },
+   {
+    "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+    "status": 200,
+    "ms": 656.2,
+    "headers": {
+     "x-ratelimit-limit-requests": "1000",
+     "x-ratelimit-limit-tokens": "2000000",
+     "x-ratelimit-remaining-requests": "999",
+     "x-ratelimit-remaining-tokens": "1999425",
+     "x-ratelimit-reset-requests": "1s",
+     "x-ratelimit-reset-tokens": "1s",
+     "x-ratelimit-dynamic-scale-requests": "1.00",
+     "x-ratelimit-dynamic-scale-tokens": "1.00",
+     "x-ratelimit-dynamic-period-remaining": "274s",
+     "x-ratelimit-dynamic-period-usage-requests": "0%",
+     "x-ratelimit-dynamic-period-usage-tokens": "0%",
+     "x-request-id": "ecbfd2e7acc4fc9ad127123134e65d85"
+    },
+    "body": {
+     "id": "chatcmpl-a4110aad3e0f3da1",
+     "choices": [
+      {
+       "finish_reason": "tool_calls",
+       "index": 0,
+       "logprobs": null,
+       "message": {
+        "content": null,
+        "refusal": null,
+        "role": "assistant",
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [
+         {
+          "id": "chatcmpl-tool-81d0b44eec98878e",
+          "function": {
+           "arguments": "{\"valve_id\": \"V-17\"}",
+           "name": "get_pressure"
+          },
+          "type": "function"
+         }
+        ],
+        "reasoning_content": "The user is asking for the pressure of valve V-17. I have a tool called get_pressure that takes a valve_id parameter. I need to call that tool with valve_id \"V-17\". Let me do that."
+       },
+       "stop_reason": null,
+       "token_ids": null,
+       "routed_experts": null
+      }
+     ],
+     "created": 1793368477,
+     "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+     "object": "chat.completion",
+     "moderation": null,
+     "service_tier": null,
+     "system_fingerprint": "vllm-0.1.dev1+g93e2486b7-tp8-062d09e8",
+     "usage": {
+      "completion_tokens": 80,
+      "prompt_tokens": 324,
+      "total_tokens": 404,
+      "completion_tokens_details": {
+       "accepted_prediction_tokens": null,
+       "audio_tokens": null,
+       "reasoning_tokens": 49,
+       "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+       "audio_tokens": null,
+       "cached_tokens": 0,
+       "multimodal_tokens": null
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 324
+     },
+     "prompt_logprobs": null,
+     "prompt_token_ids": null,
+     "prompt_text": null,
+     "kv_transfer_params": null,
+     "metrics": null
+    }
+   }
+  ],
+  "http_ok": 3,
+  "tool_called": 3,
+  "args_valid": 3,
+  "n": 3
+ }
+}

@@ -1,0 +1,799 @@
+{
+ "depth": {
+  "basic": {
+   "calls": [
+    {
+     "status": 200,
+     "ms": 1731.5,
+     "headers": {},
+     "body": {
+      "query": "how do token bucket rate limiters work",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://www.geeksforgeeks.org/computer-networks/token-bucket-algorithm",
+        "title": "Token Bucket Algorithm - GeeksforGeeks",
+        "content": "1. Bucket Creation: A logical bucket with a fixed capacity (rate limit) is defined, representing the maximum number of tokens it can hold.  \n2. Token Refill: Tokens are added to the bucket at a constant rate until the bucket reaches its capacity.  \n3. Request Arrival: When a request (or packet) arrives, the system checks whether tokens are available. [...] Token Bucket is needed because fixed-rate limiting forces traffic to move at a constant speed, while real network traffic is naturally bursty. It provides controlled flexibility so short spikes don\u2019t get blocked, while long-term bandwidth limits are still enforced. [...] The Token Bucket Algorithm is a traffic control method where tokens are added to a bucket at a fixed rate (up to a maximum capacity), and packets can be transmitted only if enough tokens are available.\n\n Controls the average sending rate of traffic entering the network\n Supports burst transmission within the bucket capacity while keeping long-term limits\n Used in QoS, traffic shaping, and traffic policing\n\n## Need for the Token Bucket Algorithm",
+        "score": 0.83549726,
+        "raw_content": null,
+        "id": "d2f9ad-00"
+       },
+       {
+        "url": "https://www.coingecko.com/en/coins/bucket-token/usd",
+        "title": "Bucket Token Price: BUT/USD Live Price Chart, Market Cap & News Today | CoinGecko",
+        "content": "Image 59\n\n0%\n\nImage 60\n\n0%\n\nAbout\n\nImage 61\n\n Add custom charts and ecosystem breakdowns to your coin page \u2014 like SOL, AAVE and CARDS. \n\n Enquire here \n\n## About Bucket Token\n\nBucket Protocol is a next-generation Liquidity Layer on the Sui Network. It empowers users to mint the $BUCK stablecoin by locking various assets as collateral, while unlocking opportunities for yield generation and leveraged liquidity across the ecosystem.\n\n## What makes Bucket Token unique [...] reliance for any purpose. Any use or reliance on our content is solely at your own risk and discretion. You should conduct your own research, review, analyse and verify our content before relying on them. Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision. No content on our Site is meant to be a solicitation or offer. [...] With a price decline of -6.40% in the last 7 days, Bucket Token (BUT) is underperforming the global cryptocurrency market which is down -1.80%, while underperforming when compared to similar Decentralized Finance (DeFi) cryptocurrencies which are down -4.90%.\n\nRead more\n\n Do you find the content above helpful? \n\nImage 62Image 63\n\n## Bucket Token Markets\n\n Affiliate disclosures \n\n All  CEX  DEX",
+        "score": 0.28422868,
+        "raw_content": null,
+        "id": "e0c1b8-01"
+       },
+       {
+        "url": "https://www.coingecko.com/pt-br/moedas/bucket-token",
+        "title": "Cota\u00e7\u00e3o do Bucket Token Hoje: BUT/USD Pre\u00e7o e Gr\u00e1fico em Tempo Real | CoinGecko",
+        "content": "Com um pre\u00e7o decl\u00ednio de - 5,80% nos \u00faltimos 7 dias, Bucket Token (BUT) \u00e9 desempenho abaixo do normal o mercado global de criptomoedas que \u00e9 para baixo - 1,20%, enquanto que desempenho abaixo do normal comparado a semelhantes Finan\u00e7as Descentralizadas (DeFi) criptomoedas que s\u00e3o para baixo - 4,30%.\n\nSaiba mais\n\n Considera o conte\u00fado acima \u00fatil? \n\nImage 59Image 60\n\n## Mercados Bucket Token\n\n Divulga\u00e7\u00f5es de afiliados \n\n Tudo  CEX  DEX [...] a sua confian\u00e7a espec\u00edfica por qualquer motivo. Qualquer utiliza\u00e7\u00e3o ou confian\u00e7a no nosso conte\u00fado \u00e9 unicamente da sua responsabilidade. Deve realizar a sua pr\u00f3pria pesquisa, avalia\u00e7\u00e3o, an\u00e1lise e verificar o nosso conte\u00fado antes de confiar nele. Os c\u00e2mbios s\u00e3o uma atividade de alto risco que pode levar a grandes perdas, portanto, consulte o seu consultor financeiro antes de tomar qualquer decis\u00e3o. Nenhum conte\u00fado no nosso website \u00e9 uma solicita\u00e7\u00e3o ou oferta. [...] O volume de negocia\u00e7\u00e3o de Bucket Token (BUT) \u00e9 US$72,23 nas \u00faltimas 24 horas, representando uma - 59,80% queda de um dia atr\u00e1s e sinalizando uma recente queda em atividade de mercado. Confira a lista de criptomoedas com maior volume.\n\n### Qual o pre\u00e7o o maior e menor pre\u00e7o para Bucket Token (BUT)?\n\nBucket Token (BUT) atingiu uma m\u00e1xima hist\u00f3rica de US$0,05549 e uma baixa hist\u00f3rica de US$0,0004635. Agora est\u00e1 sendo negociado 98,96% abaixo desse topo e 24,35% acima de seu pre\u00e7o mais baixo.",
+        "score": 0.11925444,
+        "raw_content": null,
+        "id": "01bd9e-02"
+       },
+       {
+        "url": "https://www.coingecko.com/en/coins/bucket-token",
+        "title": "Bucket Token Price: BUT/USD Live Price Chart, Market Cap & News Today | CoinGecko",
+        "content": "Title: Bucket Token Price: BUT/USD Live Price Chart, Market Cap & News Today | CoinGecko\nMarket Cap: $2.907T0.5%. Image 3: app QR code Get the CoinGecko app. Scan the QR code above to track crypto prices on-the-go. Image 4: CoinGeckoImage 5: CoinGeckoImage 6 Ask GeckoUse App. All CoinsCompare Coins and NFTConverterGlobal ChartAI Tools. Image 15 Optimism OP 21.43% Select. Image 16 NEAR Protocol NEAR 0.36% Select. Image 19 Quant QNT 3.57% Select. Image 22 Robinhood Markets HOOD 2.60% Select. Image 24 Nvidia NVDA 2.00% Select. The Boy\u2019s Club 0.74% Select. # Bucket Token. 0.0 8 7631 BTC 0.2%. What's the outlook for BUT this month? How's the sentiment for BUT? ## Bucket Token Statistics. The most popular exchange to buy and trade Bucket Token is Cetus, where the most active trading pair BUT/SUI has a trading volume of $43.24 in the last 24 hours. ### What is the daily trading volume of Bucket Token (BUT)? The trading volume of Bucket Token (BUT) is $43.24 in the last 24 hours, representing a 0.00% increase from one day ago and signalling a recent rise in market activity. ### What is the highest and lowest price for Bucket Token (BUT)? ### What is the market cap of Bucket Token (BUT)? Market capitalization of Bucket Token (BUT) is $269,569 and is ranked #4441 on CoinGecko today. Market cap is measured by multiplying token price with the circulating supply of BUT tokens (420 Million tokens are tradable on the market today). ### What is the fully diluted valuation of Bucket Token (BUT)? Image 74 Jarvis Reward $0.0008512 0.8% Image 75Image 76 Let's Get HAI $1.24 4.8% Image 77Image 78 Capa $0.001155 1.3% Image 79Image 80 Elixir $0.0003921 13.3% Image 81Image 82 Anzen Finance $0.00005377 2.8% Image 83. Image 84 Doge Pepe $0.02556 108.5% Image 85Image 86 Optimism $0.1579 21.4% Image 87Image 88 Pearl $1.86 19.8% Image 89Image 90 NEAR Protocol $5.16 0.4% Image 91Image 92 Zylo Ecosystem $0.023 1.5% Image 93Image 94 Bitway $2.38 31.3% Image 95Image 96 Pons $0.3243 15.4% Image 97Image 98 Quant $215.95 3.6% Image 99Image 100 Quantus $122.86 2.1% Image 101Image 102 Derive $0.4442 8.0% Image 103. The price of Bucket Token (BUT) is $0.0006384 today with a 24-hour trading volume of $43.24.",
+        "score": 0.07870625,
+        "raw_content": null,
+        "id": "d281c5-03"
+       },
+       {
+        "url": "https://cryptorank.io/price/bucket-usd/eur",
+        "title": "Bucket USD to Euro Price Today | Live USDB to EUR Converter & Exchange Rate | CryptoRank.io",
+        "content": "The daily exchange rate of Bucket USD (USDB) against EUR has shown noticeable variation over the past 7 days, reaching a weekly high of \u20ac 0.896 and a low of \u20ac 0.886.\n\n## Bucket USD / EUR Conversion Table\n\nThe conversion rate for Bucket USD (USDB) to EUR is currently \u20ac 0.892 per 1 USDB. At this rate, 10 USDB corresponds to approximately \u20ac 8.92, while 100.00 EUR can be exchanged for about 112.14 USDB, excluding fees.\n\n## Bucket USD News Today [...] Bucket USD\nBucket USD\nBucket USD\nBucket USD\nBucket USD\nBucket USD\nBucket USD\nBucket USD\nBucket USD\nBucket USD\n\n## FAQ\n\n### What is the current price of Bucket USD (USDB) in Euro (EUR)?\n\n### How much Bucket USD can I buy with \u20ac1?\n\n### What is the highest price Bucket USD (USDB) has ever reached in EUR?\n\n### What factors affect Bucket USD's price in Euro (EUR)?\n\n### How do I convert Bucket USD (USDB) to Euro (EUR)?\n\n### Can I track historical prices of Bucket USD (USDB) against EUR? [...] Cryptorank\nBucket USD\n\n# Bucket USDUSDB/EUR Price\n\nUSDB Price\n\n## USDB to EUR Converter\n\nBucket USD (USDB)\n\n## USDB to EUR Price Chart\n\n## USDB Stats in EUR\n\nMarket Cap\n\nN/A\n\nFDV\n\n$ 42.21M\n\nMax Supply\n\nUSDB 240,584\n\nTotal Supply\n\nUSDB 42,335,369\n\nAll Time High\n\n$ 1.07\n\nOct 10, 2025\n\nAll Time Low\n\n$ 0.6832\n\nJul 5, 2026\n\nFrom ATH\n\nFrom ATL\n\n## 7-day price history of Bucket USD (USDB) to EUR",
+        "score": 0.049299963,
+        "raw_content": null,
+        "id": "0b8d5a-04"
+       }
+      ],
+      "response_time": 1.41,
+      "request_id": "c97f9ba2-7eb2-4d4b-8c3e-0e680a3e8a2c"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 1942.7,
+     "headers": {},
+     "body": {
+      "query": "PID controller anti-windup",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://www.mathworks.com/help/simulink/slref/anti-windup-control-using-a-pid-controller.html",
+        "title": "Anti-Windup Control Using PID Controller Block - MATLAB & Simulink",
+        "content": "This example shows how to use anti-windup schemes to prevent integration wind-up in PID controllers when the actuators are saturated. The PID Controller block in Simulink\u00ae features two built-in anti-windup methods, `back-calculation` and `clamping`, as well as a tracking mode to handle more complex industrial scenarios. The PID Controller block supports several features that allow it to handle controller windup issues under commonly encountered industrial scenarios. [...] The back-calculation anti-windup method uses a feedback loop to unwind the PID Controller block internal integrator when the controller hits specified saturation limits and enters nonlinear operation. To enable anti-windup, go to the Output Saturation tab in the block dialog box. Select Limit output and enter the saturation limits for the plant. Next, from the Anti-windup method list, select `back-calculation`. Then, specify the Back-calculation coefficient (Kb). The inverse of this gain is the [...] A successful anti-windup strategy requires feeding back the actuator output to the tracking port of the PID Controller block. To configure the `tracking mode` of the PID Controller block, in the block Parameters dialog box, click the Initialization tab. Select Enable tracking mode and specify the gain `Kt`. The inverse of this gain is the time constant of the tracking loop. For more information on how to choose this gain, see .\n\n`tracking mode`\n`Kt`",
+        "score": 0.918663,
+        "raw_content": null,
+        "id": "30f239-00"
+       },
+       {
+        "url": "https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/8c33eb306938cac6cd73e701a86a5b32_MIT16_30F10_lec23.pdf",
+        "title": "16.30 Topic 23: Anti-windup",
+        "content": "value prevents the controller from resuming \u201cnormal operations\u201d quickly (the integral error must decrease \ufb01rst!) \u2013 so the response is delayed \u2022 Idea: once the input saturates, stop integrating the error (can\u2019t do much about it anyway!) November 21, 2010 Fall 2010 16.30/31 23\u20138 Anti-windup Logic \u2022 One option is the following logic for the integral gain: K\u2032 KI if the input does not saturate; = I 0 if the input saturates \u2022 Another option is the following: \u2022 Compare the actual input and the [...] input and the commanded input. \u2022 If they are the same, the saturation is not in e\ufb00ect. \u2022 Otherwise, reduce the integral error by a constant times the dif\u00ad ference. uint = Ki (e + Kaw(sat(u) \u2212 u)) dt \u2022 With this choice, under saturation, the actuator/commanded di\ufb00er\u00ad ence is fedback to the integrator to so that eact = sat(u) \u2212 u tends to zero \u2022 Implies that the controller output is kept close to saturation limit. \u2022 The controller output will then change as soon as the error changes sign, thus [...] set(0,'DefaultAxesFontSize',12) set(0,'DefaultTextFontName','arial') clear all %close all % Parameters for defining the system dynamics theta=0; gear=5; alpha = [40, 25, 16, 12, 10]; % gear ratios Tm = 190; % engine torque constant, Nm wm = 420; % peak torque rate, rad/sec beta = 0.4; % torque coefficient Cr = 0.01; % coefficient of rolling friction rho = 1.2; % density of air, kg/m\u02c63 A = 2.4; % car area, m\u02c62 Cd = 0.79/A; % drag coefficient g = 9.8; % gravitational constant m=1500; % mass v=25;",
+        "score": 0.73778254,
+        "raw_content": null,
+        "id": "ebe18b-01"
+       },
+       {
+        "url": "https://en.wikipedia.org/wiki/Integral_windup",
+        "title": "Integral windup - Wikipedia",
+        "content": "Integral windup, also known as integrator windup or reset windup, refers to the situation in a PID controller where a large change in setpoint occurs (say a positive change) and the integral term accumulates a significant error during the rise (windup), thus overshooting \"Overshoot (signal)\") and continuing to increase as this accumulated error is unwound (offset by errors in the other direction).\n\n## Solutions\n\n[edit]\n\nThis problem can be addressed by [...] 1. \u2191 \"Microchip Application Note AN532: Servo Control of a DC Motor\" (PDF). Microchip Technology, Inc. 1997. p. 4. Retrieved 2014-01-07.\n2. \u2191 M. Tham. \"Discretised PID Controllers\" (PDF). Archived from the original (PDF) on 2020-03-28. Retrieved 2014-01-07.\n3. 1 2 Astrom, Karl Johan; Rundqwist, Lars (1989). \"Integrator Windup and How to Avoid It\" (PDF). 1989 American Control Conference. pp. 1693\u20131698. doi \"Doi (identifier)\"):10.23919/ACC.1989.4790464. S2CID \"S2CID (identifier)\") 36848080. [...] Integral windup was more of a problem in analog controllers. Within modern distributed control systems and programmable logic controllers, it is much easier to prevent integral windup by either limiting the controller output, limiting the integral to produce feasible output, or by using external reset feedback, which is a means of feeding back the selected output to the integral circuit of all controllers in the selection scheme so that a closed loop is maintained.\n\n## References\n\n[edit]",
+        "score": 0.595987,
+        "raw_content": null,
+        "id": "cab817-02"
+       },
+       {
+        "url": "https://www.cbinsights.com/company/windup-minds",
+        "title": "Windup Minds - Products, Competitors, Financials, Employees, Headquarters Locations",
+        "content": "Electronic Arts Logo\n\nElectronic Arts\n\nElectronic Arts publishes video games in the entertainment industry. The company develops and distributes interactive entertainment for video game consoles, personal computers, and mobile devices. It primarily serves the gaming community across various platforms, including personal computers (PC), PlayStation, Xbox, Nintendo Switch, and mobile. It was founded in 1982 and is based in Redwood City, California.\n\nRockstar Games Logo\n\nRockstar Games [...] Square Enix\n\nSquare Enix creates entertainment content, particularly in the interactive entertainment software space. The company develops, publishes, and distributes a range of digital entertainment products, including video games and related media. Square Enix is known for its franchises such as Final Fantasy and Dragon Quest. Square Enix was formerly known as Enix. It was founded in 1975 and is based in Tokyo, Japan.\n\nValve Software Logo\n\nValve Software [...] Valve Software\n\nValve Software is a significant entity in the entertainment software and technology industry, involved in video game development and digital distribution. The company provides products including a platform for game sales and distribution, as well as hardware and virtual reality technologies. Valve's games have played a role in shaping the gaming landscape, while its Steam platform is used for digital content delivery. It was founded in 1996 and is based in Bellevue, Washington.",
+        "score": 0.026802607,
+        "raw_content": null,
+        "id": "63f1a2-03"
+       },
+       {
+        "url": "https://www.mapquest.com/us/maryland/windup-space-43302350",
+        "title": "Windup Space, 12 W North Ave, Baltimore, MD 21201-5904, US - MapQuest",
+        "content": "Best Restaurants in Clinton Ia\n\n9 places\n\nTop Things to Do in Clinton Ia\n\nTop Things to Do in Clinton Ia\n\n10 places\n\nBest Family-Friendly Activities in Clinton Ia\n\nBest Family-Friendly Activities in Clinton Ia\n\n10 places\n\nBest Day Trips from Clinton\n\nBest Day Trips from Clinton\n\n5 places\n\nBest Restaurants in York Pa\n\nBest Restaurants in York Pa\n\n7 places\n\nTop Things to Do in York Pa\n\nTop Things to Do in York Pa\n\n9 places\n\nBest Family-Friendly Activities in York Pa [...] Club Charles\n\nSteak and barbecue restaurants\n\n\"This place is Baltimore af.\n- \\Super\\ weird decor (desiccated aliens holding crystal balls? okay, sure)\n- Extremely nice people (they don't have anything non-alcoholic on the menu but the...\"\n\nCigar Life Club & Lounge\n\nItalian American Civic Club\n\nItalian American Civic Club\n\nCivic associations\n\n## Top Collections Near Baltimore\n\nFree Things to Do in Washington, DC\n\nFree Things to Do in Washington, DC\n\n9 places\n\nBest Restaurants in Clinton Ia [...] Best Family-Friendly Activities in York Pa\n\n9 places\n\n## Also at this address\n\nAdvertisement\n\nAdvertisement\n\nPartial Data by Foursquare.\n\nPartial Data by Infogroup \u00a9 2026. All rights reserved.\n\nProducers Club of Maryland Inc\n\nProducers Club of Maryland Inc\n\nBlack Diamonds Girls Club Inc\n\nBlack Diamonds Girls Club Inc\n\nNeighborhood Design Center\n\nNeighborhood Design Center",
+        "score": 0.018154327,
+        "raw_content": null,
+        "id": "64d333-04"
+       }
+      ],
+      "response_time": 1.83,
+      "request_id": "96247013-463b-4ffe-8296-1e302bad847e"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 1435.5,
+     "headers": {},
+     "body": {
+      "query": "queueing theory M/M/1 utilization",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://en.wikipedia.org/wiki/M/M/1_queue",
+        "title": "M/M/1 queue - Wikipedia",
+        "content": "In queueing theory, a discipline within the mathematical theory of probability, an M/M/1 queue represents the queue length in a system having a single server, where arrivals are determined by a Poisson process and job service times have an exponential distribution. The model name is written in Kendall's notation. The model is the most elementary of queueing models and an attractive object of study as closed-form expressions can be obtained for many metrics of interest in this model. An [...] Various performance measures can be computed explicitly for the M/M/1 queue. We write \u03c1 = \u03bb/\u03bc for the utilization of the buffer and require \u03c1 < 1 for the queue to be stable. \u03c1 represents the average proportion of time which the server is occupied.\n\nThe probability that the stationary process is in state i (contains i customers, including those in service) is:\u200a172\u2013173\n\n:   {\\displaystyle \\pi _{i}=(1-\\rho )\\rho ^{i}.\\,}\n\n### Average number of customers in the system\n\n[edit] [...] [edit]\n\nWhen the utilization \u03c1 is close to 1 the process can be approximated by a reflected Brownian motion with drift parameter \u03bb \u2013 \u03bc and variance parameter \u03bb + \u03bc. This heavy traffic limit was first introduced by John Kingman.\n\n## References\n\n[edit]",
+        "score": 0.82761955,
+        "raw_content": null,
+        "id": "ad36f0-00"
+       },
+       {
+        "url": "https://www.youtube.com/watch?v=GU-tWlTYvD8",
+        "title": "Queueing Theory: M/M/1 Queue Worked Example",
+        "content": "[4:18] call it the utilization factor in an mm1 queuing system the utilization Factor row represents the proportion of time that the server is\n[4:26] busy the the formula for the utilization Factor factor is as follows uh row equals Lambda / mu okay and again that's\n[4:36] the generic notation there just going back to that because this is what you might see in a Math's book The utilization factor is a key [...] [4:45] measure in queuing systems in queing theory as it indicates how effectively the server's capacity is being utilized\n[4:52] a utilization Factor close to one means the server is always nearly always busy where a lower utilization factor means\n[4:59] set the server has idle time so let's see how that works so here again we're going back to our question notation\n[5:06] which is Lambda a and Lambda s so that is Lambda Aid Lambda s equals 4 3 over 4 [...] [0:55] individuals in the system the expected number of individuals in the Q component the utilization Factor the probability\n[1:02] that an individual spends more than 2 minutes in the system and the probability that less than three individuals ex exit the system in a one\n[1:10] minute period so we're dealing with minutes so not changing from hours to minutes so we'll just stick with minutes the whole way through okay now this is",
+        "score": 0.80089486,
+        "raw_content": null,
+        "id": "ea8f21-01"
+       }
+      ],
+      "response_time": 1.32,
+      "request_id": "38825cb2-0a5c-49fd-8827-6740577f90ad"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 2061.9,
+     "headers": {},
+     "body": {
+      "query": "thermal throttling in datacenter GPUs",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://www.electronics-cooling.com/2017/02/thermal-management-gpu-enabled-servers-data-centers",
+        "title": "Thermal Management of GPU-Enabled Servers in Data Centers | Electronics Cooling",
+        "content": "Most GPU\u2019s have thermal throttle points set at or near 80degC. Nvidia which provides management tools like nvidia\u2212smi (System Management Interface program) output continuous health monitoring data which includes GPU temperatures, chassis inlet/outlet temperatures, etc., as shown below:\n\nTemperature\n\n GPU Current Temp : 34 C\n GPU Shutdown Temp : 93 C\n GPU Slowdown Temp : 88 C [...] Figure 1. How GPU Functions\n\nOne of the practical issues that users face when using the n-core GPU workstations is the extraordinary power these systems consume and the heat that they produce. For example, 8-GTX 295 GPU workstation (using Nvidia\u2019s Fermi) architecture) the maximum temperature of the GTX 295 GPU during the simulations was 85degC and the GTX 480 GPUs crossed 90degC while the electrical power drawn by each computer was just below one kilowatt at full load (see Figure 2). [...] Warm-water direct to chip liquid cooling liquid cooling solution when deployed appropriately can capture between 60% and 80% of the server heat, reducing data center cooling cost by over 50%. This allows 2.5X to 5X increases in data center server density. These cooling technologies are the most ideal for data center servers with GPU acceleration.\n\nYour comments are welcome.\n\n## Author\n\n MP Divakar\n\n  MP Divakar",
+        "score": 0.8846886,
+        "raw_content": null,
+        "id": "570e09-00"
+       },
+       {
+        "url": "https://finance.yahoo.com/news/phononic-unleashes-ai-data-center-120000947.html",
+        "title": "Phononic Unleashes AI Data Center Performance Via Advanced Cooling With the Phononic \u2018Thermal Kit\u2019",
+        "content": "Faster AI runtimes: When GPUs overheat, performance drops \u2014 fast. Thermal throttling kicks in and firmware automatically lowers clock speeds to save silicon. Through efficient and targeted cooling, temperatures can be optimized to significantly reduce throttling and improve performance for AI workloads including transformers, generative models, large batch training and LLM inference. This approach gives chipmakers a performance boost without redesigning their silicon. [...] Improved Asset Utilization: By decreasing the occurrences of thermal throttling, and therefore system level performance, asset utilization is enhanced. Hyperscalers can take advantage of this more efficient way to boost performance and capacity without rebuilding infrastructure.\n Increased Asset Life: Consistent temperature control reduces stress on critical components, extending their useful life and reducing failures in high-value AI infrastructure. [...] \"The Thermal Kit is designed to meet one of the biggest challenges of today's AI data centers: cooling,\" says Phononic SVP and GM, Infrastructure Solutions Matt Langman. \"For operators facing unprecedented power demands for today's AI workloads, it is mission critical to maintain performance through reductions in thermal throttling and optimized energy use of existing liquid-cooled infrastructure. With this breakthrough, customers can unlock higher compute capability and deliver meaningful data",
+        "score": 0.8684817,
+        "raw_content": null,
+        "id": "9beed5-01"
+       },
+       {
+        "url": "https://markets.businessinsider.com/news/stocks/ai-enhanced-thermal-management-launched-as-gaming-laptop-makers-tackle-performance-demands-1035855702",
+        "title": "AI-Enhanced Thermal Management Launched as Gaming Laptop Makers Tackle Performance Demands | Markets Insider",
+        "content": "Effective thermal management remains central to sustained performance in portable gaming devices. Without adequate heat control, CPUs and GPUs throttle output to remain within safe temperature limits, resulting in lower frame rates and inconsistent gameplay. AI-enabled cooling solutions mitigate this risk by redistributing heat, reducing hotspots, and dynamically balancing system power. [...] As gaming laptops incorporate increasingly powerful CPUs, GPUs and dedicated AI capabilities, conventional cooling systems such as fixed fan curves and passive heat sinks are under greater strain. AI-driven cooling systems are designed to adapt in real time to changing workloads, automatically adjusting fan speeds, heat distribution and power allocation to reduce performance throttling during intensive use. [...] Experts predict that intelligent cooling systems will become standard for premium gaming devices as hardware demands continue to increase and AI-driven optimisation technologies mature. By enhancing heat redistribution, reducing performance throttling, and minimising acoustic impact, AI-enabled thermal solutions are poised to redefine performance benchmarks for portable gaming platforms.\n\nContact Info:   \nName: Isabell Seiferling  \nEmail: Send Email  \nOrganization: Laptop Outlet  \nWebsite:",
+        "score": 0.4603137,
+        "raw_content": null,
+        "id": "275d21-02"
+       },
+       {
+        "url": "https://www.investing.com/analysis/nvidia-strong-on-growing-datacenter-gaming--ai-demand-200324747",
+        "title": "NVIDIA Strong On Growing Datacenter, Gaming & AI Demand | Investing.com",
+        "content": "Strong Adoption of NVIDIA\u2019s GPUs Drive Revenues  \n  \nNVIDIA\u2019s graphic processing units (GPUs) are rapidly penetrating the gaming and datacenter markets, which is driving top-line growth. [...] AI Presents Solid Growth Opportunities  \n  \nNVIDIA GPUs are gaining rapid traction with the proliferation AI. The increasing usage of artificial intelligence (AI) tools in datacenter, automotive, healthcare and manufacturing industries is likely to drive demand for GPUs in the long haul. [...] NVIDIA\u2019s strategy of developing single GPU architecture, at a time when Pascal and Tegra are predominant, has been boosting gross margin performance. Furthermore, the company has started building its Volta GPUs on Samsung\u2019s 10-nm (nanometer) node instead of Taiwan Semiconductor Manufacturing\u2019s 12-nm node. This has reduced its cost while enhancing performance of its GPUs.",
+        "score": 0.12299671,
+        "raw_content": null,
+        "id": "6099e4-03"
+       },
+       {
+        "url": "https://www.cnbc.com/2021/07/30/tesla-owners-could-get-625-each-in-settlement-over-battery-throttling.html",
+        "title": "Tesla owners could get $625 each in settlement over battery throttling",
+        "content": "\"Out of an abundance of caution, we are revising charge and thermal management settings on Model S and Model X vehicles via an over-the-air software update that will begin rolling out today, to help further protect the battery and improve battery longevity.\"\n\nA Model S owner who had been carefully tracking his battery's performance over time, David Rasmussen, complained to the court in August 2019 after that software update. [...] According to documents filed with a U.S. District Court in San Francisco, and obtained by CNBC, the proposed settlement would have Tesla paying $1.5 million into a fund that would pay owners for the reduced vehicle performance they experienced due to battery throttling, and would cover the plaintiffs' attorney fees and costs.\n\nReuters first reported on the new filings in the class action, David Rasmussen v. Tesla Inc. [...] The court filings this week say that 1,552 of the affected Tesla Model S sedans have already seen their batteries' voltage fully restored, and 57 received full battery replacements. Other Tesla owners who experienced battery throttling should see their Model S's maximum voltage restored as they continue to drive the cars.",
+        "score": 0.035440832,
+        "raw_content": null,
+        "id": "8d4c88-04"
+       }
+      ],
+      "response_time": 1.95,
+      "request_id": "c04374bb-69c8-4db2-b747-70f8c10c1723"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 1656.2,
+     "headers": {},
+     "body": {
+      "query": "exponential backoff with jitter",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://www.youtube.com/watch?v=NByH-cau97A",
+        "title": "Retry Strategies: Exponential Backoff & Jitter Explained",
+        "content": "[3:17] previous delay to prevent runaway values. The AWS recommended approach uses exponential backoff capped at a\n[3:24] maximum with jitter added to that capped value. For most production systems, the AWS approach is the simplest and most effective.\n[3:35] Remember these critical rules. Always use exponential backoff with jitter together. Set a maximum retry limit, typically 5 to seven attempts. Set a [...] [1:21] Exponential backoff solves this by spacing out retry attempts. Instead of retrying immediately, we wait increasingly longer between each attempt. The delay follows a formula.\n[1:32] Delay equals base multiplied by multiplier raised to the power of the attempt number. For example, with a base of 1 second and multiplier of two, the\n[1:42] first retry waits 1 second, the second waits 2 seconds, the third waits 4 seconds, and so on. This exponential [...] # Retry Strategies: Exponential Backoff & Jitter Explained\n## Channel: CodeLucky\n16.4K subscribers\n19 likes\n\n### Description\n1,417 views\nPosted: 2025-12-13\n\ud83d\ude80 Master retry strategies for distributed systems! Learn how to handle transient failures without crashing your services. \n\n\ud83d\udd25 Discover exponential backoff - spacing retries with growing delays (1s, 2s, 4s, 8s, 16s). Understand why pure backoff fails due to synchronized thundering herd attacks.",
+        "score": 0.8815438,
+        "raw_content": null,
+        "id": "b42b7e-00"
+       },
+       {
+        "url": "https://prismatic.io/blog/how-do-i-implement-exponential-backoff-with-jitter",
+        "title": "How Do I Implement Exponential Backoff with Jitter  | Prismatic",
+        "content": "Backoff without jitter gives you a thundering herd effect \u2013 with a delay. Jitter adds randomness so clients spread out. Full jitter chooses a random delay between zero and the exponential ceiling; equal jitter keeps half the delay fixed; de-correlated jitter bases the next delay on the previous one. Full jitter is a strong default when reducing load is the priority. The AWS Architecture blog compares the trade-offs.\n\nThere are two separate questions: [...] The problem isn't the retry, but the retry approach. You are using a generic retry strategy with providers that have their own ways of saying \"not yet.\"\n\n## Backoff solves half the problem\n\nExponential backoff increases the wait between attempts:\n\nThat is better than a tight retry loop, but it does not desynchronize clients. If every worker fails together and uses the same deterministic formula, they retry together too: [...] Automatic Execution Retry supports up to 10 retry attempts, minute-level intervals, exponential backoff, a 24-hour maximum delay, and cancellation of older retries when a newer invocation has the same unique request ID.\n\nRequest retries and execution retries are different tools. A flow-level retry starts the flow again from its first step, so earlier writes must be idempotent. Use flow-level retry for minutes- or hours-long recovery, not for a per-second provider hint.",
+        "score": 0.86981434,
+        "raw_content": null,
+        "id": "c44b71-01"
+       }
+      ],
+      "response_time": 1.54,
+      "request_id": "8d18c197-c2cd-4cfe-9d2c-7c0bdca24c42"
+     }
+    }
+   ],
+   "latency_ms": {
+    "n": 5,
+    "min": 1435.5,
+    "p50": 1731.5,
+    "p95": 2061.9,
+    "max": 2061.9,
+    "mean": 1765.6
+   },
+   "results": 19,
+   "with_published_date": 0,
+   "response_keys": [
+    "answer",
+    "follow_up_questions",
+    "images",
+    "query",
+    "request_id",
+    "response_time",
+    "results"
+   ],
+   "usage": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "advanced": {
+   "calls": [
+    {
+     "status": 200,
+     "ms": 4620.7,
+     "headers": {},
+     "body": {
+      "query": "how do token bucket rate limiters work",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://medium.com/@surajshende247/token-bucket-algorithm-rate-limiting-db4c69502283",
+        "title": "Token Bucket Algorithm (Rate Limiting) | by Suraj Shende | Medium",
+        "content": "> Picture it as an actual bucket that gets filled with tokens over time. Each token represents permission to make one request. When a client wants to make an API request, it must possess a token from the bucket. If tokens are available, the request is granted, and a token is consumed. If the bucket is empty, the request is denied until more tokens are added over time.\n\nLet\u2019s break down how this algorithm works in a straightforward manner:\n\n### Step 1: Create a Bucket\n\nImagine you have a bucket with a fixed capacity, which we\u2019ll call the \u201crate limit.\u201d This bucket can hold a certain number of tokens. In our example, we\u2019ll set a rate limit of 10 tokens.\n\n### Step 2: Refill the Bucket [...] ### Step 2: Refill the Bucket\n\nThe bucket isn\u2019t static; it periodically gets refilled with tokens. This is a crucial aspect of the Token Bucket Algorithm. Tokens are added to the bucket at a fixed rate. For instance, in our code, the bucket gets refilled every 2 seconds.\n\n### Step 3: Incoming Requests\n\nWhen a request comes in, we check if there are any tokens in the bucket.\n\n### Step 4: Consume Tokens\n\nIf there are tokens in the bucket, we \u201cconsume\u201d one token from it. This means the request is allowed to proceed. We also keep track of when the token was consumed.\n\n### Step 5: Empty Bucket\n\nIf the bucket is empty (no tokens available), we reject the request. This helps in preventing overloading of the server or system, ensuring that it operates within its defined limits. [...] ## Implementing the Token Bucket Algorithm:\n\nNow, let\u2019s take a look at some code that implements the Token Bucket Algorithm using Node.js and the ExpressJS frame\n\nWe set up our Express server and defined the rate limit (RATE\\_LIMIT) as 10 requests per second.\n\n The `refillBucket` function adds tokens to the bucket if it's not full.\n We\u2019ve created an endpoint `/bucket` to check the current state of the bucket.\n The `rateLimitMiddleware` middleware checks if tokens are available in the bucket. If yes, it consumes one and allows the request to continue. If not, it returns a 429 (Too Many Requests) status.\n There\u2019s a test endpoint `/test` just for fun, which simulates serving requests.",
+        "score": 0.8886914,
+        "raw_content": null,
+        "id": "d4df9b-00"
+       },
+       {
+        "url": "https://medium.com/@0xTanzim/understanding-the-token-bucket-algorithm-for-rate-limiting-fccdf80e27ca",
+        "title": "Understanding the Token Bucket Algorithm for Rate Limiting | by Tanzim Hossain | Medium",
+        "content": "## How it works, step by step\n\nThree numbers define the system \u2014 the same shape as leaky bucket, just running in the opposite direction:\n\n Capacity (`C`) \u2014 the maximum number of tokens the bucket can hold\n Refill rate (`R`) \u2014 how many tokens get added per second\n Current tokens (`tokens`) \u2014 how many are available right now\n\nEvery time a request needs a decision, first calculate how many tokens should have accumulated since the last check:\n\n```\ntokens = min(C, tokens + R  timeElapsed) tokens\n```\n\nThe `min` matters \u2014 it's what stops the bucket from growing without limit during a long idle stretch. Then the actual decision is simple: [...] Token bucket keeps the spirit of leaky bucket\u2019s capacity limit, but flips the direction of flow. Instead of requests draining out at a fixed rate, permission accumulates in at a fixed rate \u2014 and a client can spend all of it at once if they\u2019ve been patient.\n\n## The mental model: a bucket of tokens, not water\n\nPicture a bucket, but this time it holds tokens instead of water. [...] Every second, the system drops a fixed number of tokens into the bucket \u2014 say, 5 a second. The bucket has a maximum size, so tokens stop accumulating once it\u2019s full; there\u2019s no reward for staying idle forever. Every time a request arrives, it has to \u201cspend\u201d one token to be allowed through. Plenty of tokens sitting in the bucket? The request goes through immediately, and the bucket has one less token. Bucket\u2019s empty? The request gets rejected, or made to wait.",
+        "score": 0.86981434,
+        "raw_content": null,
+        "id": "9c8191-01"
+       },
+       {
+        "url": "https://en.wikipedia.org/wiki/Token_bucket",
+        "title": "Token bucket - Wikipedia",
+        "content": "## Overview\n\n[edit]\n\nThe token bucket algorithm is based on an analogy of a fixed-capacity bucket into which tokens, normally representing a unit of bytes or a single packet of predetermined size, are added at a fixed rate. When a packet is to be checked for conformance to the defined limits, the bucket is inspected to see if it contains sufficient tokens at that time. If so, the appropriate number of tokens, e.g. equivalent to the length of the packet in bytes, are removed (\"cashed in\"), and the packet is passed, e.g., for transmission. The packet does not conform if there are insufficient tokens in the bucket, and the contents of the bucket are not changed. Non-conformant packets can be treated in various ways: [...] In HTB, rate means the guaranteed bandwidth available for a given class and ceil (short for ceiling) indicates the maximum bandwidth that class is allowed to consume. When a class requests a bandwidth more than guaranteed, it may borrow bandwidth from its parent as long as both ceils are not reached. Hierarchical Token Bucket implements a classful queuing mechanism for the Linux traffic control system, and provides rate and ceil to allow the user to control the absolute bandwidth to particular classes of traffic as well as indicate the ratio of distribution of bandwidth when extra bandwidth becomes available (up to ceil). [...] ## Algorithm\n\n[edit]\n\nThe token bucket algorithm can be conceptually understood as follows:\n\n A token is added to the bucket every {\\displaystyle 1/r} seconds.\n The bucket can hold at the most {\\displaystyle b} tokens. If a token arrives when the bucket is full, it is discarded.\n When a packet (network layer PDU) of n bytes arrives,\n  + if at least n tokens are in the bucket, n tokens are removed from the bucket, and the packet is sent to the network.\n  + if fewer than n tokens are available, no tokens are removed from the bucket, and the packet is considered to be non-conformant.\n\n### Variations\n\n[edit]",
+        "score": 0.83932644,
+        "raw_content": null,
+        "id": "afc48c-02"
+       },
+       {
+        "url": "https://www.geeksforgeeks.org/computer-networks/token-bucket-algorithm",
+        "title": "Token Bucket Algorithm - GeeksforGeeks",
+        "content": "### Steps Involved in Token Bucket Algorithm\n\n1. Bucket Creation: A logical bucket with a fixed capacity (rate limit) is defined, representing the maximum number of tokens it can hold.  \n2. Token Refill: Tokens are added to the bucket at a constant rate until the bucket reaches its capacity.  \n3. Request Arrival: When a request (or packet) arrives, the system checks whether tokens are available.  \n4. Token Consumption: If tokens are present, one token is removed, and the request is allowed to proceed. The time of consumption is also recorded.  \n5. Bucket Empty: If no tokens remain, incoming requests are denied or delayed. This prevents overload and keeps the system within the defined rate limit.\n\n## Flow Characteristics [...] ## Need for the Token Bucket Algorithm\n\nToken Bucket is needed because fixed-rate limiting forces traffic to move at a constant speed, while real network traffic is naturally bursty. It provides controlled flexibility so short spikes don\u2019t get blocked, while long-term bandwidth limits are still enforced.\n\n Networks have limited bandwidth, so uncontrolled traffic can cause congestion and packet loss\n Real traffic (web, video, APIs) arrives in bursts, not at a steady rate\n Fixed-rate limiters may delay or drop packets even during short, legitimate spikes\n Applications often need brief high-speed sending to stay responsive\n Unrestricted bursts can overload the network if not controlled\n Token Bucket balances burst allowance with long-term average rate control [...] ## Working\n\n Tokens are added to the bucket at a constant rate (r) and stored up to the maximum capacity (B)\n Idle periods allow tokens to accumulate, enabling future burst transmission\n When a packet arrives, the system checks whether enough tokens are available\n If sufficient tokens exist, they are deducted and the packet is sent immediately\n If tokens are unavailable, the packet is delayed, queued, or dropped until new tokens are generated\n\none_token_added_per_tick\n\n### Steps Involved in Token Bucket Algorithm",
+        "score": 0.8338803,
+        "raw_content": null,
+        "id": "4e10d2-03"
+       },
+       {
+        "url": "https://blog.algomaster.io/p/rate-limiting-algorithms-explained-with-code",
+        "title": "Rate Limiting Algorithms Explained with Code",
+        "content": "#### How It Works:\n\n Imagine a bucket that holds tokens.\n The bucket has a maximum capacity of tokens.\n Tokens are added to the bucket at a fixed rate (e.g., 10 tokens per second).\n When a request arrives, it must obtain a token from the bucket to proceed.\n If there are enough tokens, the request is allowed and tokens are removed.\n If there aren't enough tokens, the request is dropped.\n\nCode Link: Python, Java\n\n#### Pros:\n\n Relatively straightforward to implement and understand.\n Allows bursts of requests up to the bucket's capacity, accommodating short-term spikes.\n\n#### Cons:\n\n The memory usage scales with the number of users if implemented per-user.\n It doesn\u2019t guarantee a perfectly smooth rate of requests.\n\n# 2. Leaky Bucket [...] # 2. Leaky Bucket\n\nThe Leaky Bucket algorithm is similar to Token Bucket but focuses on smoothing out bursty traffic.\n\n#### How it works:\n\n1. Imagine a bucket with a small hole in the bottom.\n2. Requests enter the bucket from the top.\n3. The bucket processes (\"leaks\") requests at a constant rate through the hole.\n4. If the bucket is full, new requests are discarded.\n\nCode Link: Python, Java\n\n#### Pros:\n\n Processes requests at a steady rate, preventing sudden bursts from overwhelming the system.\n Provides a consistent and predictable rate of processing requests.\n\n#### Cons:\n\n Does not handle sudden bursts of requests well; excess requests are immediately dropped.\n Slightly more complex to implement compared to Token Bucket.\n\nShare\n\n# 3. Fixed Window Counter",
+        "score": 0.8306082,
+        "raw_content": null,
+        "id": "575d72-04"
+       }
+      ],
+      "response_time": 4.51,
+      "request_id": "d8116656-eecf-4916-a5a1-08059952ee26"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 4151.5,
+     "headers": {},
+     "body": {
+      "query": "PID controller anti-windup",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://www.linkedin.com/pulse/anti-windup-pid-controller-automation-ralph-koettlitz-dwpkf",
+        "title": "Anti-Windup For a PID-Controller In Automation",
+        "content": "Ralph Koettlitz\n\n### Ralph Koettlitz\n\nIn automation PID controllers are everywhere, but not so much the anti-windup for the integrator in a PID controller. The anti-windup is a tool to prevent the integrator is growing over all limits, when the actuator doesn't have enough power to fast enough. For example a pump pushing water into a tank has a maximum volume per hour. When the water usage is higher than the inflow of new water, the level decreases while the integrator value is growing to get more water, but the pump is a bottleneck. When the usage of water stops, the integrator value grew so much, the return to normal values could take hours and the tank is overflowing. [...] Article content\n\nThe controller isn't optimized for performance for illustration. A sinus like disturbance is influencing the the result. The controller isn't fast enough to minimize the error value (red). The green line is the output of the PID controller and never violates the limit of 1. Every time the output would grow larger than 1, the integrator is lowered but never grows over a limit. Kb is in this case 1/Ki which is 5. This is more than enough to get the anti-windup working. Values in the magnitude of 1000 are causing a bad noise.\n\nLike\nCelebrate\nSupport\nLove\nInsightful\nFunny\n\nTo view or add a comment, sign in\n\n## More articles by Ralph Koettlitz\n\n### Simulating a trawler. It's a HTML file! [...] A method to prevent a violation of limits a back-calculation. The method is simple. Subtract the output of the PID controller from the saturated PID output and add the result into the integrator.\n\nKb is roughly 1/Ki. A too high value is causing numerical problems. Lets see the diagram\n\nArticle content\n\nIn opposite to the limiting of the integrator, this method take all parts of the controller into account, which makes this method faster. As an illustration I made a test with Jupyterlab\n\nArticle content",
+        "score": 0.9163571,
+        "raw_content": null,
+        "id": "d500cf-00"
+       },
+       {
+        "url": "https://www.mathworks.com/help/simulink/slref/anti-windup-control-using-a-pid-controller.html",
+        "title": "Anti-Windup Control Using PID Controller Block - MATLAB & Simulink",
+        "content": "MathWorks\n\nMATLAB Help Center\n\n# Anti-Windup Control Using PID Controller Block\n\nThis example shows how to use anti-windup schemes to prevent integration wind-up in PID controllers when the actuators are saturated. The PID Controller block in Simulink\u00ae features two built-in anti-windup methods, `back-calculation` and `clamping`, as well as a tracking mode to handle more complex industrial scenarios. The PID Controller block supports several features that allow it to handle controller windup issues under commonly encountered industrial scenarios.\n\n`back-calculation`\n`clamping`\n\nThe plant to be controlled is a saturated first-order process with dead-time.\n\nThe PID Controller block has parameters tuned with the Simulink Control Design\u2122 PID tuner with saturation ignored. [...] The anti-windup strategies discussed so far rely on built-in methods to process the saturation information provided to the block via its dialog box. For those built-in techniques to work as intended, two conditions must be met:\n\nThe saturation limits of the plant are known and can be entered into the dialog box of the block.\n\nThe PID Controller block output signal is the only signal feeding the actuator.\n\nThese conditions may be restrictive when handling general anti-windup scenarios. The PID Controller block features a tracking mode that allows you to set up a back-calculation anti-windup loop externally. The next two examples show the use of tracking mode for anti-windup purposes:\n\nAnti-windup for saturated actuators with cascaded dynamics\n\nAnti-windup for PID control with feedforward [...] The back-calculation anti-windup method uses a feedback loop to unwind the PID Controller block internal integrator when the controller hits specified saturation limits and enters nonlinear operation. To enable anti-windup, go to the Output Saturation tab in the block dialog box. Select Limit output and enter the saturation limits for the plant. Next, from the Anti-windup method list, select `back-calculation`. Then, specify the Back-calculation coefficient (Kb). The inverse of this gain is the time constant of the anti-windup loop. In this example, the back-calculation gain is chosen to be `1`. For more information on how to choose this value, see .\n\n`back-calculation`\n`1`",
+        "score": 0.91306627,
+        "raw_content": null,
+        "id": "533525-01"
+       },
+       {
+        "url": "https://arxiv.org/html/2606.01959v1",
+        "title": "Anti-Windup in PID Control: Review, Analysis, and New Tuning Directions",
+        "content": "The windup problem when the actuator saturates has motivated a wide range of anti-windup strategies, which differ in complexity, generality, and performance under saturation. The most widely implemented anti-windup strategy in industry is Back-Calculation, also known as Tracking, in which a feedback correction is introduced to the integral term, based on the difference between the saturated and unsaturated control signal (\u00c5str\u00f6m and H\u00e4gglund, 2006; Peng et al., 1996; Shin, 1998). Figure 4 shows the implementation of classic back-calculation applied to a PID controller, which works as follows: when the actuator saturates, the saturation error (es\u200ba\u200bt=us\u200ba\u200bt\u2212uce\\_{sat}=u\\_{sat}-u\\_{c}) is subtracted from the integral term weighted by a gain 1/Tt1/T\\_{t}, where TtT\\_{t} is the tracking time [...] In (Bruciapaglia and Apol\u00f4nio, 1986), the authors propose an anti-windup strategy in which the current control signal is modified to maintain the consistency between the controller\u2019s output (unsaturated) and the applied control signal (saturated). The error recalculation is performed by treating the control loop as a system of consistent algebraic relationships. Instead of simply clipping the controller output when it reaches a physical limit, the algorithm works backwards: it takes the actual saturated control value (us\u200ba\u200btu\\_{sat}) and uses the controller\u2019s internal equations to determine what the input error (ee) and internal states would have been to produce exactly that value. This recalculated error is then used to update the controller\u2019s memory for the next time step. By [...] Actuator saturation is a fundamental nonlinearity that significantly degrades the performance of PID-controlled systems by inducing integrator windup, leading to overshoot, slow recovery, and even instability. Although numerous anti-windup strategies have been proposed, their practical tuning remains largely heuristic and suboptimal in many industrial scenarios. This paper presents a comprehensive comparative study of classical and advanced anti-windup techniques for PI-controlled first-order-plus-dead-time (FOPDT) processes under a wide range of operating conditions. The analysis includes dynamic and instantaneous back-calculation, conditional integration, and adapted schemes. In addition, a novel hybrid anti-windup strategy is proposed, combining conditional integration with dynamic",
+        "score": 0.91288006,
+        "raw_content": null,
+        "id": "39ebf2-02"
+       },
+       {
+        "url": "https://www.scilab.org/pid-anti-windup-schemes",
+        "title": "PID Anti-Windup Schemes | Scilab",
+        "content": "To combat with the detrimental windup effects, a commercial PID controller often has some additional function called anti-windup. There are variations of implementation out there. Here we only investigate two basic schemes: conditional integration and back calculation.\n\nBefore further discussion, we have to review the two commonly-used forms of PID. First,\n\nis often referred to as the textbook form. The second one is the parallel form used in Scilab Xcos block\n\nSome tuning methods such as Ziegler Nichols use the form (1). In this article we prefer (2). This variation should not pose a problem since the parameters between the two can be related by\n\nThe plant used is the same one from our Digital PID Controllers article. [...] Similar to the conditional integration scheme, rise-time cannot be improved to match the case of pure linear system.\n\nFigure 6 output responses from awupid\\_m2.zcos\n\n## Conclusion\n\nIn this article, we discuss two anti-windup schemes in a PID controller and simulate some closed-loop step responses with a chosen plant transfer function. The audience can download Xcos files and perform further investigation with other choices of parameters and plants. We would also be interested to learn how these schemes behave under more realistic situations, such as tracking performance with other command inputs, with added input/output disturbances, or operating under noisy condition, etc.\n\n## References [...] To implement anti-windup, we will have to add extra mechanisms into our PID controller. So instead of using the PID block from Scilab palette, we have to construct our own, which is not difficult to do. Furthermore, the modified structure from our article Discrete-time PID Controller Implementation is used; i.e., the derivative part is replaced by Low-pass Filter for better noise immunity.\n\nFigure 2 response comparison from mypid.zcos\n\n## Scheme1: Conditional Integration",
+        "score": 0.8868231,
+        "raw_content": null,
+        "id": "9f6ec0-03"
+       },
+       {
+        "url": "https://industrialmonitordirect.com/blogs/knowledgebase/pid-controller-anti-windup-back-calculation-formula-explained",
+        "title": "PID Controller Anti-Windup Back-Calculation Formula Explained",
+        "content": "## Understanding PID Anti-Windup Back-Calculation\n\nIntegrator windup occurs when a PID controller continues to accumulate integral action even after the control output (CO) reaches its physical limits (e.g., a valve at 100% open). This causes severe overshoot and long recovery times when the setpoint changes direction. The back-calculation method provides a mathematically elegant solution by dynamically adjusting the integral term to prevent saturation.\n\n## The Back-Calculation Formula Explained\n\nThe formula from ControlGuru appears complex but represents a straightforward concept:\n\n`integral(error) = (COdesired - CObias - Kc  error) / Ki` [...] ## DCS Implementation Strategies\n\nWhen working with pre-built PID blocks in DCS systems (Siemens PCS7, Honeywell Experion, ABB 800xA, Yokogawa Centum), direct access to anti-windup logic may be unavailable. Here are practical approaches:\n\n### 1. Use Available Anti-Windup Inputs\n\nMany DCS PID blocks include dedicated anti-windup inputs:\n\n   \"Integrator Hold\" or \"PID Mode\" inputs\n   Output limiting parameters (CO_HI_LIM, CO_LO_LIM)\n   External feedback signals\n\n### 2. Conditional Integration\n\nImplement logic that disables integration when output saturates:\n\n```\n// Structured Text Example\nIF (CO >= CO_HI_LIM AND error > 0) OR (CO <= CO_LO_LIM AND error < 0) THEN\n    // Hold integral - don't accumulate\n    integral_hold := TRUE;\nELSE\n    integral_hold := FALSE;\nEND_IF;\n``` [...] Anti-windup prevents integral accumulation when output saturates. Adaptive reset time (reducing Ti during large errors) aggressiveizes integral action to close the gap faster\u2014they serve opposite purposes and can be used together with proper care.\n\n### How do I implement anti-windup in a DCS without direct access to the PID algorithm?\n\nUse conditional integration: monitor when output reaches limits and error is pushing in that direction, then hold or slow the integral accumulation using available parameters like integrator disable or reset time adjustment.\n\n### What back-calculation gain (Kb) should I use?\n\nStart with Kb = 0.5 (equal to Ki). If recovery from saturation is too slow, increase Kb. If the controller oscillates after saturation, decrease Kb. Typical range is 0.1 to 1.0.",
+        "score": 0.8805613,
+        "raw_content": null,
+        "id": "b81878-04"
+       }
+      ],
+      "response_time": 4.04,
+      "request_id": "dbd71a4c-eb2e-40c5-992d-88c54d771a4c"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 2454.4,
+     "headers": {},
+     "body": {
+      "query": "queueing theory M/M/1 utilization",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://antaresc.github.io/src/documents/classes/cs162-mm1-mg1.pdf",
+        "title": "Queuing Theory - Analyses of M/M/1 and M/G/1",
+        "content": "\u2022 u = \u03bb \u00b5 = \u03bbT denotes the server utilization. This represents the average number of items to arrive during the time it takes to service one item.\n\u2022 W denotes the average amount of time an item spends waiting in the system\u2019s queue.\n\u2022 L denotes the average number of items currently inside the system.\nIf we are given information regarding two of L, W, \u03bb then Little\u2019s Law, which states L = \u03bbW, easily allows us to calculate the missing third value. However, our goal in modeling a queuing system as M/M/1 is to determine what these parameters are if we are given only one of the parameters.\n3.1 Average Waiting Time Suppose we are given the values for \u03bb and T. The values of \u00b5 and u can then be easily derived but W and L may not. [...] Using the equations 3 and 4, we can determine the average number of items in the system. Little\u2019s Law will then give us the average time an item spends inside the system, but this must be the sum of average time spent waiting in the queue W and the time it takes to be serviced T. Immediately from this, we will have W as required.\nTheorem 4. Given a M/M/1 queuing system with arrival rate \u03bb, average service time T, average service rate \u00b5, and server utilization u, the average time an item spends in the queue W is given by the following.\nW = T \u0012 u 1 \u2212u \u0013 (5) Proof. Consider that the M/M/1 queuing system has a Poisson arrival process. For any time t and an interval \u2206t, the arrival rate \u03bb admits the following probabilities. [...] Lemma 6. Given an M/G/1 system with an arrival rate of \u03bb, arrival time variance of \u03c32 and server utilization rate of u, then the variance of v is Var{v} = u + \u03bb2\u03c32 We can now demonstrate the proof for the Pollaczek-Khinchine formula.\nTheorem 7 (Pollaczek-Khinchine). Suppose we are given a M/G/1 queuing system with server utilization m, arrival rate \u03bb, and arrival time variance \u03c32. The average number of items inside the queuing system N is then N = u 2 + u + \u03bb2\u03c32 2(1 \u2212u) (6) Proof. Let ni denote the number of items in the queuing system when the i-th item is \ufb01nished being processed by the system and recall that vi denotes the number of items to arrive while the i-th item is being processed. Notice that these two variables are related as follows.",
+        "score": 0.8399576,
+        "raw_content": null,
+        "id": "c954ae-00"
+       },
+       {
+        "url": "https://www.youtube.com/watch?v=GU-tWlTYvD8",
+        "title": "Queueing Theory: M/M/1 Queue Worked Example",
+        "content": "[4:10] okay now the utilization Factor also known as the traffic intensity actually I think but it's actually I usually know\n[4:18] call it the utilization factor in an mm1 queuing system the utilization Factor row represents the proportion of time that the server is\n[4:26] busy the the formula for the utilization Factor factor is as follows uh row equals Lambda / mu okay and again that's\n[4:36] the generic notation there just going back to that because this is what you might see in a Math's book The utilization factor is a key\n[4:45] measure in queuing systems in queing theory as it indicates how effectively the server's capacity is being utilized\n[4:52] a utilization Factor close to one means the server is always nearly always busy where a lower utilization factor means [...] # Queueing Theory: M/M/1 Queue Worked Example\n## Channel: StatsResource\n1.27K subscribers\n17 likes\n\n### Description\n2,131 views\nPosted: 2025-01-02\nStatsResource.github.io\n\nQueueing Theory: M/M/1 Queue Worked Example\n\nConsider an M/M/1 system with \nArrivals: X_a ~ Poisson(\\lambda_a=3 minute)\nService time: T_s ~ Exponential(\\lambda_s=4 minute). \n\nExercises\nCalculate the following:\nA. The expected time spent in the system. \nB. The expected time spent in the queue component. \nC. The expected number of individuals in the system. \nD. The expected number of individuals in the queue component. \nE. The utilisation factor. \nF. The probability that an individual spends more than 2 minutes in the system. \nG. The probability that less than 3 individuals exit the system in a 1 minute period. [...] [0:47] okay so here are the exercises calculate the time expected time spent to the system expected time spent to the Q component the expected number of\n[0:55] individuals in the system the expected number of individuals in the Q component the utilization Factor the probability\n[1:02] that an individual spends more than 2 minutes in the system and the probability that less than three individuals ex exit the system in a one\n[1:10] minute period so we're dealing with minutes so not changing from hours to minutes so we'll just stick with minutes the whole way through okay now this is\n[1:17] an important one H in an mm1 queuing system the average time spent in the queuing system W which includes both the time spent waiting in the queue and the",
+        "score": 0.8286204,
+        "raw_content": null,
+        "id": "60b1bb-01"
+       },
+       {
+        "url": "https://en.wikipedia.org/wiki/M/M/1_queue",
+        "title": "M/M/1 queue - Wikipedia",
+        "content": "M/M/1 queue diagram\n\nAn M/M/1 queueing node\n\nIn queueing theory, a discipline within the mathematical theory of probability, an M/M/1 queue represents the queue length in a system having a single server, where arrivals are determined by a Poisson process and job service times have an exponential distribution. The model name is written in Kendall's notation. The model is the most elementary of queueing models and an attractive object of study as closed-form expressions can be obtained for many metrics of interest in this model. An extension of this model with more than one server is the M/M/c queue.\n\n## Model definition\n\n[edit] [...] Various performance measures can be computed explicitly for the M/M/1 queue. We write \u03c1 = \u03bb/\u03bc for the utilization of the buffer and require \u03c1 < 1 for the queue to be stable. \u03c1 represents the average proportion of time which the server is occupied.\n\nThe probability that the stationary process is in state i (contains i customers, including those in service) is:\u200a172\u2013173\n\n:   {\\displaystyle \\pi _{i}=(1-\\rho )\\rho ^{i}.\\,}\n\n### Average number of customers in the system\n\n[edit]\n\nWe see that the number of customers in the system is geometrically distributed with parameter 1 \u2212 \u03c1. Thus the average number of customers in the system is \u03c1/(1 \u2212 \u03c1) and the variance of number of customers in the system is \u03c1/(1 \u2212 \u03c1)2. This result holds for any work conserving service regime, such as processor sharing. [...] Arrivals occur at rate \u03bb according to a Poisson process and move the process from state i to i + 1.\n Service times have an exponential distribution with rate parameter \u03bc in the M/M/1 queue, where 1/\u03bc is the mean service time.\n All arrival times and services times are (usually) assumed to be independent of one another.\n A single server serves customers one at a time from the front of the queue, according to a first-come, first-served discipline. When the service is complete the customer leaves the queue and the number of customers in the system reduces by one.\n The buffer is of infinite size, so there is no limit on the number of customers it can contain.\n\nThe model can be described as a continuous time Markov chain with transition rate matrix",
+        "score": 0.82220376,
+        "raw_content": null,
+        "id": "66e818-02"
+       },
+       {
+        "url": "https://medium.com/@kavindupraneeth8/why-we-wait-a-simple-guide-to-the-m-m-1-queuing-model-575da2debc2d",
+        "title": "Why We Wait: A Simple Guide to the M/M/1 Queuing Model",
+        "content": "Calculate the following:\n\n1.   What is the average utilization of the server ?\n2.   What is the average number of students in the system (L)?\n3.   What is the average number of students waiting in line (L_q)?\n\n_(Scroll down for the answers!)_\n\n\u2026\n\n\u2026\n\n\u2026\n\n## The Answers\n\n1. Average Utilization :\n\nImage 13\n\nAnswer: The server is busy 75% of the time20.\n\n2. Average Number of Students in the System (L):\n\nImage 14\n\nAnswer: On average, there are 3 students in the area (waiting or being helped).\n\n3. Average Number of Students Waiting in Line (L_q):\n\nImage 15\n\nAnswer: On average, 2.25 students are waiting in line.\n\n## Conclusion [...] From these two numbers, we can calculate everything else.\n\n## The Magic Formulas\n\nHere are the four \u201cMagic Formulas\u201d managers use to check if their system is working well. Note that we first calculate Rho, which is the utilization factor (how busy the server is).\n\nImage 5\n\nIf rho is less than 1, the system is stable. If it is greater than or equal to 1, the line will grow forever!.\n\n1. Average number of customers in the system (L):\n\n(This includes the person being served and those waiting)\n\nImage 6\n\n2. Average time a customer spends in the system (W):\n\n(Wait time + Service time)\n\nImage 7\n\n3. Average number of customers waiting in line (L_q):\n\nImage 8\n\n4. Average time waiting in the line (W_q):\n\nImage 9\n\n## Real-World Example: The Hospital ER [...] ## Conclusion\n\nThe M/M/1 model is a powerful tool for managers. By knowing just the arrival rate and the service rate, you can predict if customers will be happy or frustrated. In our examples, we saw that even if the server is faster than the arrivals (like the doctor treating 3/hr vs 2/hr arriving), there is still a significant wait time. That is the paradox of queuing!\n\n_Second Part M/M/c with next Article_\n\nQueue Theory\n\nMm1model\n\nFcfs\n\nQueue Management\n\nQueue\n\n[](\n\n1\n\n[](\n\n1\n\n[](\n\n[](\n\nImage 16: Kavindu praneeth\n\nImage 17: Kavindu praneeth\n\nFollow\n\n## Written by Kavindu praneeth\n\n22 followers\n\n\u00b796 following\n\nIntern Software Engineer | Web Developer | DevOps Enthusiast | Hobbyist Unity Developer | Cloud Enthusiast | Content Creator | Blogger\n\nFollow\n\nHelp\n\nStatus\n\nAbout\n\nCareers",
+        "score": 0.75852895,
+        "raw_content": null,
+        "id": "d4d943-03"
+       },
+       {
+        "url": "https://www.mi.fu-berlin.de/inf/groups/ag-tech/intern/19540-V-Simulation/08_Queueing_Models.pdf",
+        "title": "Chapter 8 - Queueing Models",
+        "content": "\u2022 The steady-state parameters \u2022 The steady state parameters \u03bc \u03bb \u03c1 = 0,20 0,25 0,30 0,35 M/M/1 Queue Pn ( ) 1 1 \u03c1 \u03bb \u03bb \u03c1 \u03c1 \u03bc = = \u2212 = n n L P \u03c1 \u2212 =1 0 P 0 00 0,05 0,10 0,15 0,20 ) 1 ( 1 1 1 \u03c1 \u03bc \u03bb \u03bc \u03c1 \u03bb \u03bc \u2212 = \u2212 = \u2212 \u2212 w \u03c1 server utilization 0,00 1 3 5 7 9 11 13 15 17 19 21 ( ) 1 2 2 \u03c1 \u03bb \u03c1 \u03c1 \u03bb \u03bc \u03bc \u03bb \u2212 = \u2212 = Q L P0 probability of empty system L long-run time-average number of customers in system w long-run average time spent in system per customer LQ long-run time-average number of customers in queue 8.47 Prof. Dr. Mesut G\u00fcne\u015f \u25aaCh. 8 Queueing Models ( ) ) 1 ( \u03c1 \u03bc \u03c1 \u03bb \u03bc \u03bc \u2212 = \u2212 = Q w wQ long-run average time spent in queue per customer M/M/1 Queues \u2022 Single-chair unisex hair-styling shop \u2022 Interarrival and service times are exponentially \u2022 Interarrival and service times are exponentially [...] ) 5 / 4 1 ( 2 \u2212 \u2022 Baker: 1/\u03bc = 25 minutes and \u03c3 2 = 22 = 4 minutes2: customers 097 2 ] 4 25 [ ) 30 / 1 ( 2 2 = + = L \u2022 The proportion of arrivals who find Baker idle and thus experience no delay is P0 = 1-\u03c1 = 1/6 = 16.7%.\ncustomers 097 .\n2 ) 6 / 5 1 ( 2 = \u2212 = Q L \u2022 Although working faster on average, Able\u2019s greater service variability results in an average queue length about 30% greater than Baker\u2019s.\n8.46 Prof. Dr. Mesut G\u00fcne\u015f \u25aaCh. 8 Queueing Models M/M/1 Queues \u2022 Suppose the service times in an M/G/1 queue are exponentially distributed with mean 1/\u03bc, then the variance is \u03c3 2 = 1/\u03bc2. \u2022 M/M/1 queue is a useful approximate model when service times have standard deviation approximately equal to their means. [...] \u2022 To achieve statistical equilibrium, the offered load (\u03bb/\u03bc) must satisfy q , ( \u03bc) y \u03bb/\u03bc < c, where \u03bb/(c\u00b5) = \u03c1 is the server utilization.\n1 Calling population \u03bb Waiting line 2 c 8.52 Prof. Dr. Mesut G\u00fcne\u015f \u25aaCh. 8 Queueing Models Multiserver Queue: M/M/c \u2022 The steady-state parameters for M/M/c \u03bc \u03bb \u03c1 c = ( ) \u03c1 \u03bb \u03bc \u03bc \u03bc \u03bb \u03bc \u03bb P c c L P c c c n P c c c n n = \u2265 \u221e \u23aa \u23ad \u23aa \u23ac \u23ab \u23aa \u23a9 \u23aa \u23a8 \u23a7 \u23a5 \u23a5 \u23a6 \u23a4 \u23a2 \u23a2 \u23a3 \u23a1 \u239f \u239f \u23a0 \u239e \u239c \u239c \u239d \u239b \u2212 \u239f \u23a0 \u239e \u239c \u239d \u239b \u239f \u239f \u23a0 \u239e \u239c \u239c \u239d \u239b + \u23a5 \u23a6 \u23a4 \u23a2 \u23a3 \u23a1 = \u2212 \u2212 = \u2211 ) ( ) ( !\n1 !\n) / ( 0 1 1 0 0 Probability that all servers are ( ) ( ) \u03c1 \u03c1 \u03c1 \u03c1 \u03c1 \u03c1 \u03c1 L w c L P c c c P c c L c c L P c \u2212 \u2265 \u221e \u22c5 + = \u2212 + = \u2212 \u2265 \u221e + 1 ) ( ) 1 )( !\n( ) ( ) 1 ( !",
+        "score": 0.7213709,
+        "raw_content": null,
+        "id": "53249c-04"
+       }
+      ],
+      "response_time": 2.34,
+      "request_id": "92c24d14-9d69-4a26-9c1b-0790f3d0e2c7"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 2861.6,
+     "headers": {},
+     "body": {
+      "query": "thermal throttling in datacenter GPUs",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://finance.yahoo.com/news/phononic-unleashes-ai-data-center-120000947.html",
+        "title": "Phononic Unleashes AI Data Center Performance Via Advanced Cooling With the Phononic \u2018Thermal Kit\u2019",
+        "content": "Faster AI runtimes: When GPUs overheat, performance drops \u2014 fast. Thermal throttling kicks in and firmware automatically lowers clock speeds to save silicon. Through efficient and targeted cooling, temperatures can be optimized to significantly reduce throttling and improve performance for AI workloads including transformers, generative models, large batch training and LLM inference. This approach gives chipmakers a performance boost without redesigning their silicon.\n Improved Asset Utilization: By decreasing the occurrences of thermal throttling, and therefore system level performance, asset utilization is enhanced. Hyperscalers can take advantage of this more efficient way to boost performance and capacity without rebuilding infrastructure. [...] \"The Thermal Kit is designed to meet one of the biggest challenges of today's AI data centers: cooling,\" says Phononic SVP and GM, Infrastructure Solutions Matt Langman. \"For operators facing unprecedented power demands for today's AI workloads, it is mission critical to maintain performance through reductions in thermal throttling and optimized energy use of existing liquid-cooled infrastructure. With this breakthrough, customers can unlock higher compute capability and deliver meaningful data center wide ROI.\" [...] DURHAM, N.C., Nov. 14, 2025 (GLOBE NEWSWIRE) -- Phononic, a global leader in solid state cooling technology, reveals the cooling solution for AI data centers that unthrottles AI performance while simultaneously delivering attractive returns on infrastructure investment. Today's AI workloads exhibit unprecedented variability, driving throttling that can erode bandwidth, and ultimately compute performance, by as much as 30%. Cooling overprovisioning to address the resulting heat from these AI workload spikes is estimated at up to 78% at individual data centers, a notable drag on cost and performance efficiency.",
+        "score": 0.86954874,
+        "raw_content": null,
+        "id": "0c3f58-00"
+       },
+       {
+        "url": "https://www.electronics-cooling.com/2017/02/thermal-management-gpu-enabled-servers-data-centers",
+        "title": "Thermal Management of GPU-Enabled Servers in Data Centers | Electronics Cooling",
+        "content": "Most GPU\u2019s have thermal throttle points set at or near 80degC. Nvidia which provides management tools like nvidia\u2212smi (System Management Interface program) output continuous health monitoring data which includes GPU temperatures, chassis inlet/outlet temperatures, etc., as shown below:\n\nTemperature\n\n GPU Current Temp : 34 C\n GPU Shutdown Temp : 93 C\n GPU Slowdown Temp : 88 C\n\nElectronics Cooling presented some examples of cooling GPU-enabled gaming desktops in an earlier blog, Thermal Management \u2013 Enabled Products at CES 2017. An example of liquid cooling brackets for GPU cooling is described here. [...] Figure 1. How GPU Functions\n\nOne of the practical issues that users face when using the n-core GPU workstations is the extraordinary power these systems consume and the heat that they produce. For example, 8-GTX 295 GPU workstation (using Nvidia\u2019s Fermi) architecture) the maximum temperature of the GTX 295 GPU during the simulations was 85degC and the GTX 480 GPUs crossed 90degC while the electrical power drawn by each computer was just below one kilowatt at full load (see Figure 2).\n\nFigure 2. Temperature of two GPUs during a sample simulation: 10E10 X-rays were simulated in the GeForce GTX 480 card (Fermi architecture) and 5x10E9 X-rays were simulated at the same time in each one of the two GPUs of a GeForce GTX 295 card. [...] Figure 8. VerticalRackCDU Overview\n\nWarm-water direct to chip liquid cooling liquid cooling solution when deployed appropriately can capture between 60% and 80% of the server heat, reducing data center cooling cost by over 50%. This allows 2.5X to 5X increases in data center server density. These cooling technologies are the most ideal for data center servers with GPU acceleration.\n\nYour comments are welcome.\n\n## Author\n\n MP Divakar\n\n  MP Divakar",
+        "score": 0.8660535,
+        "raw_content": null,
+        "id": "0d4374-01"
+       },
+       {
+        "url": "https://www.msi.com/blog/preventing-thermal-throttling-what-it-is-and-how-to-stop-it",
+        "title": "Preventing Thermal Throttling: What it is and How to Stop it",
+        "content": "## What is thermal throttling?\n\nUsers of modern processors actually benefit from thermal throttling. This is because thermal throttling is a safety mechanism which reduces the power going to your CPU and/or GPU when it reaches a predetermined thermal limit (usually 95\u2013100\u00b0C for CPUs, and around 90\u00b0C for the GPU). If a processor enters that region, circuitry will cut power to try and keep the processor running just below these thermal limits. It is an automated safety measure that prevents extreme heat build-up, and delivers a kind of stability, but at a level somewhere beneath your processor\u2019s optimal performance. [...] ### GPU thermal throttling\n\nThe graphics card heat load is large and irregular \u2013 with GPU cores, memory (VRAM), and power stages (VRMs).\n\n  \n\n All these heat zones need to be cooled effectively for a throttle-free lag-free experience.\n In typical \u2018balanced\u2019 mainstream PC systems the GPU will consume far more power over sustained periods than the CPU.\n Changing your GPU cooler hardware is uncommon, and relatively expensive, with a limited choice of compatible models.\n Good airflow is critical.\n Software GPU overclocking, undervolting, and tuning tools are readily available and mature.\n\n  \n\n## How to detect and avoid thermal throttling [...] Case & Components\n\nhow to prevent thermal throttling\n\n  \n\nThermal throttling is a concern for any and all PC users, on several levels. Most importantly, thermal throttling means that your PC isn\u2019t performing to its full potential, therefore your chosen components aren\u2019t delivering the true value that you paid for them. Perhaps worse, thermal throttling could be a sign of a deeper, potentially damaging, problem in your PC system\u2019s configuration. But don\u2019t worry, we are here to tell you all you need to know about thermal throttling, how to identify it as an issue, and to share methods to reduce or eliminate it through software and hardware changes. We will look closely at both CPU and GPU thermal throttling..",
+        "score": 0.70702106,
+        "raw_content": null,
+        "id": "511aac-02"
+       },
+       {
+        "url": "https://xidax.com/blogs/news/what-is-thermal-throttling",
+        "title": "What Is Thermal Throttling? Causes and Fixes | Xidax",
+        "content": "## The Real Thermal Throttling Definition\n\nThe deeper thermal throttling definition is about protection. Without it, CPUs and GPUs could literally burn themselves out. It's like a car engine that slows down when it gets too hot\u2014designed not to win a race, but to stay alive.\n\nThis is why throttling isn\u2019t a flaw\u2014it\u2019s a safeguard. But for high-performance users, managing it is critical to avoid disruptions and hardware stress.\n\nXidax systems take thermal management seriously. We design systems with airflow, component layout, and noise reduction in mind to prevent these issues before they start.\n\nNeed advice on what cooling system is right for your build? Contact our support team for custom recommendations based on your workload.\n\n## How Does Thermal Throttling Impact Lifespan [...] ## Understanding the Basics: What Is Thermal Throttling\n\nThe definition of thermal throttling is simple: it\u2019s a built-in mechanism that slows down your computer's processor to prevent overheating. When the CPU or GPU reaches a certain temperature threshold, it automatically reduces its clock speed to cool down.\n\nThis process is designed to protect your hardware, but the tradeoff is reduced performance.\n\nSo, what is thermal throttling doing during gameplay or rendering? It\u2019s reducing heat by lowering how hard your hardware works, which directly affects your PC's output. You\u2019ll notice dips in FPS, lag in applications, or even full system stutters.\n\nFor gamers and power users alike, this can be the difference between smooth performance and unplayable sessions. [...] Several factors contribute to thermal throttling:\n\n Poor airflow inside the case\n Dust buildup in fans and heatsinks\n High ambient room temperature\n Overclocking without proper cooling\n Inadequate cooling solutions like stock coolers\n\nIf you're wondering what causes thermal throttling in your system, start by checking the basics. Are your intake and exhaust fans balanced? Is your case clean? Have you monitored your CPU or GPU temps while gaming?\n\nThese questions matter. Because in most cases, throttling is avoidable with good design and maintenance.\n\nA silent gaming PC build with optimized cooling can help reduce fan noise while improving thermal efficiency\u2014a perfect solution for creators or streamers looking for quiet power.\n\n## Thermal Throttling in Gaming",
+        "score": 0.6216563,
+        "raw_content": null,
+        "id": "3e72d3-03"
+       },
+       {
+        "url": "https://dl.acm.org/doi/10.1145/3757892.3757906",
+        "title": "A Thermal-Aware Workload Scheduler for High- ...",
+        "content": "Aug 6, 2025 \u2014 We show that in cooling-regulated datacenters, existing schedulers can increase the probability of thermal throttling by 10 times, and the\u00a0...Read more",
+        "score": 0.56690645,
+        "raw_content": null,
+        "id": "d8435f-04"
+       }
+      ],
+      "response_time": 2.75,
+      "request_id": "8f7f05c3-dcf1-4df1-bdce-9716e9893505"
+     }
+    },
+    {
+     "status": 200,
+     "ms": 2488.1,
+     "headers": {},
+     "body": {
+      "query": "exponential backoff with jitter",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+       {
+        "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter",
+        "title": "Exponential Backoff And Jitter | AWS Architecture Blog",
+        "content": "The no-jitter exponential backoff approach is the clear loser. It not only takes more work, but also takes more time than the jittered approaches. In fact, it takes so much more time we have to leave it off the graph to get a good comparison of the other methods.\n\nOf the jittered approaches, \u201cEqual Jitter\u201d is the loser. It does slightly more work than \u201cFull Jitter\u201d, and takes much longer. The decision between \u201cDecorrelated Jitter\u201d and \u201cFull Jitter\u201d is less clear. The \u201cFull Jitter\u201d approach uses less work, but slightly more time. Both approaches, though, present a substantial decrease in client work and server load. [...] ## AWS Architecture Blog\n\n# Exponential Backoff And Jitter\n\nUpdate (May 2023): After 8 years, this solution continues to serve as a pillar for how Amazon builds remote client libraries for resilient systems. Most AWS SDKs now support exponential backoff and jitter as part of their retry behavior when using standard or adaptive modes. Consequently, this pattern can be leveraged without having to incorporate personal logic around AWS SDK requests made to AWS services. The list of AWS SDKs that support these features can be found in the AWS SDK documentation.\n\nYou can also dive deeper into timeouts, retries, and backoff with jitter in our Amazon Builders\u2019 Library.\n\n# Introducing OCC [...] # Adding Jitter\n\nThe solution isn\u2019t to remove backoff. It\u2019s to add jitter. Initially, jitter may appear to be a counter-intuitive idea: trying to improve the performance of a system by adding randomness. The time series above makes a great case for jitter \u2013 we want to spread out the spikes to an approximately constant rate. Adding jitter is a small change to the sleep function:\n\nThat time series looks a whole lot better. The gaps are gone, and beyond the initial spike, there\u2019s an approximately constant rate of calls. It\u2019s also had a great effect on the total number of calls.\n\nIn the case with 100 contending clients, we\u2019ve reduced our call count by more than half. We\u2019ve also significantly improved the time to completion, when compared to un-jittered exponential backoff.",
+        "score": 0.8993429,
+        "raw_content": null,
+        "id": "bd6e51-00"
+       },
+       {
+        "url": "https://www.baeldung.com/resilience4j-backoff-jitter",
+        "title": "Better Retries with Exponential Backoff and Jitter | Baeldung",
+        "content": "We\u2019ll not go into the mechanics of computing the random interval, but randomization must space out the spikes to a much smoother distribution of client calls.\n\nWe can use the exponential backoff with jitter in Resilience4j retry by configuring an exponential random backoff IntervalFunctionthat also accepts a randomizationFactor:\n\n```\nIntervalFunction intervalFn = IntervalFunction.ofExponentialRandomBackoff(INITIAL_INTERVAL, MULTIPLIER, RANDOMIZATION_FACTOR); \n```\n\nLet\u2019s return to our real-world scenario, and look at the remote invocation logs with jitter: [...] ## 6. Conclusion\n\nIn this tutorial, we\u2019ve explored how we can improve how client applications retry failed calls by augmenting exponential backoff with jitter.\n\nThe code backing this article is available on GitHub. Once you're logged in as a Baeldung Pro Member, start learning and coding on the project.\n\nBaeldung Pro \u2013 NPI EA (cat = Baeldung)\n\nannouncement - icon\n\nBaeldung Pro comes with both absolutely No-Ads as well as finally with Dark Mode, for a clean learning experience:\n\n>> Explore a clean Baeldung\n\neBook \u2013 HTTP Client \u2013 NPI EA (cat=HTTP Client-Side)\n\nannouncement - icon [...] ```\n io.github.resilience4j resilience4j-retry \n```\n\nFor a refresher on using retries, don\u2019t forget to check out our Guide to Resilience4j.\n\n## 4. Exponential Backoff\n\nClient applications must implement retries responsibly. When clients retry failed calls without waiting, they may overwhelm the system, and contribute to further degradation of the service that is already under distress.\n\nExponential backoff is a common strategy for handling retries of failed network calls. In simple terms, the clients wait progressively longer intervals between consecutive retries:\n\n```\nwait_interval = base  multiplier^n \n```\n\nwhere,",
+        "score": 0.89121616,
+        "raw_content": null,
+        "id": "b00ba0-01"
+       },
+       {
+        "url": "https://dev.to/biomousavi/understanding-jitter-backoff-a-beginners-guide-2gc",
+        "title": "Understanding Jitter Backoff: A Beginner's Guide - DEV Community",
+        "content": "Let's add Jitter to our code example:\n\n`let delay = 5000\nlet timerId = setTimeout(function request() {\nconst requestSuccess = Math.random() > 0.7 // simulate 30% success rate\nif (!requestSuccess) {\nconst jitter = Math.random()  1000; // add random factor\ndelay = delay  2 + jitter;\ntimerId = setTimeout(request, delay) // retry request\n}\nelse {\nclearTimeout(timerId) // stop retries on success\n}\n}, delay)`\n\n## Conclusion:\n\nExponential backoff combined with jitter is a crucial technique for building resilient and performant distributed systems. It allows client applications to handle failures gracefully without overwhelming the system, leading to a smoother and more reliable user experience.\n\n## Top comments (0)\n\npic\n\nTemplates let you quickly answer FAQs or store snippets for re-use. [...] DEV Community\n\n## DEV Community\n\nNick Mousavi\n\nPosted on Jan 3, 2025\n\u2022\nOriginally published at biomousavi.com\n\n# Understanding Jitter Backoff: A Beginner's Guide\n\n## Retry Necessity\n\nNetwork failures are inevitable. Client applications must implement retry mechanisms to handle these failures. there are many reasons that you might encounter network failure.\n\nIt's better to implement retries with Exponential Backoff and Jitter\n\n## What is Exponential Backoff ?\n\nIn exponential backoff, we increase the delay between retry attempts exponentially. [...] `let delay = 5000\nlet timerId = setTimeout(function request() {\nconst requestSuccess = Math.random() > 0.7 // simulate 30% success rate\nif (!requestSuccess) {\ndelay = 2 // increase delay exponentially\ntimerId = setTimeout(request, delay) // retry request\n}\nelse {\nclearTimeout(timerId) // stop retries on success\n}\n}, delay)`\n\nbut, this can lead to thundering herd problem.\n\n## Thundering herd problem\n\nIn a traditional backoff strategy, when a client encounters a failure (like a server unavailability), it typically implements a retry mechanism. A naive approach might be to have all clients retry at the same time after a fixed interval, that makes `Thundering herd` problem.\n\n`Thundering herd`\n\n### Simple scenario:",
+        "score": 0.8805613,
+        "raw_content": null,
+        "id": "195cb9-02"
+       },
+       {
+        "url": "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter",
+        "title": "Timeouts, retries, and backoff with jitter | AWS Builder Center",
+        "content": "The preferred solution that we use in Amazon is a backoff. Instead of retrying immediately and aggressively, the client waits some amount of time between tries. The most common pattern is an exponential backoff, where the wait time is increased exponentially after every attempt. Exponential backoff can lead to very long backoff times, because exponential functions grow quickly. To avoid retrying for too long, implementations typically cap their backoff to a maximum value. This is called, predictably, capped exponential backoff. However, this introduces another problem. Now all of the clients are retrying constantly at the capped rate. In almost all cases, our solution is to limit the number of times that the client retries, and handle the resulting failure earlier in the service-oriented [...] ## Jitter\n\nWhen failures are caused by overload or contention, backing off often doesn't help as much as it seems like it should. This is because of correlation. If all the failed calls back off to the same time, they cause contention or overload again when they are retried. Our solution is jitter. Jitter adds some amount of randomness to the backoff to spread the retries around in time. For more information about how much jitter to add and the best ways to add it, see Exponential Backoff and Jitter. [...] ## Builder Center\n\n# Timeouts, retries, and backoff with jitter\n\nHow Amazon uses timeouts, retries, and exponential backoff with jitter to handle transient failures without overwhelming struggling services.\n\nMarcMarc\n\n### Marc\n\n---\n\n## Introduction\n\n## Failures Happen",
+        "score": 0.8335554,
+        "raw_content": null,
+        "id": "caaf53-03"
+       }
+      ],
+      "response_time": 2.37,
+      "request_id": "a61561c7-ee35-4fe7-b97e-cefd9cd8c9f7"
+     }
+    }
+   ],
+   "latency_ms": {
+    "n": 5,
+    "min": 2454.4,
+    "p50": 2861.6,
+    "p95": 4620.7,
+    "max": 4620.7,
+    "mean": 3315.3
+   },
+   "results": 24,
+   "with_published_date": 0,
+   "response_keys": [
+    "answer",
+    "follow_up_questions",
+    "images",
+    "query",
+    "request_id",
+    "response_time",
+    "results"
+   ],
+   "usage": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ },
+ "news_topic": {
+  "calls": [
+   {
+    "status": 200,
+    "ms": 2912.8,
+    "headers": {},
+    "body": {
+     "query": "how do token bucket rate limiters work",
+     "follow_up_questions": null,
+     "answer": null,
+     "images": [],
+     "results": [
+      {
+       "url": "https://shattered.io/rate-limiting-nodejs",
+       "title": "Rate Limiting in Node.js: 12 Steps, 30 Min [2026]",
+       "content": "The token bucket model gives each client a bucket that refills at a fixed rate. Clients consume one token per request and receive 429 errors when the bucket is empty. This design tolerates short legitimate bursts (up to the bucket capacity) while enforcing a long-term average throughput rate. It is a good fit for APIs where you want to accommodate clients that batch requests occasionally without penalizing them for normal usage patterns that include brief spikes. [...] The leaky bucket inverts this logic: incoming requests enter a queue and drain at a constant output rate regardless of input rate. Leaky bucket is preferred when you want smooth throughput to a downstream service and cannot afford any burst reaching it. The `rate-limiter-flexible` npm package implements both token bucket and leaky bucket models and supports Redis, MongoDB, MySQL, and PostgreSQL as backends, making it the right choice when `express-rate-limit`\u2018s fixed-window model is not [...] The `keyGenerator` function in `express-rate-limit` can return any string, which gives you complete flexibility over how rate limit buckets are defined. Some useful patterns: key by `req.user.id + ':' + req.path` to give each user a separate quota per endpoint, key by `req.headers['x-tenant-id']` to enforce per-tenant limits in multi-tenant applications, or key by `req.headers['x-api-key']` to tie limits to API keys rather than the IP address of the machine making the request. Combine this with",
+       "score": 0.86136365,
+       "published_date": "Wed, 17 Jun 2026 16:15:34 GMT",
+       "raw_content": null,
+       "id": "e855b1-00"
+      },
+      {
+       "url": "https://www.databricks.com/blog/high-performance-ratelimiting-databricks",
+       "title": "High Performance Ratelimiting at Databricks | Databricks Blog",
+       "content": "2. More importantly, token-bucket \u201cremembers\u201d information across time intervals because instead of resetting every time interval like the fixed-window algorithm, it can continuously count, and even go negative. Thus, if a customer sends too many requests, we \u201cremember\u201d how much over the limit they went and can reject requests until the bucket refills to at least zero. We weren\u2019t able to support this token bucket in Redis previously because token-bucket needed fairly complex operations in [...] With the successful rollout of both batch-reporting and in-memory token bucket rate limiting, we saw drastic tail latency improvements (up to 10x in some cases!) with sub-linear growth in server side traffic. Our internal service clients are particularly happy that there\u2019s no remote call when they make rate limit calls, and that they have the freedom to scale independently of the Ratelimit Service. [...] Once we had autosharding in place, we implemented an in-memory token-bucket ratelimiting algorithm, which came with some great benefits:\n  1. We could now allow controlled bursts of traffic",
+       "score": 0.78154784,
+       "published_date": "Thu, 11 Sep 2025 20:45:00 GMT",
+       "raw_content": null,
+       "id": "cc44fb-01"
+      },
+      {
+       "url": "https://www.uber.com/rs/en/blog/from-static-rate-limiting-to-intelligent-load-management",
+       "title": "How Uber Conquered Database Overload: The Journey from Static Rate-Limiting to Intelligent Load Management",
+       "content": "Overload in stateful databases isn't one-dimensional. See how we built an intelligent load manager that sheds smarter, adapts to diverse",
+       "score": 0.02863371,
+       "published_date": "Mon, 20 Apr 2026 00:00:00 GMT",
+       "raw_content": null,
+       "id": "20b3a9-02"
+      }
+     ],
+     "response_time": 2.8,
+     "request_id": "e09517da-191a-412e-99f9-9638aa29bbee"
+    }
+   },
+   {
+    "status": 200,
+    "ms": 1496.4,
+    "headers": {},
+    "body": {
+     "query": "PID controller anti-windup",
+     "follow_up_questions": null,
+     "answer": null,
+     "images": [],
+     "results": [
+      {
+       "url": "https://www.nature.com/articles/s41598-023-33201-3",
+       "title": "Stabilization of a chaotic oscillator via a class of integral controllers under input saturation",
+       "content": "This work presents the straightforward design of an integral controller with an anti-windup structure to prevent undesirable behavior when",
+       "score": 0.5973971,
+       "published_date": "Wed, 12 Apr 2023 00:00:00 GMT",
+       "raw_content": null,
+       "id": "342e72-00"
+      },
+      {
+       "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/asjc.3390",
+       "title": "New anti\u2010windup Proportional\u2010Integral\u2010Derivative for motor speed control - Yapp - 2024 - Asian Journal of Control",
+       "content": "The proportional-integral-derivative (PID) was developed and recognized for its reliability. A PID controller is not only simple but also",
+       "score": 0.5602773,
+       "published_date": "Mon, 29 Apr 2024 00:00:00 GMT",
+       "raw_content": null,
+       "id": "c863ab-01"
+      },
+      {
+       "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/adc2.70027",
+       "title": "Protection of Cascaded Loops Against Windup and Limit Cycling - Eitelberg - 2025 - Advanced Control for Applications",
+       "content": "Numerous techniques for protecting controllers against windup are in use or have been published. An overview with detailed frequency domain",
+       "score": 0.42548645,
+       "published_date": "Sun, 14 Sep 2025 00:00:00 GMT",
+       "raw_content": null,
+       "id": "bf66bf-02"
+      }
+     ],
+     "response_time": 1.38,
+     "request_id": "aa80d367-86a2-45b0-9ad6-1d375342c4f2"
+    }
+   },
+   {
+    "status": 200,
+    "ms": 1534.4,
+    "headers": {},
+    "body": {
+     "query": "queueing theory M/M/1 utilization",
+     "follow_up_questions": null,
+     "answer": null,
+     "images": [],
+     "results": [
+      {
+       "url": "https://www.nature.com/articles/s41598-026-49800-9",
+       "title": "Application management and effectiveness analysis of intelligent logistics robots in hospital drug and specimen delivery scenarios | Scientific Reports",
+       "content": "equivalent to replacing 19 full-time logistics personnel with a labor efficiency ratio of 1.9 workers per robot. From a methodological perspective, this study combined operations research theory with robotics technology, providing a replicable technical paradigm for hospital logistics system optimization. The system utilization analysis based on M/M/c queuing model provides theoretical basis for fleet size planning. Sensitivity analysis confirmed the robustness of economic predictions, [...] Queue Management: The charging station queuing system employs a first-come-first-served (FCFS) strategy with preemptive scheduling for high-priority tasks. The system can be modeled as an M/M/c queuing model, characterized by: server count (robots): c\u2009=\u200910; average task arrival rate during peak hours: \u03bb\u2009=\u200942 tasks/hour; average service rate per robot: \u00b5\u2009=\u20095 tasks/robot/hour; system utilization rate: \u03c1\u2009=\u2009\u03bb/ (c \u00b5)\u2009=\u20090.84.\n\n#### Operational modes and workflow [...] revealed key performance indicators of system operation. Based on the M/M/c model (c\u2009=\u200910 robots), peak hour system utilization of 0.84 is in a reasonable operating range (usually recommending less than 0.9 to avoid excessive congestion). This model provides theoretical basis for fleet size planning: if demand grows to 50 tasks per hour, maintaining utilization less than 0.9 would require increasing to 12 robots.",
+       "score": 0.64182705,
+       "published_date": "Fri, 24 Apr 2026 00:00:00 GMT",
+       "raw_content": null,
+       "id": "317273-00"
+      },
+      {
+       "url": "https://bioengineer.org/network-delays-turn-lognormal-as-traffic-loads-push-queues-toward-saturation",
+       "title": "Network Delays Turn Lognormal as Traffic Loads Push Queues Toward Saturation",
+       "content": "A validated N\u00d7On-Off/D/1 queueing simulator shows that packet delay distributions in bursty wireless networks approach a lognormal form at",
+       "score": 0.06909459,
+       "published_date": "Fri, 09 Oct 2026 13:00:00 GMT",
+       "raw_content": null,
+       "id": "609f0e-01"
+      },
+      {
+       "url": "https://www.cambridge.org/core/journals/journal-of-applied-probability/article/inequalities-between-time-and-customer-averages-for-hnbwue-arrival-processes/0E67343DA4FE27FF7F3113DD5DE98474",
+       "title": "Inequalities between time and customer averages for HNB(W)UE arrival processes",
+       "content": "We show that for arrival processes, the 'harmonic new better than used in expectation' (HNBUE) (or 'harmonic new worse than used in expectation',",
+       "score": 0.024800576,
+       "published_date": "Tue, 03 Feb 2026 00:00:00 GMT",
+       "raw_content": null,
+       "id": "874abd-02"
+      }
+     ],
+     "response_time": 1.42,
+     "request_id": "9ce8d8e6-3056-4a44-a614-3b777e88b774"
+    }
+   }
+  ],
+  "results": 9,
+  "with_published_date": 9
+ },
+ "usage_flag": {
+  "status": 200,
+  "ms": 1378.8,
+  "headers": {},
+  "body": {
+   "query": "how do token bucket rate limiters work",
+   "follow_up_questions": null,
+   "answer": null,
+   "images": [],
+   "results": [
+    {
+     "url": "https://bytebytego.com/courses/system-design-interview/design-a-rate-limiter",
+     "title": "ByteByteGo | Technical Interview Prep",
+     "content": "The token bucket algorithm is widely used for rate limiting. It is simple, well understood and commonly used by internet companies. Both Amazon  and Stripe  use this algorithm to throttle their API requests.\n\nThe token bucket algorithm work as follows: [...] Figure 5\n\nFigure 6 illustrates how token consumption, refill, and rate limiting logic work. In this example, the token bucket size is 4, and the refill rate is 4 per 1 minute. [...] Figure 6\n\nThe token bucket algorithm takes two parameters:\n\n Bucket size: the maximum number of tokens allowed in the bucket\n Refill rate: number of tokens put into the bucket every second\n\nHow many buckets do we need? This varies, and it depends on the rate-limiting rules. Here are a few examples.",
+     "score": 0.81875163,
+     "raw_content": null,
+     "id": "b1f57f-00"
+    },
+    {
+     "url": "https://www.reddit.com/r/softwarearchitecture/comments/1wsah08/understanding_the_token_bucket_algorithm_for_api",
+     "title": "Understanding the Token Bucket Algorithm for API Rate ...",
+     "content": "The token bucket controls how frequently a request can be made, while authorization determines whether the request should be allowed at all.Read more",
+     "score": 0.7128128,
+     "raw_content": null,
+     "id": "674327-01"
+    }
+   ],
+   "response_time": 1.27,
+   "usage": {
+    "credits": 1
+   },
+   "request_id": "25c3b61b-0b93-49fb-b551-6a3c5b1a179c"
+  }
+ },
+ "errors": {
+  "bad_depth": {
+   "status": 400,
+   "ms": 117.9,
+   "headers": {},
+   "body": {
+    "detail": {
+     "error": "Invalid search depth. Must be 'ultra-fast', 'fast', 'basic' or 'advanced'."
+    }
+   }
+  },
+  "max_results_999": {
+   "status": 200,
+   "ms": 1921.4,
+   "headers": {},
+   "body": {
+    "query": "x",
+    "follow_up_questions": null,
+    "answer": null,
+    "images": [],
+    "results": [
+     {
+      "url": "https://apps.apple.com/us/app/x/id333903271",
+      "title": "\u200eX App - App Store",
+      "content": "X (formerly Twitter) is a social media app where you can follow breaking news, live events, and trending topics as they happen. Sports, tech, music, politics: whatever you're into, the conversation starts here, raw and unfiltered.\nIt's also a place to be heard. Post your take on the day's news, go live, and grow an audience for whatever you create. Millions of people come to X every day to find out what's happening and talk about it.\nWHAT YOU CAN DO ON X [...] WHO X IS FOR\nX is for people who follow breaking news and live events in real time, for sports, tech, music, and politics fans, for creators and podcasters who stream and create original video content for an audience, and for anyone building a community around gaming, entertainment, crypto, entrepreneurship, or tech.\nWHY X? [...] WHY X?\nIn a world of constant change, X is your real-time source to stay ahead of the curve, connect with people, explore diverse perspectives, and create standout content. From breaking live news and trending memes to top podcasts, live streams, and original videos from your favorite creators, X brings it all together in one powerful social experience.\nPrivacy Policy: \nTerms and Conditions:",
+      "score": 0.76490957,
+      "raw_content": null,
+      "id": "1fb26e-00"
+     },
+     {
+      "url": "https://x.com?lang=en",
+      "title": "X. It's what's happening / X",
+      "content": "From breaking news and entertainment to sports and politics, get the full story with all the live commentary.",
+      "score": 0.55998856,
+      "raw_content": null,
+      "id": "85cf9f-01"
+     },
+     {
+      "url": "https://play.google.com/store/apps/details?id=com.twitter.android&hl=en_US",
+      "title": "X - Apps on Google Play",
+      "content": "Icon image\n\n# X\n\nIcon image\nContent rating\nContent rating\nScreenshot image\nScreenshot image\nScreenshot image\nScreenshot image\nScreenshot image\nScreenshot image\nScreenshot image\nScreenshot image\n\n## About this app\n\n## Data safety\n\nIcon image\nIcon image\nIcon image\nIcon image\n\n## Ratings and reviews\n\nContent rating\n\n## App support\n\n## Similar apps\n\nThumbnail image\nThumbnail image\nThumbnail image\nThumbnail image\nThumbnail image\nThumbnail image\n\nPlay Pass\n\nPlay Points\n\nGift cards\n\nRedeem [...] Gift cards\n\nRedeem\n\nRefund policy\n\nParent Guide\n\nFamily sharing\n\nTerms of Service\n\nPrivacy\n\nAbout Google Play\n\nDevelopers\n\nGoogle Store",
+      "score": 0.3701121,
+      "raw_content": null,
+      "id": "9b5d5b-02"
+     }
+    ],
+    "response_time": 1.81,
+    "request_id": "d2329009-73d5-4c34-b053-88c9de1fb942"
+   }
+  },
+  "empty_query": {
+   "status": 400,
+   "ms": 119.2,
+   "headers": {},
+   "body": {
+    "detail": {
+     "error": "Query is missing."
+    }
+   }
+  },
+  "bad_topic": {
+   "status": 400,
+   "ms": 121.5,
+   "headers": {},
+   "body": {
+    "detail": {
+     "error": "Invalid topic. Must be 'general', 'news', or 'finance'"
+    }
+   }
+  },
+  "bad_key": {
+   "status": 401,
+   "body": "{\n    \"detail\": {\n        \"error\": \"Unauthorized: missing or invalid API key.\"\n    }\n}\n"
+  }
+ }
+}

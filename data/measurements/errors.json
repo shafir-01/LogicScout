@@ -1,0 +1,247 @@
+{
+ "invalid_model": {
+  "model": "nvidia/does-not-exist",
+  "status": 404,
+  "ms": 36.6,
+  "headers": {
+   "x-request-id": "8201be2ea277ab78660ab340a11bb2ba"
+  },
+  "body": {
+   "error": {
+    "type": "invalid_request_error",
+    "message": "The model `nvidia/does-not-exist` does not exist.",
+    "param": "model",
+    "code": "model_not_found"
+   },
+   "detail": "Invalid request. Please check the parameters and try again. Details: The model `nvidia/does-not-exist` does not exist."
+  }
+ },
+ "ultra_lowercased_id": {
+  "model": "nvidia/nemotron-3-ultra-550b-a55b",
+  "status": 404,
+  "ms": 36.5,
+  "headers": {
+   "x-request-id": "f05befb8cb51025149dc71ef4e2afae6"
+  },
+  "body": {
+   "error": {
+    "type": "invalid_request_error",
+    "message": "The model `nvidia/nemotron-3-ultra-550b-a55b` does not exist.",
+    "param": "model",
+    "code": "model_not_found"
+   },
+   "detail": "Invalid request. Please check the parameters and try again. Details: The model `nvidia/nemotron-3-ultra-550b-a55b` does not exist."
+  }
+ },
+ "missing_messages": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "status": 422,
+  "ms": 37.8,
+  "headers": {
+   "x-request-id": "047c2c8b7fdd86c005eb525b6ed1eb6c"
+  },
+  "body": {
+   "error": {
+    "type": "invalid_request_error",
+    "message": "body.messages: Field required",
+    "param": null,
+    "code": null
+   },
+   "detail": "Invalid request. Please check the parameters and try again. Details: body.messages: Field required"
+  }
+ },
+ "bad_temperature": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "status": 422,
+  "ms": 37.4,
+  "headers": {
+   "x-request-id": "d76fc60d2567255fb97200a8ef11310d"
+  },
+  "body": {
+   "error": {
+    "type": "invalid_request_error",
+    "message": "body.temperature: Input should be less than or equal to 2",
+    "param": null,
+    "code": null
+   },
+   "detail": "Invalid request. Please check the parameters and try again. Details: body.temperature: Input should be less than or equal to 2"
+  }
+ },
+ "negative_max_tokens": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "status": 422,
+  "ms": 36.6,
+  "headers": {
+   "x-request-id": "5d47dd99e3a113ae5cadce3981de5808"
+  },
+  "body": {
+   "error": {
+    "type": "invalid_request_error",
+    "message": "body.max_tokens: Input should be greater than or equal to 0",
+    "param": null,
+    "code": null
+   },
+   "detail": "Invalid request. Please check the parameters and try again. Details: body.max_tokens: Input should be greater than or equal to 0"
+  }
+ },
+ "bad_role": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "status": 422,
+  "ms": 36.4,
+  "headers": {
+   "x-request-id": "859cc8b9fe99471a03e54b9c09cc3782"
+  },
+  "body": {
+   "error": {
+    "type": "invalid_request_error",
+    "message": "body.messages.0.role: Input should be 'system', 'user', 'assistant' or 'tool'",
+    "param": null,
+    "code": null
+   },
+   "detail": "Invalid request. Please check the parameters and try again. Details: body.messages.0.role: Input should be 'system', 'user', 'assistant' or 'tool'"
+  }
+ },
+ "bad_response_format": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "status": 422,
+  "ms": 36.1,
+  "headers": {
+   "x-request-id": "144ff5860fe6e61373d2809ee2413fdf"
+  },
+  "body": {
+   "error": {
+    "type": "invalid_request_error",
+    "message": "body.response_format.type: Input should be 'text', 'json_object' or 'json_schema'",
+    "param": null,
+    "code": null
+   },
+   "detail": "Invalid request. Please check the parameters and try again. Details: body.response_format.type: Input should be 'text', 'json_object' or 'json_schema'"
+  }
+ },
+ "max_tokens_1": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "status": 200,
+  "ms": 178.0,
+  "headers": {
+   "x-ratelimit-limit-requests": "100",
+   "x-ratelimit-limit-tokens": "800000",
+   "x-ratelimit-remaining-requests": "99",
+   "x-ratelimit-remaining-tokens": "799990",
+   "x-ratelimit-reset-requests": "1s",
+   "x-ratelimit-reset-tokens": "1s",
+   "x-ratelimit-dynamic-scale-requests": "1.00",
+   "x-ratelimit-dynamic-scale-tokens": "1.00",
+   "x-ratelimit-dynamic-period-remaining": "781s",
+   "x-ratelimit-dynamic-period-usage-requests": "2%",
+   "x-ratelimit-dynamic-period-usage-tokens": "0%",
+   "x-request-id": "112823506637b06bb43bb727732e580f"
+  },
+  "body": {
+   "id": "chatcmpl-efbeb443-38b7-4cc8-9ce1-d60df6822894",
+   "choices": [
+    {
+     "finish_reason": "length",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "content": null,
+      "refusal": null,
+      "role": "assistant",
+      "annotations": null,
+      "audio": null,
+      "function_call": null,
+      "tool_calls": [],
+      "reasoning": "The"
+     },
+     "stop_reason": null,
+     "token_ids": null,
+     "routed_experts": null
+    }
+   ],
+   "created": 1793368477,
+   "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+   "object": "chat.completion",
+   "moderation": null,
+   "service_tier": null,
+   "system_fingerprint": "vllm-0.22.0-b08c96cd",
+   "usage": {
+    "completion_tokens": 1,
+    "prompt_tokens": 24,
+    "total_tokens": 25,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+   },
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "prompt_text": null,
+   "kv_transfer_params": null
+  }
+ },
+ "bad_api_key": {
+  "status": 401,
+  "body": "{\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Couldn't authenticate. Reason: Unable authenticate\",\"param\":null,\"code\":\"unauthenticated\"},\"detail\":\"Invalid request. Please check the parameters and try again. Details: Couldn't authenticate. Reason: Unable authenticate\"}"
+ },
+ "malformed_json_body": {
+  "status": 422,
+  "body": "{\"error\":{\"type\":\"invalid_request_error\",\"message\":\"body.1: JSON decode error\",\"param\":null,\"code\":null},\"detail\":\"Invalid request. Please check the parameters and try again. Details: body.1: JSON decode error\"}"
+ },
+ "long_prompt_200k_chars": {
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+  "status": 200,
+  "ms": 1471.0,
+  "headers": {
+   "x-ratelimit-limit-requests": "100",
+   "x-ratelimit-limit-tokens": "800000",
+   "x-ratelimit-remaining-requests": "98",
+   "x-ratelimit-remaining-tokens": "749356",
+   "x-ratelimit-reset-requests": "1s",
+   "x-ratelimit-reset-tokens": "4s",
+   "x-ratelimit-dynamic-scale-requests": "1.00",
+   "x-ratelimit-dynamic-scale-tokens": "1.00",
+   "x-ratelimit-dynamic-period-remaining": "781s",
+   "x-ratelimit-dynamic-period-usage-requests": "2%",
+   "x-ratelimit-dynamic-period-usage-tokens": "0%",
+   "x-request-id": "cfdce8303fd1ea178bbfcc29c49311e5"
+  },
+  "body": {
+   "id": "chatcmpl-9e50b6ce-4d82-42f8-bd91-e11963396c50",
+   "choices": [
+    {
+     "finish_reason": "length",
+     "index": 0,
+     "logprobs": null,
+     "message": {
+      "content": null,
+      "refusal": null,
+      "role": "assistant",
+      "annotations": null,
+      "audio": null,
+      "function_call": null,
+      "tool_calls": [],
+      "reasoning": "The user gave many repetitions of \"The quick brown fox jumps over the lazy dog"
+     },
+     "stop_reason": null,
+     "token_ids": null,
+     "routed_experts": null
+    }
+   ],
+   "created": 1793368478,
+   "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+   "object": "chat.completion",
+   "moderation": null,
+   "service_tier": null,
+   "system_fingerprint": "vllm-0.22.0-b08c96cd",
+   "usage": {
+    "completion_tokens": 16,
+    "prompt_tokens": 45021,
+    "total_tokens": 45037,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+   },
+   "prompt_logprobs": null,
+   "prompt_token_ids": null,
+   "prompt_text": null,
+   "kv_transfer_params": null
+  }
+ }
+}
