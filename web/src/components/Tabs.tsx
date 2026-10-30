@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { RunView } from "../state";
 import type { Rule } from "../types";
 import { Chip, Meter, Sparkline, fmt, host, pct, statusTone } from "../ui";
-import { focusSeq } from "./Timeline";
+import Timeline, { focusSeq } from "./Timeline";
+import Debrief from "./Debrief";
 import WhatIf from "./WhatIf";
 
 function RuleRow({ r }: { r: Rule }) {
@@ -252,19 +253,40 @@ function ModelTab({ v }: { v: RunView }) {
   );
 }
 
-const TABS = [
-  { id: "theory", label: "Theory", C: TheoryTab },
-  { id: "playbook", label: "Playbook", C: PlaybookTab },
-  { id: "public", label: "Public vs Observed", C: PublicTab },
-  { id: "referee", label: "Referee", C: RefereeTab },
-  { id: "model", label: "Model", C: ModelTab },
-  { id: "ask", label: "Ask", C: WhatIf },
-] as const;
+type TabProps = { v: RunView; runId?: string; base?: string };
+export type TabRequest = { id: string; n: number } | null;
 
-export default function Tabs({ v, runId }: { v: RunView; runId?: string }) {
-  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("theory");
+function ExperimentsTab({ v }: TabProps) {
+  return <div className="tab-body"><Timeline v={v} /></div>;
+}
+
+function HiddenTab({ v, base }: TabProps) {
+  if (!base) return <div className="tab-body"><p className="empty">Not available</p></div>;
+  if (!v.finished) return <div className="tab-body"><p className="empty">Revealed when the run ends</p></div>;
+  return <div className="tab-body"><Debrief base={base} rules={v.theory?.rules ?? []} driftRules={v.driftRules} recoveryDiff={v.recoveryDiff} /></div>;
+}
+
+const TABS: { id: string; label: string; C: (p: TabProps) => JSX.Element | null }[] = [
+  { id: "experiments", label: "Experiments", C: ExperimentsTab },
+  { id: "theory", label: "Rules", C: TheoryTab },
+  { id: "playbook", label: "Playbook", C: PlaybookTab },
+  { id: "public", label: "Public vs observed", C: PublicTab },
+  { id: "referee", label: "Referee", C: RefereeTab },
+  { id: "model", label: "Model calls", C: ModelTab },
+  { id: "ask", label: "Ask", C: WhatIf },
+  { id: "hidden", label: "Hidden laws", C: HiddenTab },
+];
+
+export default function Tabs({ v, runId, base, request = null }: TabProps & { request?: TabRequest }) {
+  const [tab, setTab] = useState(request?.id ?? "experiments");
+  useEffect(() => { if (request) setTab(request.id); }, [request]);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
-  const idx = TABS.findIndex((t) => t.id === tab);
+  useEffect(() => {
+    const on = () => setTab("experiments");
+    window.addEventListener("ls-show-experiments", on);
+    return () => window.removeEventListener("ls-show-experiments", on);
+  }, []);
+  const idx = Math.max(0, TABS.findIndex((t) => t.id === tab));
   const Active = TABS[idx].C;
   const onKey = (e: React.KeyboardEvent) => {
     const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
@@ -274,8 +296,8 @@ export default function Tabs({ v, runId }: { v: RunView; runId?: string }) {
     refs.current[n]?.focus();
   };
   return (
-    <section className="panel knowledge" aria-label="Knowledge">
-      <div className="tabs" role="tablist" onKeyDown={onKey}>
+    <section className="knowledge" aria-label="Details">
+      <div className="tabs" role="tablist" aria-label="Details" onKeyDown={onKey}>
         {TABS.map((t, i) => (
           <button
             key={t.id}
@@ -293,8 +315,8 @@ export default function Tabs({ v, runId }: { v: RunView; runId?: string }) {
           </button>
         ))}
       </div>
-      <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
-        <Active v={v} runId={runId} />
+      <div role="tabpanel" id={`panel-${TABS[idx].id}`} aria-labelledby={`tab-${TABS[idx].id}`} className="tabpanel">
+        <Active v={v} runId={runId} base={base} />
       </div>
     </section>
   );

@@ -9,14 +9,17 @@ import { useHashRoute } from "./ui";
 
 function Theme() {
   const [theme, setTheme] = useState<"dark" | "light">(() => {
-    try { return localStorage.getItem("ls-theme") === "light" ? "light" : "dark"; } catch { return "dark"; }
+    try { const s = localStorage.getItem("ls-theme"); if (s === "light" || s === "dark") return s; } catch { /* ignore */ }
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   });
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem("ls-theme", theme); } catch { /* ignore */ }
-  }, [theme]);
+  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
+  const flip = () => {
+    const t = theme === "dark" ? "light" : "dark";
+    setTheme(t);
+    try { localStorage.setItem("ls-theme", t); } catch { /* ignore */ }
+  };
   return (
-    <button className="link small" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} aria-label="Toggle theme">
+    <button className="link small" onClick={flip} aria-label="Toggle theme">
       {theme === "dark" ? "Light" : "Dark"}
     </button>
   );

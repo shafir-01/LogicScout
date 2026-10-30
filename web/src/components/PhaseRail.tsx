@@ -14,6 +14,16 @@ export function reached(v: RunView, i: number): boolean {
   return false;
 }
 
+/** True when a new playbook was compiled after the latest confirmed drift (re-investigation finished). */
+export function backInControl(v: RunView): boolean {
+  let drift = -1, pb = -1;
+  for (const t of v.timeline) {
+    if (t.kind === "drift" && t.level === "confirmed") drift = t.seq;
+    if (t.kind === "playbook") pb = t.seq;
+  }
+  return drift >= 0 && pb > drift;
+}
+
 /** Index of the live step, or -1 once the run has ended. */
 export function currentStep(v: RunView): number {
   if (v.finished) return -1;
@@ -22,9 +32,9 @@ export function currentStep(v: RunView): number {
     case "probing": return 1;
     case "theory": return 2;
     case "control":
-      if (v.drift !== "none") return 4;
+      if (v.drift === "suspected" || (v.drift === "confirmed" && !backInControl(v))) return 4;
       if (v.recovered) return 5;
-      return v.shifted ? 4 : 3;
+      return v.shifted && !backInControl(v) ? 4 : 3;
     case "drift": case "reprobing": return 4;
     case "recovered": return 5;
     default: return -1;

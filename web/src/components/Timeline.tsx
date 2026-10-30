@@ -144,8 +144,7 @@ export default function Timeline({ v }: { v: RunView }) {
   }, [v.timeline.length, v.lastSeq]);
 
   return (
-    <section className="panel experiments" aria-label="Experiments">
-      <h2 className="panel-title">Experiments <span className="dim mono">{v.timeline.filter((t) => t.kind === "probe").length}</span></h2>
+    <section className="experiments" aria-label="Experiments">
       <ol
         className="timeline"
         ref={ref}
@@ -166,6 +165,11 @@ export default function Timeline({ v }: { v: RunView }) {
 }
 
 export function focusSeq(seq: number) {
+  window.dispatchEvent(new CustomEvent("ls-show-experiments"));
+  window.setTimeout(() => scrollToSeq(seq), 60);
+}
+
+function scrollToSeq(seq: number) {
   const items = Array.from(document.querySelectorAll<HTMLElement>(".timeline > li[data-seq]"));
   let best: HTMLElement | null = null;
   for (const el of items) if (Number(el.dataset.seq) <= seq) best = el;

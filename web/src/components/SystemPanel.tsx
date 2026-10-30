@@ -106,7 +106,7 @@ function Graph({ layout, obs }: { layout: Dict; obs: Dict | null }) {
           <g key={n.id} className={`node${alarm ? " node-alarm" : ""}`}>
             <title>{[n.label, ...vals.map(([f, v]) => `${f}: ${fmt(v)}`)].join("\n")}</title>
             <circle cx={x} cy={y} r={R} className="node-ring" />
-            <circle cx={x} cy={y} r={R} className="node-fill" style={{ opacity: obs && vals.length ? 0.12 + 0.88 * lit : 0 }} />
+            <circle cx={x} cy={y} r={R} className="node-fill" style={{ opacity: obs && vals.length ? 0.1 + 0.4 * lit : 0 }} />
             <text x={x} y={y + R + 13} className="node-label">{n.label}</text>
             {vals.slice(0, 3).map(([f, v], i) => (
               <text key={f} x={x} y={y + R + 26 + i * 12} className="node-field">
@@ -176,34 +176,31 @@ export default function SystemPanel({ v }: { v: RunView }) {
   const extra = Object.keys(v.obs ?? {}).filter((k) => !fields.includes(k));
   const all = [...fields, ...extra].filter((k) => k !== "t");
   return (
-    <section className="panel system" aria-label="System">
-      <h2 className="panel-title">System {v.obsT != null && <span className="dim mono">t={v.obsT}</span>}</h2>
-      {v.manual && <p className="dim small">{v.manual.title}</p>}
+    <section className="system" aria-label="System">
       <Schematic manual={v.manual} obs={v.obs} />
-      <div className="last-action">
-        <span className="label">Last action</span>
-        <code className="mono">{fmtAction(v.lastAction)}</code>
-      </div>
-      <table className="obs">
-        <tbody>
+      <p className="system-caption">
+        {v.lastAction ? <><span>Last action</span> <code>{fmtAction(v.lastAction)}</code></> : <span>Waiting for the first observation</span>}
+        {v.obsT != null && <span className="system-t">t = {v.obsT}</span>}
+      </p>
+      {all.length > 0 && (
+        <dl className="signals">
           {all.map((k) => {
             const cur = v.obs?.[k];
             const prev = v.prevObs?.[k];
             const changed = v.prevObs != null && JSON.stringify(cur) !== JSON.stringify(prev);
             const delta = typeof cur === "number" && typeof prev === "number" ? cur - prev : null;
             return (
-              <tr key={k}>
-                <th scope="row" className="mono">{k}</th>
-                <td key={changed ? `c${v.obsTick}` : "s"} className={`mono ${changed ? "flash" : ""}`}>{fmt(cur)}</td>
-                <td className={`mono delta ${delta ? (delta > 0 ? "up" : "down") : ""}`}>
-                  {changed ? (delta != null ? (delta > 0 ? `+${fmt(delta)}` : fmt(delta)) : "•") : ""}
-                </td>
-              </tr>
+              <div key={k} className="signal">
+                <dt>{k.replace(/_/g, " ")}</dt>
+                <dd key={changed ? `c${v.obsTick}` : "s"} className={changed ? "flash" : ""}>
+                  {fmt(cur)}
+                  {changed && delta ? <span className={`delta ${delta > 0 ? "up" : "down"}`}>{delta > 0 ? `+${fmt(delta)}` : fmt(delta)}</span> : null}
+                </dd>
+              </div>
             );
           })}
-          {!all.length && <tr><td className="empty">Waiting for the first observation</td></tr>}
-        </tbody>
-      </table>
+        </dl>
+      )}
     </section>
   );
 }
