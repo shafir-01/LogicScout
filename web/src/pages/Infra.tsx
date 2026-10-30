@@ -32,6 +32,21 @@ function ObjTable({ rows }: { rows: Obj[] }) {
   );
 }
 
+const secs = (ms: unknown) => (typeof ms === "number" ? `${(ms / 1000).toFixed(1)} s` : "–");
+const big = (n: unknown) => (typeof n !== "number" ? "–" : n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)}K` : String(n));
+const LABELS: Record<string, string> = {
+  providers: "Provider", models: "Models", model_calls: "Model calls", latency_ms: "Response time", tokens: "Tokens",
+  error_rate: "Calls retried", tavily: "Public search",
+};
+
+function pretty(k: string, v: unknown): unknown {
+  if (k === "latency_ms" && isObj(v)) return `median ${secs(v.p50)} · slowest 5% ${secs(v.p95)}`;
+  if (k === "tokens" && isObj(v)) return `${big(v.prompt)} in · ${big(v.completion)} out`;
+  if (k === "error_rate" && typeof v === "number") return `${Math.round(v * 100)}%`;
+  if (typeof v === "number" && v >= 1e4) return big(v);
+  return v;
+}
+
 export default function Infra() {
   const [data, setData] = useState<unknown>(null);
   const [err, setErr] = useState<string | null>(null);
@@ -39,9 +54,10 @@ export default function Infra() {
 
   return (
     <main className="page">
-      <h1 className="page-title">Infrastructure</h1>
+      <h1 className="page-title">Under the hood</h1>
+      <p className="page-sub">Live numbers from this server.</p>
       {err && <p className="error" role="alert">{err}</p>}
-      {data == null && !err && <p className="dim">Loading…</p>}
+      {data == null && !err && <div className="skel skel-block" aria-busy="true" aria-label="Loading" />}
       {Array.isArray(data) && <div className="table-wrap"><ObjTable rows={data.filter(isObj)} /></div>}
       {isObj(data) && (
         <div className="table-wrap">
@@ -49,8 +65,8 @@ export default function Infra() {
             <tbody>
               {Object.entries(data).map(([k, v]) => (
                 <tr key={k}>
-                  <th scope="row">{k.replace(/_/g, " ")}</th>
-                  <td className="mono"><Value v={v} /></td>
+                  <th scope="row">{LABELS[k] ?? k.replace(/_/g, " ")}</th>
+                  <td className="mono"><Value v={pretty(k, v)} /></td>
                 </tr>
               ))}
             </tbody>

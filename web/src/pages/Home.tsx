@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { api, type Replay } from "../api";
+import { ApiError, api, type Replay } from "../api";
 import type { RunConfig, WorldManual } from "../types";
-import { go } from "../ui";
+import { go, humanGoal, shortTitle } from "../ui";
 
 type Item = { id: string; title: string; goal?: string };
 type Forge = { variant: string; manual: WorldManual };
@@ -56,24 +56,42 @@ function Picker({ items, value, onChange, onRegen }: { items: Item[]; value: str
 export default function Home() {
   const [worlds, setWorlds] = useState<WorldManual[] | null>(null);
   const [replays, setReplays] = useState<Replay[]>([]);
+  const [down, setDown] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [sel, setSel] = useState("");
   const [options, setOptions] = useState(false);
   const [briefing, setBriefing] = useState(true);
+  const [search, setSearch] = useState(true);
   const [transfer, setTransfer] = useState(false);
   const [busy, setBusy] = useState(false);
   const [forge, setForge] = useState<Forge | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    forgeNew().then(setForge);
-    api.worlds().then(setWorlds).catch((e: Error) => setErr(`Backend unavailable: ${e.message}`));
-    api.replays().then(setReplays).catch(() => setReplays([]));
-    api.health().then((h) => setBriefing(h.tavily_configured !== false)).catch(() => undefined);
-  }, []);
+    let alive = true;
+    forgeNew().then((f) => alive && f && setForge(f));
+    api.worlds()
+      .then((w) => { if (alive) { setWorlds(w); setDown(null); } })
+      .catch((e: Error) => { if (alive) setDown(e.message); });
+    api.replays().then((r) => alive && setReplays(r)).catch(() => undefined);
+    api.health().then((h) => {
+      if (!alive) return;
+      const ok = h.tavily_configured !== false;
+      setSearch(ok);
+      setBriefing(ok);
+    }).catch(() => undefined);
+    return () => { alive = false; };
+  }, [attempt]);
+
+  useEffect(() => {
+    if (!down) return;
+    const t = window.setTimeout(() => setAttempt((a) => a + 1), 5000);
+    return () => clearTimeout(t);
+  }, [down, attempt]);
 
   const items: Item[] = [
-    ...(forge ? [{ id: "forge", title: forge.manual.title || "Unknown system", goal: forge.manual.objectives?.[0]?.text }] : []),
-    ...(worlds ?? []).filter((w) => w.world_id !== "forge").map((w) => ({ id: w.world_id, title: w.title, goal: w.objectives?.[0]?.text })),
+    ...(forge ? [{ id: "forge", title: shortTitle("forge", forge.manual.title), goal: humanGoal(forge.manual.objectives?.[0]?.text) }] : []),
+    ...(worlds ?? []).filter((w) => w.world_id !== "forge").map((w) => ({ id: w.world_id, title: shortTitle(w.world_id, w.title), goal: humanGoal(w.objectives?.[0]?.text) })),
   ];
   const cur = items.some((x) => x.id === sel) ? sel : items[0]?.id ?? "";
 
@@ -82,42 +100,57 @@ export default function Home() {
     setBusy(true);
     setErr(null);
     try {
-      const cfg: RunConfig & { variant?: string } = { world_id: cur, use_briefing: briefing, use_transfer: transfer };
+      const cfg: RunConfig & { variant?: string } = { world_id: cur, use_briefing: briefing && search, use_transfer: transfer };
       if (cur === "forge" && forge) cfg.variant = forge.variant;
       const { run_id } = await api.startRun(cfg);
       go(`/run/${run_id}`);
     } catch (e) {
-      setErr((e as Error).message);
+      const status = e instanceof ApiError ? e.status : 0;
+      setErr(status >= 500 && status !== 503 ? "Couldn’t start. Try again." : (e as Error).message);
       setBusy(false);
     }
   };
 
   const replay = replays.find((r) => r.world_id === cur) ?? replays[0];
+  const loading = !worlds;
 
   return (
     <main className="home">
       <h1 className="headline">It has never seen this system.<br /><span>Watch it learn the rules.</span></h1>
 
-      {items.length > 0 && <Picker items={items} value={cur} onChange={setSel} onRegen={() => forgeNew().then((f) => f && setForge(f))} />}
-      {!worlds && !err && <div className="picker-skeleton" aria-hidden="true" />}
-      {items.length > 0 && <p className="goal" aria-live="polite">{items.find((x) => x.id === cur)?.goal}</p>}
+      {items.length > 0 && !loading
+        ? <Picker items={items} value={cur} onChange={setSel} onRegen={() => forgeNew().then((f) => f && setForge(f))} />
+        : <div className="picker-skeleton skel" aria-busy="true" aria-label="Loading systems" />}
+      <p className="goal" aria-live="polite">{loading ? " " : items.find((x) => x.id === cur)?.goal}</p>
 
       <div className="cta">
-        <button className="btn btn-primary btn-xl" onClick={start} disabled={busy || !cur}>{busy ? "Starting…" : "Start"}</button>
+        <button className="btn btn-primary btn-xl" onClick={start} disabled={busy || !cur || loading}>{busy ? "Starting…" : "Start"}</button>
         <button className="link-quiet" aria-expanded={options} aria-controls="options" onClick={() => setOptions(!options)}>
           Options <span className="chev" aria-hidden="true" />
         </button>
       </div>
       {options && (
         <div id="options" className="options">
-          <label className="switch"><input type="checkbox" checked={briefing} onChange={(e) => setBriefing(e.target.checked)} /><span>Public briefing</span></label>
-          <label className="switch"><input type="checkbox" checked={transfer} onChange={(e) => setTransfer(e.target.checked)} /><span>Transfer</span></label>
+          <label className={`switch${search ? "" : " is-off"}`}>
+            <input type="checkbox" checked={briefing && search} disabled={!search} onChange={(e) => setBriefing(e.target.checked)} />
+            <span>Look it up first<small>{search ? "Reads public sources before experimenting." : "Unavailable on this server."}</small></span>
+          </label>
+          <label className="switch">
+            <input type="checkbox" checked={transfer} onChange={(e) => setTransfer(e.target.checked)} />
+            <span>Reuse past lessons<small>Starts from rules learned on earlier systems.</small></span>
+          </label>
+        </div>
+      )}
+      {down && (
+        <div className="notice" role="alert">
+          <p>Can’t reach LogicScout. Retrying…</p>
+          <button className="btn" onClick={() => setAttempt((a) => a + 1)}>Try again</button>
         </div>
       )}
       {err && <p className="error" role="alert">{err}</p>}
 
       {replay && (
-        <a className="link-more recording" href={`#/replay/${encodeURIComponent(replay.name)}`}>Watch a recording</a>
+        <a className="btn recording" href={`#/replay/${encodeURIComponent(replay.name)}`}>Watch a recording</a>
       )}
     </main>
   );

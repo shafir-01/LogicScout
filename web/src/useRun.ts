@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import { api } from "./api";
+import { ApiError, api } from "./api";
 import { initialView, reducer } from "./state";
 import type { LSEvent } from "./types";
 
@@ -20,7 +20,7 @@ export type Conn = "connecting" | "open" | "retrying" | "closed";
 export function useRun(base: string | null) {
   const [view, dispatch] = useReducer(reducer, initialView);
   const [conn, setConn] = useState<Conn>("connecting");
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<{ message: string; status: number } | null>(null);
   const finishedRef = useRef(false);
   finishedRef.current = view.finished;
 
@@ -82,7 +82,18 @@ export function useRun(base: string | null) {
 
     api.run(base)
       .then((st) => { if (!cancelled) dispatch({ type: "state", state: st }); })
-      .catch((e: Error) => { if (!cancelled) setLoadError(e.message); });
+      .catch((e: Error) => {
+        if (cancelled) return;
+        const status = e instanceof ApiError ? e.status : 0;
+        setLoadError({ message: e.message, status });
+        if (status === 404 && lastId < 0) {
+          // Unknown run: stop retrying the stream.
+          cancelled = true;
+          es?.close();
+          if (timer) clearTimeout(timer);
+          setConn("closed");
+        }
+      });
     connect();
 
     return () => {

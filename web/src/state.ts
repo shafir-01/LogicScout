@@ -113,7 +113,6 @@ export function apply(s: RunView, ev: LSEvent): RunView {
         ...s, phase,
         finished: s.finished || ENDED.includes(phase),
         failed: s.failed || phase === "failed",
-        recovered: s.recovered || phase === "recovered",
       };
     }
     case "run.started":
@@ -199,7 +198,7 @@ export function apply(s: RunView, ev: LSEvent): RunView {
       return { ...s, timeline: tl };
     }
     case "shift.applied":
-      return { ...s, shifted: true, timeline: push({ kind: "shift", seq: ev.seq }) };
+      return { ...s, shifted: true, recovered: false, timeline: push({ kind: "shift", seq: ev.seq }) };
     case "drift.suspected":
       return {
         ...s, drift: s.drift === "confirmed" ? "confirmed" : "suspected",

@@ -82,6 +82,22 @@ export function Sparkline({ series, height = 44 }: { series: { values: number[];
   );
 }
 
+const SHORT: Record<string, string> = {
+  gate: "Job controller", orbit: "Orbit console", plant: "Water tank", relay: "Message relay", rover: "Survey rover",
+};
+
+/** Short, stable display name for a system (drops generated ids like "#694583"). */
+export function shortTitle(id: string, title?: string): string {
+  if (id === "forge") return "Unknown system";
+  return SHORT[id] ?? (title ?? id).replace(/\s*#\d+$/, "");
+}
+
+/** Objective text without code-ish operators or snake_case. */
+export function humanGoal(text?: string): string | undefined {
+  if (!text) return text;
+  return text.replace(/>=/g, "≥").replace(/<=/g, "≤").replace(/==/g, "=").replace(/!=/g, "≠").replace(/([a-z])_([a-z])/g, "$1 $2");
+}
+
 export function host(url: string): string {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
 }

@@ -19,7 +19,7 @@ function Theme() {
     try { localStorage.setItem("ls-theme", t); } catch { /* ignore */ }
   };
   return (
-    <button className="link small" onClick={flip} aria-label="Toggle theme">
+    <button className="link small nav-hit" onClick={flip} title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>
       {theme === "dark" ? "Light" : "Dark"}
     </button>
   );
@@ -39,7 +39,7 @@ function App() {
       <nav className="nav" aria-label="Main">
         <a href="#/" className="brand">LogicScout</a>
         <span className="spacer" />
-        <a href="#/infra" className="small">Infra</a>
+        <a href="#/infra" className="small nav-hit">Under the hood</a>
         <Theme />
       </nav>
       {page}

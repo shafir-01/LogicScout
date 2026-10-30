@@ -8,7 +8,7 @@ export function reached(v: RunView, i: number): boolean {
     case 1: return v.probeSteps > 0 || v.phase === "probing";
     case 2: return v.versions.length > 0 || !!v.playbook;
     case 3: return v.controlSteps > 0;
-    case 4: return v.shifted || v.drift !== "none" || v.driftRules.length > 0;
+    case 4: return v.shifted || v.drift === "confirmed" || v.driftRules.length > 0;
     case 5: return v.recovered;
   }
   return false;
@@ -32,11 +32,12 @@ export function currentStep(v: RunView): number {
     case "probing": return 1;
     case "theory": return 2;
     case "control":
-      if (v.drift === "suspected" || (v.drift === "confirmed" && !backInControl(v))) return 4;
+      if (v.drift === "confirmed" && !backInControl(v)) return 4;
+      if (v.shifted && !v.recovered) return backInControl(v) ? 3 : 4;
       if (v.recovered) return 5;
-      return v.shifted && !backInControl(v) ? 4 : 3;
-    case "drift": case "reprobing": return 4;
-    case "recovered": return 5;
+      return 3;
+    case "drift": case "reprobing": return v.shifted || v.drift === "confirmed" ? 4 : 3;
+    case "recovered": return v.recovered ? 5 : 3;
     default: return -1;
   }
 }

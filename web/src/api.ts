@@ -1,13 +1,29 @@
 import type { RunConfig, RunState, WorldManual } from "./types";
 
+export class ApiError extends Error {
+  constructor(message: string, readonly status: number) { super(message); }
+}
+
+const BUSY = "Busy — try again in a minute.";
+const OFFLINE = "Can’t reach LogicScout. Check your connection and try again.";
+
 async function req<T>(path: string, init?: RequestInit): Promise<T> {
-  const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...init });
-  if (!r.ok) {
-    let msg = `${r.status} ${r.statusText}`;
-    try { const j = await r.json(); msg = j.detail ? String(typeof j.detail === "string" ? j.detail : JSON.stringify(j.detail)) : msg; } catch { /* plain */ }
-    throw new Error(msg);
+  let r: Response;
+  try {
+    r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...init });
+  } catch {
+    throw new ApiError(OFFLINE, 0);
   }
-  return r.json() as Promise<T>;
+  if (!r.ok) {
+    let msg = "";
+    try { const j = await r.json(); msg = j.detail ? String(typeof j.detail === "string" ? j.detail : JSON.stringify(j.detail)) : ""; } catch { /* plain */ }
+    if (r.status === 429) msg = BUSY;
+    else if (r.status >= 502 && r.status <= 504 && !msg) msg = OFFLINE;
+    else if (!msg) msg = `Something went wrong (${r.status}). Try again.`;
+    else msg = msg[0].toUpperCase() + msg.slice(1).replace(/[.\s]*$/, ".");
+    throw new ApiError(msg, r.status);
+  }
+  try { return (await r.json()) as T; } catch { throw new ApiError(OFFLINE, 0); }
 }
 
 export interface Replay { name: string; world_id?: string; title?: string; run_id?: string; [k: string]: unknown }
