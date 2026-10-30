@@ -8,6 +8,7 @@ import WhatIf from "./WhatIf";
 
 function RuleRow({ r }: { r: Rule }) {
   const [open, setOpen] = useState(false);
+  const status = r.status === "supported" && r.confidence < 0.7 ? "tentative" : r.status;
   const dsl = [
     `action: ${r.action ?? "*"}`,
     `when:   ${r.when ?? "True"}`,
@@ -18,7 +19,7 @@ function RuleRow({ r }: { r: Rule }) {
   return (
     <li className={`rule rule-${r.status}`}>
       <div className="rule-top">
-        <Chip tone={statusTone(r.status)}>{r.status}</Chip>
+        <Chip tone={statusTone(status)}>{status}</Chip>
         <span className="rule-statement">{r.statement}</span>
       </div>
       <div className="rule-meta">
@@ -45,7 +46,18 @@ function TheoryTab({ v }: { v: RunView }) {
   const th = v.theory;
   const vs = [...v.versions].sort((a, b) => a.version - b.version);
   const order = { supported: 0, tentative: 1, refuted: 2, retired: 3 } as const;
-  const rules = [...(th?.rules ?? [])].sort((a, b) => order[a.status] - order[b.status]);
+  const [all, setAll] = useState(false);
+  const seen = new Set<string>();
+  const rules = [...(th?.rules ?? [])]
+    .sort((a, b) => order[a.status] - order[b.status] || b.confidence - a.confidence)
+    .filter((r) => {
+      const key = `${r.action ?? ""}|${r.when ?? ""}|${JSON.stringify(r.effects ?? {})}|${r.statement.trim().toLowerCase()}`;
+      const k2 = r.statement.trim().toLowerCase();
+      if (seen.has(key) || seen.has(k2)) return false;
+      seen.add(key); seen.add(k2);
+      return true;
+    });
+  const shown = all ? rules : rules.slice(0, 8);
   return (
     <div className="tab-body">
       <div className="kpis">
@@ -54,10 +66,11 @@ function TheoryTab({ v }: { v: RunView }) {
         <div><span className="label">Baseline</span><strong className="mono dim">{pct(vs.at(-1)?.baseline)}</strong></div>
       </div>
       <Sparkline series={[
-        { label: "theory", tone: "accent", values: vs.map((x) => x.accuracy) },
-        { label: "nothing-changes baseline", tone: "muted", values: vs.map((x) => x.baseline) },
+        { label: "its rules", tone: "accent", values: vs.map((x) => x.accuracy) },
+        { label: "if nothing changes", tone: "muted", values: vs.map((x) => x.baseline) },
       ]} />
-      <ul className="rules">{rules.map((r) => <RuleRow key={r.id} r={r} />)}</ul>
+      <ul className="rules">{shown.map((r) => <RuleRow key={r.id} r={r} />)}</ul>
+      {rules.length > 8 && <button className="link small" onClick={() => setAll(!all)}>{all ? "Show fewer" : `Show all ${rules.length} rules`}</button>}
       {!rules.length && <p className="empty">No rules yet</p>}
       {th?.unknowns && th.unknowns.length > 0 && (
         <>
@@ -174,16 +187,16 @@ function Bars({ rows }: { rows: { label: string; value: number; tone: "ok" | "ba
 
 function RefereeTab({ v }: { v: RunView }) {
   const r = v.referee;
-  if (!r) return <div className="tab-body"><p className="empty">The referee scores the run on held-out cases at the end.</p></div>;
+  if (!r) return <div className="tab-body"><p className="empty">At the end, an independent referee tests it on situations it never saw.</p></div>;
   const persistence = v.versions.at(-1)?.baseline ?? r.baselines?.persistence;
   const maxSteps = Math.max(1, ...r.cases.map((c) => c.steps));
   return (
     <div className="tab-body">
       <div className="kpis">
-        <div><span className="label">Held-out success</span><strong className="mono big">{pct(r.success_rate)}</strong></div>
+        <div><span className="label">Success on unseen tests</span><strong className="mono big">{pct(r.success_rate)}</strong></div>
         <div><span className="label">Cases</span><strong className="mono">{r.cases.filter((c) => c.success).length}/{r.cases.length}</strong></div>
       </div>
-      <h3 className="label">vs baselines</h3>
+      <h3 className="label">Compared with simple strategies</h3>
       <Bars rows={[
         { label: "LogicScout", value: r.success_rate, tone: "accent" },
         ...Object.entries(r.baselines ?? {}).map(([k, x]) => ({ label: k.replace(/_/g, " "), value: x, tone: "muted" as const })),
@@ -203,7 +216,7 @@ function RefereeTab({ v }: { v: RunView }) {
           </li>
         ))}
       </ul>
-      <h3 className="label">Leakage checks</h3>
+      <h3 className="label">Fairness checks</h3>
       <ul className="checks">
         {Object.entries(r.leakage_checks ?? {}).map(([k, ok]) => (
           <li key={k}><span className={`mark tone-${ok ? "ok" : "bad"}`}>{ok ? "✓" : "✗"}</span><span className="small">{k.replace(/_/g, " ")}</span><Chip tone={ok ? "ok" : "bad"}>{ok ? "pass" : "fail"}</Chip></li>

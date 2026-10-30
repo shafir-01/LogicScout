@@ -40,9 +40,9 @@ export default function WhatIf({ v, runId }: { v: RunView; runId?: string }) {
   const specs = v.manual?.actions ?? [];
   const [steps, setSteps] = useState<Action[]>([]);
   const [res, setRes] = useState<WhatIfResult | null>(null);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<"predict" | "test" | null>(null);
   const [err, setErr] = useState<string | null>(null);
-  if (!runId) return <div className="tab-body"><p className="empty">Live runs only</p></div>;
+  if (!runId) return <div className="tab-body"><p className="empty">Available during a live run.</p></div>;
   if (!v.theory) return <div className="tab-body"><p className="empty">No theory yet</p></div>;
 
   const edit = (i: number, a: Action | null) => {
@@ -50,13 +50,14 @@ export default function WhatIf({ v, runId }: { v: RunView; runId?: string }) {
     setRes(null);
   };
   const run = async (test: boolean) => {
-    setBusy(true); setErr(null);
-    try { setRes(await whatif(runId, steps, test)); } catch (e) { setErr((e as Error).message); } finally { setBusy(false); }
+    setBusy(test ? "test" : "predict"); setErr(null);
+    try { setRes(await whatif(runId, steps, test)); } catch (e) { setErr((e as Error).message); } finally { setBusy(null); }
   };
   const fields = res ? Object.keys(res.predicted[0] ?? {}).filter((f) => f !== "t") : [];
 
   return (
     <div className="tab-body">
+      {!steps.length && <p className="dim small">Add a few steps, then see what its rules predict, or test them on the real system.</p>}
       <ol className="whatif-steps">
         {steps.map((a, i) => {
           const spec = specs.find((s) => s.name === a.name);
@@ -76,14 +77,15 @@ export default function WhatIf({ v, runId }: { v: RunView; runId?: string }) {
         })}
       </ol>
       <div className="export-row">
-        <button className="btn" disabled={!specs.length || steps.length >= MAX} onClick={() => { setSteps((s) => [...s, blank(specs[0])]); setRes(null); }}>+ step</button>
-        <button className="btn primary" disabled={busy || !steps.length} onClick={() => run(false)}>Predict</button>
-        <button className="btn" disabled={busy || !steps.length} onClick={() => run(true)}>Test on the real system</button>
+        <button className="btn" disabled={!specs.length || steps.length >= MAX} onClick={() => { setSteps((s) => [...s, s.length ? { ...s[s.length - 1], args: { ...s[s.length - 1].args } } : blank(specs[0])]); setRes(null); }}>+ step</button>
+        <button className="btn primary" disabled={busy !== null || !steps.length} onClick={() => run(false)}>{busy === "predict" ? "Predicting…" : "Predict"}</button>
+        <button className="btn" disabled={busy !== null || !steps.length} onClick={() => run(true)}>{busy === "test" ? "Testing…" : "Test on the real system"}</button>
       </div>
       {err && <p className="small tone-bad">{err}</p>}
       {res && (
         <>
-          {res.match_rate != null && <div className="kpis"><div><span className="label">Match</span><strong className="mono big">{Math.round(res.match_rate * 100)}%</strong></div></div>}
+          {res.match_rate != null && <div className="kpis"><div><span className="label">Predictions that matched reality</span><strong className="mono big">{Math.round(res.match_rate * 100)}%</strong></div></div>}
+          <p className="dim small">{res.observed ? "Predicted values. Where reality differed, the actual value is shown in red." : "Predicted values."}</p>
           <div className="table-wrap">
             <table className="table compact">
               <thead><tr><th>#</th><th>action</th>{fields.map((f) => <th key={f}>{f}</th>)}</tr></thead>
@@ -97,7 +99,7 @@ export default function WhatIf({ v, runId }: { v: RunView; runId?: string }) {
                       return (
                         <td key={f} className={`mono small${ok === false ? " tone-bad" : ""}`}>
                           {show(p[f])}
-                          {res.observed && <>{ok ? " ✓" : ` ✗ ${show(res.observed[i]?.[f])}`}</>}
+                          {res.observed && ok === false && <> (actual {show(res.observed[i]?.[f])})</>}
                         </td>
                       );
                     })}

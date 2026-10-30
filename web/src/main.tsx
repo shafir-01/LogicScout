@@ -34,6 +34,8 @@ function App() {
   else if (parts[0] === "infra") page = <Infra />;
   else if (parts[0] === "dev") page = <Dev />;
   else page = <Home />;
+  const title = parts[0] === "run" ? "Live run" : parts[0] === "replay" ? "Recording" : parts[0] === "infra" ? "Under the hood" : "";
+  useEffect(() => { document.title = title ? `${title} · LogicScout` : "LogicScout"; }, [title]);
   return (
     <>
       <nav className="nav" aria-label="Main">

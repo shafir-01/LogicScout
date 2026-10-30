@@ -15,7 +15,7 @@ function ProbeRow({ it, hyps }: { it: ProbeItem; hyps: Record<string, Hypothesis
   return (
     <>
       <div className="tl-head">
-        <span className="tl-kind">Probe</span>
+        <span className="tl-kind">Experiment</span>
         <span className="mono dim small">{it.steps}/{it.probe.actions?.length ?? "?"} steps</span>
         {surprises.length > 0 && <Chip tone="warn" title={surprises.join("\n")}>! {surprises.length} surprise{surprises.length > 1 ? "s" : ""}</Chip>}
       </div>
@@ -56,26 +56,26 @@ function Row({ it, hyps }: { it: TimelineItem; hyps: Record<string, Hypothesis> 
       return (
         <div className="tl-head">
           <span className="tl-kind">Control</span>
-          <span>Episode {it.episode + 1}</span>
+          <span>Attempt {it.episode + 1}</span>
           <span className="mono dim small">{it.steps} steps</span>
           {it.goal ? <Chip tone="ok">✓ goal reached</Chip> : <Chip>running</Chip>}
-          {it.mismatches > 0 && <Chip tone="warn">{it.mismatches} off-prediction</Chip>}
+          {it.mismatches > 0 && <Chip tone="warn">{it.mismatches} missed {it.mismatches === 1 ? "prediction" : "predictions"}</Chip>}
         </div>
       );
     case "theory":
       return (
         <div className="tl-head">
-          <span className="tl-kind">Theory</span>
+          <span className="tl-kind">Rules</span>
           <span>v{it.version}</span>
-          <span className="mono small">accuracy {pct(it.accuracy)} <span className="dim">vs {pct(it.baseline)} baseline</span></span>
+          <span className="mono small">predicts {pct(it.accuracy)} <span className="dim">vs {pct(it.baseline)} if nothing changes</span></span>
           {it.note && <span className="dim small">{short(it.note, 120)}</span>}
         </div>
       );
     case "playbook":
       return (
         <div className="tl-head">
-          <span className="tl-kind">Playbook</span>
-          <span>{it.origin === "planner" ? "Planner" : "Compiled"}</span>
+          <span className="tl-kind">Plan</span>
+          <span>{it.origin === "planner" ? "Look-ahead planner" : "Written playbook"}</span>
           {it.simulated && (
             <Chip tone={it.simulated.success ? "ok" : "bad"}>
               simulated {it.simulated.success ? "✓" : "✗"} {it.simulated.steps != null ? `${it.simulated.steps} steps` : ""}
@@ -86,8 +86,8 @@ function Row({ it, hyps }: { it: TimelineItem; hyps: Record<string, Hypothesis> 
     case "rejected":
       return (
         <div className="tl-head">
-          <span className="tl-kind">Playbook</span>
-          <Chip tone="bad">rejected</Chip>
+          <span className="tl-kind">Plan</span>
+          <Chip tone="bad">failed in simulation</Chip>
           <span className="dim small">{short(it.text, 140)}</span>
         </div>
       );
@@ -102,7 +102,7 @@ function Row({ it, hyps }: { it: TimelineItem; hyps: Record<string, Hypothesis> 
       return (
         <>
           <div className="tl-head">
-            <span className="tl-kind alarm">Drift {it.level}</span>
+            <span className="tl-kind alarm">{it.level === "confirmed" ? "Change confirmed" : "Unexpected result"}</span>
             {it.surprise != null && <span className="mono small">surprise {fmt(it.surprise)}</span>}
             {it.rules?.map((r) => <Chip key={r} tone="bad">{r}</Chip>)}
           </div>
@@ -119,15 +119,15 @@ function Row({ it, hyps }: { it: TimelineItem; hyps: Record<string, Hypothesis> 
       return (
         <div className="tl-head">
           <span className="tl-kind ok">Recovered</span>
-          {it.stepsDown != null && <span className="mono small">{it.stepsDown} steps degraded</span>}
-          {it.probesUsed != null && <span className="mono small">{it.probesUsed} probes</span>}
+          {it.stepsDown != null && <span className="mono small">{it.stepsDown} steps after the change</span>}
+          {it.probesUsed != null && <span className="mono small">{it.probesUsed} experiments</span>}
         </div>
       );
     case "referee":
       return (
         <div className="tl-head">
           <span className="tl-kind">Referee</span>
-          <span className="mono">{pct(it.rate)} held-out success</span>
+          <span className="mono">{pct(it.rate)} success on unseen tests</span>
         </div>
       );
     case "note":

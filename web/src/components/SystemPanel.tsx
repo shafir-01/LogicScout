@@ -1,7 +1,14 @@
 import { useRef } from "react";
 import type { Dict, WorldManual } from "../types";
 import type { RunView } from "../state";
-import { fmt, fmtAction } from "../ui";
+import { fmt } from "../ui";
+import type { Action } from "../types";
+
+const words = (s: string) => s.replace(/_/g, " ");
+function actionText(a: Action): string {
+  const args = Object.entries(a.args ?? {}).map(([k, v]) => `${words(k)} ${fmt(v)}`).join(", ");
+  return args ? `${words(a.name)} · ${args}` : words(a.name);
+}
 
 type Node = { id: string; label: string; x?: number; y?: number; fields: string[] };
 type Edge = { from: string; to: string; label?: string };
@@ -179,8 +186,8 @@ export default function SystemPanel({ v }: { v: RunView }) {
     <section className="system" aria-label="System">
       <Schematic manual={v.manual} obs={v.obs} />
       <p className="system-caption">
-        {v.lastAction ? <><span>Last action</span> <code>{fmtAction(v.lastAction)}</code></> : <span>Waiting for the first observation</span>}
-        {v.obsT != null && <span className="system-t">t = {v.obsT}</span>}
+        {v.lastAction ? <><span>Last action</span> <strong className="system-act">{actionText(v.lastAction)}</strong></> : <span>{v.manual ? "Waiting for its first move" : " "}</span>}
+        {v.obsT != null && <span className="system-t">step {v.obsT}</span>}
       </p>
       {all.length > 0 && (
         <dl className="signals">
