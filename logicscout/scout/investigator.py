@@ -321,7 +321,7 @@ class Investigator:
         self._probe_n += 1
         return f"p{self._probe_n}"
 
-    # ------------------------------------------------------------------ 1. first contact
+    # ------------------------------------------------------------------ 1. first touch
 
     async def _first_touch(self) -> None:
         actions = [Action(name=a.name, args={p.name: self._rep_arg(p, 0) for p in a.params}) for a in self.manual.actions]

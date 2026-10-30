@@ -1,0 +1,47 @@
+import { StrictMode, useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import "./styles.css";
+import Home from "./pages/Home";
+import Run from "./pages/Run";
+import Infra from "./pages/Infra";
+import Dev from "./pages/Dev";
+import { useHashRoute } from "./ui";
+
+function Theme() {
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    try { return localStorage.getItem("ls-theme") === "light" ? "light" : "dark"; } catch { return "dark"; }
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem("ls-theme", theme); } catch { /* ignore */ }
+  }, [theme]);
+  return (
+    <button className="link small" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} aria-label="Toggle theme">
+      {theme === "dark" ? "Light" : "Dark"}
+    </button>
+  );
+}
+
+function App() {
+  const route = useHashRoute();
+  const parts = route.split("/").filter(Boolean);
+  let page;
+  if (parts[0] === "run" && parts[1]) page = <Run key={route} kind="run" id={decodeURIComponent(parts[1])} />;
+  else if (parts[0] === "replay" && parts[1]) page = <Run key={route} kind="replay" id={decodeURIComponent(parts[1])} />;
+  else if (parts[0] === "infra") page = <Infra />;
+  else if (parts[0] === "dev") page = <Dev />;
+  else page = <Home />;
+  return (
+    <>
+      <nav className="nav" aria-label="Main">
+        <a href="#/" className="brand">LogicScout</a>
+        <span className="spacer" />
+        <a href="#/infra" className="small">Infra</a>
+        <Theme />
+      </nav>
+      {page}
+    </>
+  );
+}
+
+createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);

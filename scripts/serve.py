@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import secrets
 import signal
 import subprocess
 import sys
@@ -13,6 +14,8 @@ GATE_MODULE = "logicscout.worlds.gate_service"
 
 def main() -> int:
     env = os.environ.copy()
+    if env.get("LS_SANDBOX_TOKEN", "") in ("", "dev-sandbox-token", "change-me"):
+        env["LS_SANDBOX_TOKEN"] = secrets.token_hex(16)  # never run a public deploy on a guessable admin token
     procs: list[subprocess.Popen] = []
     try:
         have_gate = importlib.util.find_spec(GATE_MODULE) is not None
