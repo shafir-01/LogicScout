@@ -1,0 +1,106 @@
+{
+ "world": "relay",
+ "arm": "full",
+ "seed": 1,
+ "lab_seed": 8,
+ "objective_id": "bulk8",
+ "elapsed_s": 121.1,
+ "phase": "done",
+ "wall_s": 121.1,
+ "model_calls": 22,
+ "failed_calls": 0,
+ "failure_rate": 0.0,
+ "tokens": 143094,
+ "latency_s": 100.76,
+ "models": [
+  "nvidia/Nemotron-3-Ultra-550b-a55b",
+  "nvidia/nemotron-3-super-120b-a12b"
+ ],
+ "success": 0.25,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.8875,
+ "persistence_accuracy": 0.7604,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": true,
+   "steps": 7,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": true,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "rules contradicted on held-out standard cases: R121 x1, R124 x2, R126 x3, R127 x4, R135 x4, R137 x1, R153 x2, R190 x1, R192 x2, R205 x1, R208 x2, R76 x4",
+  "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "f1ac2f2f95dcab6832aba5fa6fb12945cc96372b99cadd139301caf60e031793",
+ "status": "ok",
+ "probes_used": 100,
+ "probes_to_competence": 75,
+ "control_actions": 25,
+ "episodes": [
+  {
+   "seed": 8,
+   "success": false,
+   "steps": 4,
+   "true_success": false
+  },
+  {
+   "seed": 9,
+   "success": true,
+   "steps": 7,
+   "true_success": true
+  },
+  {
+   "seed": 10,
+   "success": true,
+   "steps": 7,
+   "true_success": true
+  },
+  {
+   "seed": 11,
+   "success": false,
+   "steps": 7,
+   "true_success": true
+  }
+ ],
+ "recovery": {
+  "detected_after_steps": null,
+  "reprobe_probes": 50,
+  "recovered": false,
+  "true_success_after_shift": null
+ },
+ "false_conclusions": {
+  "rules_refuted_in_run": 0,
+  "held_out_contradictions": 27
+ }
+}

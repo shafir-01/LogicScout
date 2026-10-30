@@ -1,0 +1,48 @@
+{
+ "world": "relay",
+ "arm": "zero_shot",
+ "seed": 1,
+ "lab_seed": 8,
+ "objective_id": "bulk8",
+ "elapsed_s": 27.6,
+ "status": "ok",
+ "wall_s": 27.5,
+ "model_calls": 36,
+ "failed_calls": 0,
+ "failure_rate": 0.0,
+ "tokens": 43986,
+ "latency_s": 27.52,
+ "models": [
+  "nvidia/nemotron-3-super-120b-a12b"
+ ],
+ "subset_success": 0.0,
+ "subset_cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 12,
+   "inadmissible": 0
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 12,
+   "inadmissible": 0
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 12,
+   "inadmissible": 0
+  }
+ ],
+ "subset_note": "first 3 referee cases, steps capped at 12",
+ "control_actions": 36,
+ "control_tokens": 43986,
+ "control_latency_s": 27.52,
+ "control_wall_s": 27.5,
+ "policy_failures": 0,
+ "leakage_checks": {
+  "no_law_text_in_prompts": true
+ }
+}

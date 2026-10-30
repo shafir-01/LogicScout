@@ -1,0 +1,130 @@
+{
+ "world": "relay",
+ "arm": "no_adaptation",
+ "seed": 1,
+ "lab_seed": 8,
+ "objective_id": "bulk8",
+ "elapsed_s": 79.2,
+ "phase": "done",
+ "wall_s": 79.2,
+ "model_calls": 14,
+ "failed_calls": 0,
+ "failure_rate": 0.0,
+ "tokens": 62741,
+ "latency_s": 61.68,
+ "models": [
+  "nvidia/Nemotron-3-Ultra-550b-a55b",
+  "nvidia/nemotron-3-super-120b-a12b"
+ ],
+ "success": 0.0,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.8927,
+ "persistence_accuracy": 0.7604,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": true,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "rules contradicted on held-out standard cases: R39 x4, R41 x4, R52 x2, R54 x4, R72 x3, R83 x1, R92 x3",
+  "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "15ab2ff679dce18d0b522c167dec299424530739685424c82c62ec97a336c9e1",
+ "status": "ok",
+ "probes_used": 62,
+ "probes_to_competence": null,
+ "control_actions": 320,
+ "episodes": [
+  {
+   "seed": 8,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 9,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 10,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 11,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 12,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 13,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 14,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 15,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  }
+ ],
+ "recovery": {
+  "detected_after_steps": null,
+  "reprobe_probes": 0,
+  "recovered": false,
+  "true_success_after_shift": 0.0
+ },
+ "false_conclusions": {
+  "rules_refuted_in_run": 0,
+  "held_out_contradictions": 21
+ }
+}

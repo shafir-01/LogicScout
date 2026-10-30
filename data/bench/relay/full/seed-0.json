@@ -1,0 +1,124 @@
+{
+ "world": "relay",
+ "arm": "full",
+ "seed": 0,
+ "lab_seed": 7,
+ "objective_id": "bulk8",
+ "elapsed_s": 152.7,
+ "phase": "done",
+ "wall_s": 152.2,
+ "model_calls": 23,
+ "failed_calls": 1,
+ "failure_rate": 0.0435,
+ "tokens": 137814,
+ "latency_s": 132.45,
+ "models": [
+  "nvidia/Nemotron-3-Ultra-550b-a55b",
+  "nvidia/nemotron-3-super-120b-a12b"
+ ],
+ "success": 0.5,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.901,
+ "persistence_accuracy": 0.7604,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": true,
+   "steps": 7,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": true,
+   "steps": 8,
+   "cost": 9.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": true,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "rules contradicted on held-out standard cases: R156 x2, R157 x4, R159 x1, R161 x2, R164 x1, R204 x2, R36 x4, R86 x2",
+  "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "f296d4f9adee14b512cf86403f328f37367969f2e94a1d8be0771b1a2841d50e",
+ "status": "ok",
+ "probes_used": 100,
+ "probes_to_competence": 75,
+ "control_actions": 67,
+ "episodes": [
+  {
+   "seed": 7,
+   "success": false,
+   "steps": 4,
+   "true_success": false
+  },
+  {
+   "seed": 8,
+   "success": true,
+   "steps": 13,
+   "true_success": true
+  },
+  {
+   "seed": 9,
+   "success": true,
+   "steps": 13,
+   "true_success": true
+  },
+  {
+   "seed": 10,
+   "success": true,
+   "steps": 13,
+   "true_success": true
+  },
+  {
+   "seed": 11,
+   "success": false,
+   "steps": 8,
+   "true_success": false
+  },
+  {
+   "seed": 12,
+   "success": false,
+   "steps": 8,
+   "true_success": true
+  },
+  {
+   "seed": 13,
+   "success": true,
+   "steps": 8,
+   "true_success": true
+  }
+ ],
+ "recovery": {
+  "detected_after_steps": 11,
+  "reprobe_probes": 50,
+  "recovered": true,
+  "true_success_after_shift": 0.667
+ },
+ "false_conclusions": {
+  "rules_refuted_in_run": 0,
+  "held_out_contradictions": 18
+ }
+}

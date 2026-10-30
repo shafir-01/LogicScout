@@ -1,0 +1,45 @@
+{
+ "world": "relay",
+ "arm": "code_only_no_model",
+ "seed": 1,
+ "status": "done",
+ "objective_id": "bulk8",
+ "wall_s": 19.7,
+ "model_calls": 0,
+ "tokens": 0,
+ "accuracy": 0.8801,
+ "baseline_accuracy": 0.6791,
+ "episodes": [
+  [
+   false,
+   40
+  ],
+  [
+   false,
+   15
+  ],
+  [
+   true,
+   8
+  ],
+  [
+   false,
+   8
+  ]
+ ],
+ "drift": {
+  "detected_after_steps": 45,
+  "probes": 44,
+  "recovered": true
+ },
+ "drift_confirmed": true,
+ "recovery_done": true,
+ "referee_success": 0.25,
+ "referee_acc": 0.8979,
+ "referee_baselines": {
+  "random": 0.0,
+  "idle": 0.0,
+  "persistence_accuracy": 0.7604
+ },
+ "referee_persistence": null
+}

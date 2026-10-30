@@ -1,0 +1,70 @@
+{
+ "world": "relay",
+ "arm": "random_probe",
+ "seed": 1,
+ "lab_seed": 8,
+ "objective_id": "bulk8",
+ "elapsed_s": 19.6,
+ "status": "ok",
+ "wall_s": 19.6,
+ "model_calls": 4,
+ "failed_calls": 0,
+ "failure_rate": 0.0,
+ "tokens": 15742,
+ "latency_s": 19.4,
+ "models": [
+  "nvidia/Nemotron-3-Ultra-550b-a55b"
+ ],
+ "success": 0.0,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.7604,
+ "persistence_accuracy": 0.7604,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 40,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 40,
+   "cost": 0.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": true,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "3cb8994d98e8881f6ce7502ac9ba015741840f10039c9f8e0a3d6073902ffcd6",
+ "probes_used": 50,
+ "fit_accuracy_on_own_data": 0.6975,
+ "false_conclusions": {
+  "rules_refuted_in_run": 0,
+  "held_out_contradictions": 0
+ }
+}
