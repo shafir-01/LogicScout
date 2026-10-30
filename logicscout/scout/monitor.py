@@ -18,6 +18,7 @@ from logicscout.contracts import Mismatch, Theory
 
 Status = Literal["ok", "suspected", "confirmed"]
 UNCOVERED_WEIGHT = 0.5
+PROVEN = 2
 
 
 def _key(m: Mismatch) -> list[str]:
@@ -40,6 +41,9 @@ class DriftMonitor:
         self.threshold, self.repeats, self.alpha, self.warmup = threshold, repeats, alpha, warmup
         self._defaults = (margin, slack, threshold, warmup)
         self.flaky: set[str] = set()  # implicated before, and re-investigation left them as they were
+        self.proven: Counter[str] = Counter()  # rule/field keys seen predicting correctly under control
+        self.failed: Counter[str] = Counter()  # ...and failing, counted once a step leaves the window
+        self.use_proven = False
         self.rules_implicated: list[str] = []
         self.reset(theory)
 
@@ -87,17 +91,35 @@ class DriftMonitor:
         for m in mismatches:
             ks = _key(m)
             ws = [self.confidence.get(k, UNCOVERED_WEIGHT) for k in ks]
+            if self.use_proven:  # a rule that never worked in this regime failing is ignorance, not change
+                ws = [w if self.trusted(k) else min(w, 0.1) for k, w in zip(ks, ws)]
             total += max(ws)
             keys.extend(ks)
         return total, sorted(set(keys))
 
+    def trusted(self, key: str) -> bool:
+        """A rule that has predicted right under control and rarely failed there. Fields no rule covers are
+        never trusted: their failure means the theory never knew, not that the system changed."""
+        if key.startswith("field:"):
+            return False
+        ok, bad = self.proven[key], self.failed[key]
+        return ok >= PROVEN and bad <= 0.15 * (ok + bad)
+
     def rate(self) -> float:
         return sum(s for s, _ in self.recent) / len(self.recent) if self.recent else 0.0
 
-    def observe(self, mismatches: list[Mismatch]) -> Status:
+    def observe(self, mismatches: list[Mismatch], correct: list[str] | None = None) -> Status:
+        """`correct`: keys (rule ids, or field:<name> when no rule covered it) that predicted right this step.
+        When given, only keys that have proven themselves before can raise an alarm."""
+        if correct is not None:
+            self.use_proven = True
         s, keys = self.surprise(mismatches)
+        if correct:
+            self.proven.update(set(correct))
         self.steps += 1
         self.last_surprise = s
+        if len(self.recent) == self.recent.maxlen:
+            self.failed.update(self.recent[0][1])
         self.recent.append((s, keys))
         if self.status == "confirmed":
             return self.status
@@ -126,7 +148,7 @@ class DriftMonitor:
         counts = Counter(k for _, ks in self.recent for k in ks)
         out = []
         for k, n in counts.most_common():
-            if k in self.flaky:
+            if k in self.flaky or (self.use_proven and not self.trusted(k)):
                 continue
             base_rate = self.base_fail[k] / self.base_steps if self.base_steps else 0.0
             if k.startswith("field:") or self.confidence.get(k, UNCOVERED_WEIGHT) < 0.6:

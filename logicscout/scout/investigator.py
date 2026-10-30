@@ -77,6 +77,7 @@ class Investigator:
         self._calls: dict[str, int] = dict.fromkeys(CALL_CAPS, 0)
         self._rng = random.Random(zlib.crc32(manual.world_id.encode()))
         self._tried: set[tuple[str, str, str]] = set()
+        self._fitted: set[str] = set()  # data-fitted rivals: judged by hit rate; model rivals must be exact
 
     # ------------------------------------------------------------------ main loop
 
@@ -481,6 +482,7 @@ class Investigator:
                 if self._rule_errors(rule, theory):
                     continue
                 ids.append(self._register(rule, rule.statement, "probe", rep, "fit").id)
+                self._fitted.add(ids[-1])
             if not ids:
                 continue
             q = f"How does {field} change " + ("on every step?" if action == "*" else f"after '{action}'"
@@ -522,6 +524,7 @@ class Investigator:
             rep = next((r.id for r in active if r.action == rule.action and r.when == rule.when
                         and set(r.effects) == {field}), None)
             h = self._register(rule, rule.statement, "probe", rep, "mined")
+            self._fitted.add(h.id)
             q = f"Does the mined rule for {field} hold?"
             self.log.append("hypothesis.proposed", {"hypothesis": h.model_dump(), "question": q + " (mined from experience)"})
             self._groups.append({"question": q, "ids": [h.id], "closed": False, "key": key})
@@ -795,7 +798,7 @@ class Investigator:
                     else:
                         right += 1
             self._attempts[hid] = self._attempts.get(hid, 0) + 1
-            if wrong and right >= MOSTLY_RIGHT * (right + misses) and right > base_right:
+            if wrong and hid in self._fitted and right >= MOSTLY_RIGHT * (right + misses) and right > base_right:
                 status = "supported"
                 reason = f"right {right}/{right + misses} times (current theory {base_right}); not exact"
             elif wrong:

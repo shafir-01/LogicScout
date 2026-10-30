@@ -290,7 +290,8 @@ class Mission:
         self.m.setdefault("time_to_competence", None)
         reprobes = refits = 0
         for ep, seed in enumerate(seeds):
-            if ep >= EPISODES and self.shift_at is None:
+            pending = self.config.shift_after is not None and not self.auto_shift_done
+            if ep >= EPISODES and self.shift_at is None and not pending:
                 break
             self.check_stop()
             result = await self.episode(ep, seed)
@@ -303,11 +304,7 @@ class Mission:
             if not result["success"] and not result["drift"] and refits < MAX_REFITS:
                 refits += 1
                 await self.refit(seeds[min(ep + 1, len(seeds) - 1)])
-            if result["drift"] and result["success"]:
-                self.note("goal reached despite the drift alarm; keeping the theory and recalibrating")
-                self.monitor.reset(self.theory)
-                self.calibrate()
-            elif result["drift"]:
+            if result["drift"]:
                 if reprobes >= MAX_REPROBES:
                     self.note("drift confirmed again but the re-investigation limit is reached")
                     break
@@ -334,6 +331,7 @@ class Mission:
             res = await self.act(action)
             new = res.observation
             mismatches = compare(predicted, new.fields, predictor.last_rules)
+            predictor_rules = {f: list(r[-1:]) for f, r in predictor.last_rules.items()}
             predictor.advance(new)
             policy.after_step(new)
             self.inv.transitions.append((obs, action, new))
@@ -348,7 +346,10 @@ class Mission:
                 self.wrong_actions += 1
             recent = (recent + mismatches)[-20:]
             obs = new
-            status = self.monitor.observe([m for m in mismatches if not self.within_resolution(m)])
+            wrong = {m.field for m in mismatches}
+            correct = [k for f in new.fields if f != "t" and f not in wrong
+                       for k in (predictor_rules.get(f) or [f"field:{f}"])]
+            status = self.monitor.observe([m for m in mismatches if not self.within_resolution(m)], correct)
             if status == "suspected" and self.state.phase != "drift":
                 self.phase("drift")
                 self.log.append("drift.suspected", {"mismatches": [m.model_dump() for m in mismatches],
