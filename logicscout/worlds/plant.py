@@ -65,9 +65,9 @@ class PlantWorld(World):
             probe_budget=50,
             lab_seeds=(0, 1000),
             briefing_topics=[
-                "centrifugal pump discharge pressure trip setpoint",
-                "tank level control transport delay dead time",
-                "control valve rate limit actuator",
+                "centrifugal pump high discharge pressure trip setpoint reset",
+                "tank level control transport delay dead time inflow",
+                "control valve opening outflow tank level",
             ],
             layout={
                 "kind": "graph",

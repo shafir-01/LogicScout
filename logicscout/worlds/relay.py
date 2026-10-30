@@ -63,9 +63,9 @@ class RelayWorld(World):
             probe_budget=50,
             lab_seeds=(0, 1000),
             briefing_topics=[
-                "delay tolerant networking store and forward contact windows",
-                "satellite uplink latency maritime messaging",
-                "solar powered ocean buoy communication battery duty cycle",
+                "store and forward messaging queue order FIFO",
+                "satellite uplink message latency maritime",
+                "ocean buoy solar battery transmit duty cycle low power",
             ],
             layout={
                 "kind": "graph",

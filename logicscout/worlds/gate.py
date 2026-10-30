@@ -68,8 +68,11 @@ class Gate(World):
             objectives=[Objective(id="commit5", text="Commit 5 jobs without triggering a lockout",
                                   success="obs.committed >= 5 and obs.lockouts == 0", horizon=40)],
             probe_budget=50,
-            briefing_topics=["REST API rate limiting token bucket 429 retry",
-                             "two-phase commit arm then execute command pattern"],
+            briefing_topics=[
+                "REST API rate limiting token bucket 429 retry after",
+                "two-phase commit arm then execute command timeout expires",
+                "API lockout after repeated failed requests 423 locked",
+            ],
             layout={"kind": "graph", "nodes": ["client", "gate", "jobs", "device"],
                     "edges": [["client", "gate"], ["gate", "jobs"], ["jobs", "device"]], "bind": {
                         "gate": ["last_status", "locked", "lockouts"], "jobs": ["jobs_draft", "jobs_armed"],

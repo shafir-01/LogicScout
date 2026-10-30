@@ -2,7 +2,7 @@ import httpx
 import pytest
 
 from logicscout.briefing import TavilyClient, TavilyError, brief, check
-from logicscout.contracts import ActionSpec, FieldSpec, Hypothesis, Objective, Rule, Theory, WorldManual
+from logicscout.contracts import Action, ActionSpec, Observation, FieldSpec, Hypothesis, Objective, Rule, Theory, WorldManual
 from logicscout.logbook import Logbook
 
 PAYLOAD = {
@@ -75,10 +75,12 @@ class FakeLLM:
 
 async def test_brief_builds_cited_hypotheses():
     llm = FakeLLM({"claims": [
-        {"claim": "Full queues drop new items", "sources": [1],
+        {"claim": "Full queues drop new items", "sources": [1], "quote": "Queues drop packets when full.",
          "rule": {"action": "send", "when": "obs.queue >= 3", "effects": {"dropped": "obs.dropped + 1"}}},
         {"claim": "bad field", "sources": [1], "rule": {"action": "send", "effects": {"nope": "1"}}},
         {"claim": "no source", "sources": [], "rule": {"action": "send", "effects": {"queue": "0"}}},
+        {"claim": "invented", "sources": [2], "quote": "Queues never drop anything ever.",
+         "rule": {"action": "send", "effects": {"queue": "0"}}},
     ]})
     log = Logbook("r")
     client = TavilyClient("k", transport=mock(lambda r: httpx.Response(200, json=PAYLOAD)))
@@ -86,6 +88,9 @@ async def test_brief_builds_cited_hypotheses():
     assert len(hyps) == 1
     h = hyps[0]
     assert h.source == "briefing" and h.rule.source == "briefing" and h.rule.citations == ["https://a.example/doc"]
+    claim = next(e for e in log.events if e.kind == "briefing.claim").data
+    assert claim["evidence"] == "Queues drop packets when full."
+    assert claim["citations"] == [{"url": "https://a.example/doc", "title": "A", "published_date": "2025-01-01"}]
     assert llm.calls[0][:2] == ("briefing_priors", "fast")
     assert "Queues drop packets" in llm.calls[0][2]
     kinds = [e.kind for e in log.events]
@@ -109,3 +114,45 @@ def test_check_maps_status():
     assert [r["status"] for r in res] == ["confirmed", "contradicted", "untested"]
     th = Theory(world_id="w", rules=[Rule(id="c", statement="c", status="refuted")])
     assert check([_hyp("c", "open")], th)[0]["status"] == "contradicted"
+
+
+async def test_search_params_exclude_dictionaries():
+    bodies = []
+    junk = {"results": [{"url": "https://x.example/ground", "title": "Ground - definition of ground", "content": "n."},
+                        *PAYLOAD["results"]]}
+
+    def h(req):
+        bodies.append(req.read().decode())
+        return httpx.Response(200, json=junk)
+
+    log = Logbook("r")
+    await brief(MANUAL, FakeLLM({"claims": []}), log, client=TavilyClient("k", transport=mock(h)))
+    assert '"search_depth": "advanced"' in bodies[0].replace('":"', '": "') or '"search_depth":"advanced"' in bodies[0]
+    assert "merriam-webster.com" in bodies[0] and "wiktionary.org" in bodies[0]
+    urls = [e.data["url"] for e in log.events if e.kind == "briefing.source"]
+    assert "https://x.example/ground" not in urls
+
+
+def _tr(t, act, before, after, **args):
+    return (Observation(t=t, fields=before), Action(name=act, args=args), Observation(t=t + 1, fields=after))
+
+
+def test_assess_from_transitions():
+    good = Hypothesis(id="g", statement="send empties queue", source="briefing",
+                      rule=Rule(id="g", statement="g", action="send", effects={"queue": "0"}, citations=["u"]))
+    bad = Hypothesis(id="b", statement="full queue drops", source="briefing",
+                     rule=Rule(id="b", statement="b", action="send", when="obs.queue >= 3",
+                               effects={"dropped": "obs.dropped + 1"}, citations=["u"]))
+    idle = Hypothesis(id="i", statement="wait does x", source="briefing",
+                      rule=Rule(id="i", statement="i", action="wait", effects={"queue": "9"}, citations=["u"]))
+    trs = [
+        _tr(0, "send", {"queue": 4, "dropped": 0}, {"queue": 0, "dropped": 0}),
+        _tr(1, "send", {"queue": 1, "dropped": 0}, {"queue": 0, "dropped": 0}),
+        _tr(2, "send", {"queue": 5, "dropped": 0}, {"queue": 0, "dropped": 0}),
+    ]
+    res = {r["rule_id"]: r for r in check([good, bad, idle], Theory(world_id="w"), trs)}
+    assert res["g"]["status"] == "confirmed" and res["g"]["fired"] == 3
+    assert res["b"]["status"] == "contradicted"
+    assert res["b"]["counterexample"] == "public docs predict dropped=1; observed dropped=0 at t=0 after send"
+    assert res["i"]["status"] == "untested"
+    assert res["g"]["citations"][0]["url"] == "u"

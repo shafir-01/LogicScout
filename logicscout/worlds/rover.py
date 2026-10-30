@@ -73,10 +73,9 @@ class RoverWorld(World):
             probe_budget=50,
             lab_seeds=(0, 1000),
             briefing_topics=[
-                "planetary rover motor thermal management duty cycle",
-                "rover instrument vibration settling time before measurement",
-                "wheeled rover energy consumption on rough terrain versus speed",
-                "sensor data processing latency in remote inspection robots",
+                "planetary rover motor overheating thermal limit drive duty cycle",
+                "rover instrument measurement blurred while moving vibration settling",
+                "rover energy consumption rough terrain versus smooth",
             ],
             layout={"kind": "track", "length": LENGTH, "bind": {
                 "position": "position", "sites": "sites", "terrain": "terrain_map",
@@ -113,10 +112,12 @@ class RoverWorld(World):
             if all(b - a >= 3 for a, b in zip(sites, sites[1:])):
                 break
         self.sites = sites
+        # the track surface is a fixed feature of the site; only the inspection sites vary by seed
+        trng = random.Random("rover:terrain")
         self.terrain_map = ["smooth"] * (LENGTH + 1)
         for _ in range(3):
-            start = rng.randint(1, LENGTH - 4)
-            for p in range(start, start + rng.randint(2, 4)):
+            start = trng.randint(1, LENGTH - 4)
+            for p in range(start, start + trng.randint(2, 4)):
                 self.terrain_map[p] = "rough"
         return self.observe()
 

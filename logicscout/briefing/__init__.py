@@ -1,4 +1,4 @@
-from logicscout.briefing.brief import brief, check
+from logicscout.briefing.brief import assess, brief, check
 from logicscout.briefing.tavily import Source, TavilyClient, TavilyError
 
-__all__ = ["brief", "check", "Source", "TavilyClient", "TavilyError"]
+__all__ = ["assess", "brief", "check", "Source", "TavilyClient", "TavilyError"]

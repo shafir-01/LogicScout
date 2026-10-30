@@ -60,10 +60,9 @@ class OrbitWorld(World):
             probe_budget=60,
             lab_seeds=(0, 1000),
             briefing_topics=[
-                "spacecraft payload power-on sequencing bus",
-                "CCD detector temperature stabilization before imaging",
-                "ground station pass downlink window LEO",
-                "onboard image storage management satellite",
+                "spacecraft payload power-on sequence bus must be powered first",
+                "satellite onboard storage full new image behaviour overwrite or reject",
+                "CCD detector temperature setpoint before imaging",
             ],
             layout={
                 "kind": "graph",
