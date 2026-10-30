@@ -136,6 +136,10 @@ def create_app() -> FastAPI:
     @app.post("/api/runs")
     async def create_run(cfg: RunConfig, request: Request):
         ip = request.client.host if request.client else "unknown"
+        try:  # bad input is a 400 whatever the server's own state is
+            R.check_variant(cfg.world_id, cfg.variant)
+        except ValueError as e:
+            raise HTTPException(400, f"cannot start run: {e}")
         if reg.live_count() >= config.MAX_LIVE_RUNS:
             raise HTTPException(429, "too many live runs; try again shortly")
         if not reg.check_ip(ip):
