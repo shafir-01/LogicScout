@@ -58,6 +58,7 @@ class WorldManual(BaseModel):
     lab_seeds: tuple[int, int] = (0, 1000)  # seeds the scout may reset to; referee uses others
     briefing_topics: list[str] = Field(default_factory=list)  # public-domain search topics
     layout: JSON = Field(default_factory=dict)  # visual hints for the UI only (nodes, edges, grid)
+    safety: list[str] = Field(default_factory=list)  # operator limits: DSL over obs.* that must always hold (public, not laws)
 
 
 class Action(BaseModel):
@@ -232,6 +233,8 @@ class RunConfig(BaseModel):
     use_briefing: bool = True  # Tavily public-knowledge priors
     use_transfer: bool = False  # mechanisms learned in other worlds
     probe_budget: int | None = None  # default: manual.probe_budget
+    use_model: bool = True  # False: every model call fails fast (code-only run, zero calls)
+    use_induction: bool = True  # False: no code-side rule fitting/mining (model-only hypotheses)
     shift_after: int | None = None  # auto hidden change after N control steps; None = only by button
 
 
@@ -293,6 +296,13 @@ class RefereeReport(BaseModel):
     leakage_checks: dict[str, bool] = Field(default_factory=dict)
     notes: list[str] = Field(default_factory=list)
     digest: str = ""
+    # Metrics that cannot hide behind quiet steps (held-out random-policy + controller trajectories).
+    changed_accuracy: float | None = None  # accuracy only on (step, field) pairs whose value changed
+    changed_baseline: float | None = None  # "nothing changes" on those same pairs: 0.0 by construction
+    rollout_accuracy: dict[int, float] = Field(default_factory=dict)  # k -> open-loop k-step accuracy
+    goal_field_accuracy: float | None = None  # accuracy on the fields the objective is defined over
+    n_transitions: int | None = None  # held-out transitions scored by the metrics above
+    n_changed: int | None = None  # (step, field) pairs that changed among them
 
 
 class RunState(BaseModel):

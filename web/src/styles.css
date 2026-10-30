@@ -288,6 +288,8 @@ select, input[type="number"], input[type="text"] {
 @keyframes jolt { 0%, 100% { transform: none; } 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
 .headline-s { font-size: clamp(28px, 4.4vw, 48px); line-height: 1.08; font-weight: 700; letter-spacing: -0.03em; text-wrap: balance; }
 .missing .goal { margin-top: 16px; }
+.live-why { margin: 16px auto 0; max-width: 640px; min-height: 3em; font-size: 15px; line-height: 1.45; color: var(--text-2); text-wrap: pretty; }
+.live-why-text { display: block; animation: rise 300ms var(--ease); }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 48px auto 0; max-width: 760px; }
@@ -342,6 +344,15 @@ select, input[type="number"], input[type="text"] {
 .track-pos circle { fill: var(--accent); transition: cx 0.3s var(--ease); }
 .system-caption { margin: 0; font-size: 13px; color: var(--text-2); display: flex; gap: 8px 14px; flex-wrap: wrap; justify-content: center; text-align: center; }
 .system-caption code, .system-act { color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
+.safety-line { margin: -4px 0 0; font-size: 12px; color: var(--text-2); }
+.safety-line.tone-warn { color: var(--warn); }
+.legend-line { margin: -6px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 12px; color: var(--text-2); }
+.legend-line span { display: inline-flex; align-items: center; gap: 6px; }
+.legend-line i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+.lg-fill { background: var(--accent); opacity: 0.5; }
+.lg-alarm { border: 2px solid var(--bad); }
+.lg-arrow { width: 16px !important; height: 2px !important; border-radius: 0 !important; background: var(--line-2); }
+.lg-dash { width: 2px !important; height: 12px !important; border-radius: 0 !important; border-left: 2px dashed var(--text-3); }
 .system-t { color: var(--text-3); font-variant-numeric: tabular-nums; }
 .signals { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 168px)); justify-content: center; gap: 8px; width: 100%; margin: 0; }
 .signal { background: var(--surface); border-radius: var(--r); padding: 10px 12px; min-width: 0; }
@@ -374,6 +385,7 @@ select, input[type="number"], input[type="text"] {
 .tab:hover { color: var(--text); }
 .tab[aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+.tab-hint { margin: -8px 0 16px; font-size: 14px; color: var(--text-2); }
 .tab-body { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .kpis { display: flex; gap: 32px; flex-wrap: wrap; }
 .kpis > div { display: flex; flex-direction: column; gap: 2px; }

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import type { Dict, WorldManual } from "../types";
-import type { RunView } from "../state";
+import { safetyCount, type RunView } from "../state";
 import { fmt } from "../ui";
 import type { Action } from "../types";
 
@@ -173,9 +173,25 @@ function Schematic({ manual, obs }: { manual: WorldManual | null; obs: Dict | nu
   const layout = manual?.layout;
   if (!layout || !Object.keys(layout).length) return null;
   const kind = layout.kind ?? (layout.nodes ? "graph" : "track");
-  if (kind === "graph") return <Graph layout={layout} obs={obs} />;
-  if (kind === "track") return <Track layout={layout} obs={obs} />;
+  if (kind === "graph") return (
+    <>
+      <Graph layout={layout} obs={obs} />
+      <p className="legend-line"><span><i className="lg-fill" />Fuller circle: higher reading</span><span><i className="lg-alarm" />Red ring: alarm</span><span><i className="lg-arrow" />Arrow: what feeds what</span></p>
+    </>
+  );
+  if (kind === "track") return (
+    <>
+      <Track layout={layout} obs={obs} />
+      <p className="legend-line"><span><i className="lg-fill" />Dot: where it is now</span><span><i className="lg-dash" />Dashed line: a target site</span></p>
+    </>
+  );
   return null;
+}
+
+function safetyLine(v: RunView) {
+  const n = safetyCount(v);
+  if (n == null) return null;
+  return <p className={`safety-line${n ? " tone-warn" : ""}`}>Safety limits kept: {n} {n === 1 ? "violation" : "violations"}</p>;
 }
 
 export default function SystemPanel({ v }: { v: RunView }) {
@@ -189,6 +205,7 @@ export default function SystemPanel({ v }: { v: RunView }) {
         {v.lastAction ? <><span>Last action</span> <strong className="system-act">{actionText(v.lastAction)}</strong></> : <span>{v.manual ? "Waiting for its first move" : " "}</span>}
         {v.obsT != null && <span className="system-t">step {v.obsT}</span>}
       </p>
+      {safetyLine(v)}
       {all.length > 0 && (
         <dl className="signals">
           {all.map((k) => {

@@ -1,0 +1,218 @@
+{
+ "world": "forge",
+ "variant": "x202",
+ "mode": "induction",
+ "seed": 1,
+ "probe_budget": 60,
+ "probes_used": 60,
+ "lab_steps": 60,
+ "wall_s": 44.6,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "tokens": 0,
+ "rules": 9,
+ "error": null,
+ "referee": {
+  "accuracy": 0.7256,
+  "changed_accuracy": 0.5014,
+  "persistence_accuracy": 0.5689,
+  "episodes": 6
+ },
+ "theory": {
+  "world_id": "forge",
+  "version": 15,
+  "parent": 14,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R33",
+    "statement": "After every step, gauge becomes max(obs.gauge + -1, 0) (fits 14/32 past steps)",
+    "kind": "transition",
+    "action": "*",
+    "when": "True",
+    "effects": {
+     "gauge": "max(obs.gauge + -1, 0)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.417,
+    "evidence": [
+     140,
+     142,
+     144
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R44",
+    "statement": "After every step on steps where t % 11 in [1, 8, 9], charge becomes obs.charge + 1 (mined from experience)",
+    "kind": "periodic",
+    "action": "*",
+    "when": "t % 11 in [1, 8, 9]",
+    "effects": {
+     "charge": "obs.charge + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.824,
+    "evidence": [
+     168,
+     175
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R5",
+    "statement": "After 'spin', phase_mark becomes 2 (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "spin",
+    "when": "True",
+    "effects": {
+     "phase_mark": "2"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.955,
+    "evidence": [
+     21,
+     26,
+     31
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R15",
+    "statement": "After 'vent', phase_mark becomes 3 (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "vent",
+    "when": "True",
+    "effects": {
+     "phase_mark": "3"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.909,
+    "evidence": [
+     72,
+     74,
+     75,
+     78
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R18",
+    "statement": "After 'press', phase_mark becomes 0 (fits 5/5 past steps)",
+    "kind": "transition",
+    "action": "press",
+    "when": "True",
+    "effects": {
+     "phase_mark": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.938,
+    "evidence": [
+     91,
+     92,
+     94
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R22",
+    "statement": "After 'vent', gauge becomes 0 (fits 6/7 past steps)",
+    "kind": "transition",
+    "action": "vent",
+    "when": "True",
+    "effects": {
+     "gauge": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.818,
+    "evidence": [
+     93,
+     98
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R24",
+    "statement": "After 'route', phase_mark becomes 1 (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "route",
+    "when": "True",
+    "effects": {
+     "phase_mark": "1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.947,
+    "evidence": [
+     90,
+     100
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R31",
+    "statement": "After 'route', gauge becomes 1 (fits 3/5 past steps)",
+    "kind": "transition",
+    "action": "route",
+    "when": "True",
+    "effects": {
+     "gauge": "1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.316,
+    "evidence": [
+     111,
+     119
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R37",
+    "statement": "After 'route', span becomes (obs.span - 1) if obs.span >= 2 else (obs.span) (fits 9/9 past steps)",
+    "kind": "transition",
+    "action": "route",
+    "when": "True",
+    "effects": {
+     "span": "(obs.span - 1) if obs.span >= 2 else (obs.span)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.947,
+    "evidence": [
+     141,
+     145
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [
+   "R18 vs R19: predict all experience equally (equivalent so far)"
+  ],
+  "note": "Cycle 15: more experience, no rule changes."
+ }
+}

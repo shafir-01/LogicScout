@@ -1,0 +1,227 @@
+{
+ "world": "forge",
+ "variant": "x202",
+ "mode": "induction",
+ "seed": 0,
+ "probe_budget": 60,
+ "probes_used": 60,
+ "lab_steps": 60,
+ "wall_s": 44.4,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "tokens": 0,
+ "rules": 9,
+ "error": null,
+ "referee": {
+  "accuracy": 0.7389,
+  "changed_accuracy": 0.5321,
+  "persistence_accuracy": 0.5689,
+  "episodes": 6
+ },
+ "theory": {
+  "world_id": "forge",
+  "version": 13,
+  "parent": 12,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R3",
+    "statement": "After every step, gauge becomes (max(obs.gauge + -1, 0) + 1) if (t + 1) % 2 == 1 else (0) (fits 6/7 past steps)",
+    "kind": "periodic",
+    "action": "*",
+    "when": "True",
+    "effects": {
+     "gauge": "(max(obs.gauge + -1, 0) + 1) if (t + 1) % 2 == 1 else (0)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.65,
+    "evidence": [
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     29
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R25",
+    "statement": "After every step, span becomes (obs.span - 1) if obs.span >= 1 else (obs.span) (fits 26/28 past steps)",
+    "kind": "transition",
+    "action": "*",
+    "when": "True",
+    "effects": {
+     "span": "(obs.span - 1) if obs.span >= 1 else (obs.span)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.939,
+    "evidence": [
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     114
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R5",
+    "statement": "After 'spin', phase_mark becomes 2 (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "spin",
+    "when": "True",
+    "effects": {
+     "phase_mark": "2"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.958,
+    "evidence": [
+     22,
+     31
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R7",
+    "statement": "After 'route', phase_mark becomes 1 (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "route",
+    "when": "True",
+    "effects": {
+     "phase_mark": "1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.944,
+    "evidence": [
+     44,
+     48
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R9",
+    "statement": "After 'vent', phase_mark becomes 3 (fits 3/3 past steps)",
+    "kind": "transition",
+    "action": "vent",
+    "when": "True",
+    "effects": {
+     "phase_mark": "3"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.933,
+    "evidence": [
+     45,
+     50
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R16",
+    "statement": "After 'vent', span becomes (obs.span - 1) if obs.span >= 1 else (obs.span) (fits 7/7 past steps)",
+    "kind": "transition",
+    "action": "vent",
+    "when": "True",
+    "effects": {
+     "span": "(obs.span - 1) if obs.span >= 1 else (obs.span)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.933,
+    "evidence": [
+     71,
+     74
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R18",
+    "statement": "After 'press', phase_mark becomes 0 (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "press",
+    "when": "True",
+    "effects": {
+     "phase_mark": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.909,
+    "evidence": [
+     85,
+     86
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R20",
+    "statement": "After 'press', charge becomes 1 (fits 3/4 past steps)",
+    "kind": "transition",
+    "action": "press",
+    "when": "True",
+    "effects": {
+     "charge": "1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.545,
+    "evidence": [
+     85,
+     88
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R37",
+    "statement": "After 'spin', gauge becomes 0 (fits 8/21 past steps)",
+    "kind": "transition",
+    "action": "spin",
+    "when": "True",
+    "effects": {
+     "gauge": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.417,
+    "evidence": [
+     171,
+     176
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [
+   "R9 vs R10: predict all experience equally (equivalent so far)",
+   "R18 vs R19: predict all experience equally (equivalent so far)",
+   "R20 vs R21: predict all experience equally (equivalent so far)"
+  ],
+  "note": "Learned: R37: After 'spin', gauge becomes 0 (fits 8/21 past steps)"
+ }
+}

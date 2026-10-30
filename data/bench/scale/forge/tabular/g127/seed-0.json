@@ -1,0 +1,82 @@
+{
+ "world": "forge",
+ "variant": "g127",
+ "arm": "tabular",
+ "seed": 0,
+ "lab_seed": 7,
+ "objective_id": "reach",
+ "shift_after": 40,
+ "elapsed_s": 0.3,
+ "status": "ok",
+ "wall_s": 0.3,
+ "model_calls": 0,
+ "tokens": 0,
+ "success": 0.0,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.81,
+ "persistence_accuracy": 0.61,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 27,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 27,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 27,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 27,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-4",
+   "success": false,
+   "steps": 27,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-5",
+   "success": false,
+   "steps": 27,
+   "cost": 0.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": false,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "changed-value accuracy 0.659 over 519 changed (step, field) pairs (persistence scores 0.0 there); open-loop rollout accuracy by horizon {1: 0.8965, 2: 0.8618, 3: 0.8252, 4: 0.8105, 5: 0.802}",
+  "no_law_text_in_prompts: unverified, no prompt log supplied",
+  "6 held-out cases; prediction accuracy over 180 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "0b96e46973e4cea2fba3dfd1076f9f41c5d3713a1238c96e4e5952e13b693ac0",
+ "n_cases": 6,
+ "successes": 0,
+ "probes_used": 120,
+ "table_rules": 3,
+ "fit_accuracy_on_own_data": 0.8083,
+ "playbook_origin": "planner"
+}

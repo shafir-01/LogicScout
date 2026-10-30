@@ -1,0 +1,61 @@
+{
+ "world": "forge",
+ "variant": "g103",
+ "arm": "idle",
+ "seed": 0,
+ "lab_seed": 7,
+ "objective_id": "reach",
+ "shift_after": 40,
+ "elapsed_s": 0.0,
+ "status": "ok",
+ "model_calls": 0,
+ "tokens": 0,
+ "probes_used": 0,
+ "n_cases": 6,
+ "successes": 0,
+ "success": 0.0,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 35,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 35,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 35,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 35,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-4",
+   "success": false,
+   "steps": 35,
+   "cost": 0.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-5",
+   "success": false,
+   "steps": 35,
+   "cost": 0.0,
+   "note": ""
+  }
+ ]
+}

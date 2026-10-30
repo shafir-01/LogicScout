@@ -1,10 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import type { RunView } from "../state";
+import { safetyCount, type RunView } from "../state";
 import type { Rule } from "../types";
 import { Chip, Meter, Sparkline, fmt, host, pct, statusTone } from "../ui";
 import Timeline, { focusSeq } from "./Timeline";
 import Debrief from "./Debrief";
 import WhatIf from "./WhatIf";
+import RuleViz from "./RuleViz";
+
+const CODEY = /[=<>(){}[\]%`|&*]|\b(obs|args|mem)\.|_[a-z]/i;
+const words = (s: string) => s.replace(/\b(obs|args|mem)\./g, "").replace(/_/g, " ");
+/** A sentence for a rule; formulas are summarized as "what it affects". */
+function plainRule(r: Rule): string {
+  if (!CODEY.test(r.statement)) return r.statement;
+  const fields = Object.keys(r.effects ?? {}).map(words);
+  const act = r.action && r.action !== "*" ? `After “${words(r.action)}”` : "After every step";
+  const cond = r.when && r.when !== "True" ? ", under some conditions," : "";
+  return fields.length ? `${act}${cond} it changes ${fields.join(", ")}.` : words(r.statement);
+}
 
 function RuleRow({ r }: { r: Rule }) {
   const [open, setOpen] = useState(false);
@@ -18,9 +30,10 @@ function RuleRow({ r }: { r: Rule }) {
   ].join("\n");
   return (
     <li className={`rule rule-${r.status}`}>
+      <RuleViz rule={r} />
       <div className="rule-top">
         <Chip tone={statusTone(status)}>{status}</Chip>
-        <span className="rule-statement">{r.statement}</span>
+        <span className="rule-statement">{plainRule(r)}</span>
       </div>
       <div className="rule-meta">
         <Meter value={r.confidence} tone={statusTone(r.status) === "muted" ? "accent" : statusTone(r.status)} label="confidence" />
@@ -35,9 +48,9 @@ function RuleRow({ r }: { r: Rule }) {
           </span>
         )}
         {r.citations?.map((u) => <a key={u} className="small" href={u} target="_blank" rel="noreferrer">{host(u)}</a>)}
-        <button className="link small" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "hide rule" : "rule"}</button>
+        <button className="link small" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Hide formula" : "Show formula"}</button>
       </div>
-      {open && <pre className="dsl mono">{dsl}</pre>}
+      {open && <>{plainRule(r) !== r.statement && <p className="small dim">{r.statement}</p>}<pre className="dsl mono">{dsl}</pre></>}
     </li>
   );
 }
@@ -61,9 +74,9 @@ function TheoryTab({ v }: { v: RunView }) {
   return (
     <div className="tab-body">
       <div className="kpis">
-        <div><span className="label">Theory</span><strong className="mono">v{th?.version ?? "–"}</strong></div>
-        <div><span className="label">Accuracy</span><strong className="mono">{pct(vs.at(-1)?.accuracy)}</strong></div>
-        <div><span className="label">Baseline</span><strong className="mono dim">{pct(vs.at(-1)?.baseline)}</strong></div>
+        <div><span className="label">Rules version</span><strong className="mono">{th?.version ?? "–"}</strong></div>
+        <div><span className="label" title="How often its rules correctly predict every reading one step ahead">Predicts the next step</span><strong className="mono">{pct(vs.at(-1)?.accuracy)}</strong></div>
+        <div><span className="label" title="Score from assuming nothing ever changes">Guess nothing changes</span><strong className="mono dim">{pct(vs.at(-1)?.baseline)}</strong></div>
       </div>
       <Sparkline series={[
         { label: "its rules", tone: "accent", values: vs.map((x) => x.accuracy) },
@@ -74,8 +87,8 @@ function TheoryTab({ v }: { v: RunView }) {
       {!rules.length && <p className="empty">No rules yet</p>}
       {th?.unknowns && th.unknowns.length > 0 && (
         <>
-          <h3 className="label">Unknowns</h3>
-          <ul className="plain">{th.unknowns.map((u, i) => <li key={i} className="small">? {u}</li>)}</ul>
+          <h3 className="label">Still unsure about</h3>
+          <ul className="plain">{th.unknowns.map((u, i) => <li key={i} className="small">{u}</li>)}</ul>
         </>
       )}
     </div>
@@ -92,15 +105,18 @@ function PlaybookTab({ v }: { v: RunView }) {
   return (
     <div className="tab-body">
       <div className="kpis">
-        <div><span className="label">Origin</span><strong>{pb.origin}</strong></div>
-        <div><span className="label">Theory</span><strong className="mono">v{pb.theory_version}</strong></div>
+        <div><span className="label">How it decides</span><strong>{pb.origin === "planner" ? "Looks ahead each step" : "Written checklist"}</strong></div>
+        <div><span className="label">Based on rules version</span><strong className="mono">{pb.theory_version}</strong></div>
         <div>
-          <span className="label">Simulated</span>
+          <span className="label" title="A practice run against its own rules, before touching the real system">Practice run</span>
           <strong className={`mono tone-${v.simulated?.success ? "ok" : v.simulated ? "bad" : "muted"}`}>
             {v.simulated ? `${v.simulated.success ? "✓" : "✗"} ${v.simulated.steps ?? ""}` : "–"}
           </strong>
         </div>
       </div>
+      {pb.origin === "planner" && pb.rules.length === 0 ? (
+        <p>No fixed checklist here. Each step it looks a few moves ahead using its learned rules and picks the best.</p>
+      ) : (
       <ol className="pb-rules">
         {pb.rules.map((r, i) => (
           <li key={i}>
@@ -111,11 +127,12 @@ function PlaybookTab({ v }: { v: RunView }) {
           </li>
         ))}
         <li>
-          <code className="mono when dim">otherwise</code>
+          <code className="mono when dim">if nothing else applies</code>
           <span className="arrow" aria-hidden="true">→</span>
           <code className="mono do">{tpl(pb.fallback)}</code>
         </li>
       </ol>
+      )}
       <p className="dim small">Runs without the model.</p>
     </div>
   );
@@ -185,10 +202,12 @@ function Bars({ rows }: { rows: { label: string; value: number; tone: "ok" | "ba
   );
 }
 
+const STRATEGY: Record<string, string> = { random: "Random moves", idle: "Doing nothing", greedy: "Simple greedy" };
+
 function RefereeTab({ v }: { v: RunView }) {
   const r = v.referee;
   if (!r) return <div className="tab-body"><p className="empty">At the end, an independent referee tests it on situations it never saw.</p></div>;
-  const persistence = v.versions.at(-1)?.baseline ?? r.baselines?.persistence;
+  const persistence = r.baselines?.persistence_accuracy ?? v.versions.at(-1)?.baseline ?? r.baselines?.persistence;
   const maxSteps = Math.max(1, ...r.cases.map((c) => c.steps));
   return (
     <div className="tab-body">
@@ -196,15 +215,37 @@ function RefereeTab({ v }: { v: RunView }) {
         <div><span className="label">Success on unseen tests</span><strong className="mono big">{pct(r.success_rate)}</strong></div>
         <div><span className="label">Cases</span><strong className="mono">{r.cases.filter((c) => c.success).length}/{r.cases.length}</strong></div>
       </div>
-      <h3 className="label">Compared with simple strategies</h3>
+      {(r.changed_accuracy != null || r.goal_field_accuracy != null) && (
+        <div className="kpis">
+          {r.changed_accuracy != null && (
+            <div><span className="label">Predicts changes correctly</span><strong className="mono">{pct(r.changed_accuracy)}</strong>
+              {r.changed_baseline != null && <span className="small dim">vs {pct(r.changed_baseline)} baseline</span>}
+              {r.n_changed != null && <span className="small dim">{r.n_changed} changes{r.n_transitions != null ? ` in ${r.n_transitions} steps` : ""}</span>}
+            </div>
+          )}
+          {r.goal_field_accuracy != null && <div><span className="label">Predicts the goal reading</span><strong className="mono">{pct(r.goal_field_accuracy)}</strong></div>}
+        </div>
+      )}
+      {r.rollout_accuracy && Object.keys(r.rollout_accuracy).length > 0 && (
+        <>
+          <h3 className="label">Looking ahead</h3>
+          <Bars rows={Object.entries(r.rollout_accuracy)
+            .sort(([a], [b]) => Number(a) - Number(b))
+            .map(([k, x]) => ({ label: `${k} ${Number(k) === 1 ? "step" : "steps"} ahead`, value: Number(x), tone: "accent" as const }))} />
+        </>
+      )}
+      {safetyCount(v) != null && <p className="small dim">Safety limits kept: {safetyCount(v)} {safetyCount(v) === 1 ? "violation" : "violations"}</p>}
+      <h3 className="label">Goal reached, compared with simple strategies</h3>
+      <p className="small dim">Same unseen situations, same time limit, different ways of acting.</p>
       <Bars rows={[
         { label: "LogicScout", value: r.success_rate, tone: "accent" },
-        ...Object.entries(r.baselines ?? {}).map(([k, x]) => ({ label: k.replace(/_/g, " "), value: x, tone: "muted" as const })),
+        ...Object.entries(r.baselines ?? {}).filter(([k]) => !k.endsWith("_accuracy"))
+          .map(([k, x]) => ({ label: STRATEGY[k] ?? k.replace(/_/g, " "), value: x, tone: "muted" as const })),
       ]} />
       <h3 className="label">Prediction accuracy</h3>
       <Bars rows={[
-        { label: "learned theory", value: r.prediction_accuracy, tone: "accent" },
-        ...(persistence != null && Number.isFinite(persistence) ? [{ label: "nothing changes", value: persistence, tone: "muted" as const }] : []),
+        { label: "its rules", value: r.prediction_accuracy, tone: "accent" },
+        ...(persistence != null && Number.isFinite(persistence) ? [{ label: "Guess nothing changes", value: persistence, tone: "muted" as const }] : []),
       ]} />
       <h3 className="label">Cases</h3>
       <ul className="bars">
@@ -279,15 +320,15 @@ function HiddenTab({ v, base }: TabProps) {
   return <div className="tab-body"><Debrief base={base} rules={v.theory?.rules ?? []} driftRules={v.driftRules} recoveryDiff={v.recoveryDiff} /></div>;
 }
 
-const TABS: { id: string; label: string; C: (p: TabProps) => JSX.Element | null }[] = [
-  { id: "experiments", label: "Experiments", C: ExperimentsTab },
-  { id: "theory", label: "Rules", C: TheoryTab },
-  { id: "playbook", label: "Playbook", C: PlaybookTab },
-  { id: "public", label: "Public vs observed", C: PublicTab },
-  { id: "referee", label: "Referee", C: RefereeTab },
-  { id: "model", label: "Model calls", C: ModelTab },
-  { id: "ask", label: "Ask", C: WhatIf },
-  { id: "hidden", label: "Hidden laws", C: HiddenTab },
+const TABS: { id: string; label: string; hint: string; C: (p: TabProps) => JSX.Element | null }[] = [
+  { id: "experiments", label: "Experiments", hint: "Every test it ran, what it expected, and what really happened.", C: ExperimentsTab },
+  { id: "theory", label: "Rules", hint: "What it believes about how the system works, with how sure it is and the evidence.", C: TheoryTab },
+  { id: "playbook", label: "Playbook", hint: "The step-by-step controller it wrote from its rules. It runs without any AI.", C: PlaybookTab },
+  { id: "public", label: "Public vs observed", hint: "What public sources claimed, and whether its own experiments agreed.", C: PublicTab },
+  { id: "referee", label: "Referee", hint: "An independent check on situations it never saw during learning.", C: RefereeTab },
+  { id: "model", label: "Model calls", hint: "Each time it asked the AI model to think: why, how long, and how many words.", C: ModelTab },
+  { id: "ask", label: "Ask", hint: "Try your own sequence of moves and compare its prediction with reality.", C: WhatIf },
+  { id: "hidden", label: "Hidden laws", hint: "The real rules of the system, revealed after the run so you can compare.", C: HiddenTab },
 ];
 
 export default function Tabs({ v, runId, base, request = null }: TabProps & { request?: TabRequest }) {
@@ -321,6 +362,7 @@ export default function Tabs({ v, runId, base, request = null }: TabProps & { re
             aria-controls={`panel-${t.id}`}
             tabIndex={tab === t.id ? 0 : -1}
             className="tab"
+            title={t.hint}
             onClick={() => setTab(t.id)}
           >
             {t.label}
@@ -329,6 +371,7 @@ export default function Tabs({ v, runId, base, request = null }: TabProps & { re
         ))}
       </div>
       <div role="tabpanel" id={`panel-${TABS[idx].id}`} aria-labelledby={`tab-${TABS[idx].id}`} className="tabpanel">
+        <p className="tab-hint">{TABS[idx].hint}</p>
         <Active v={v} runId={runId} base={base} />
       </div>
     </section>

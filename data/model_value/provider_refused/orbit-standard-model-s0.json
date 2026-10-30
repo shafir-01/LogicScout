@@ -1,0 +1,68 @@
+{
+ "world": "orbit",
+ "variant": "standard",
+ "mode": "model",
+ "seed": 0,
+ "probe_budget": 60,
+ "probes_used": 60,
+ "lab_steps": 60,
+ "wall_s": 5.6,
+ "model_calls": 5,
+ "failed_calls": 5,
+ "tokens": 0,
+ "rules": 0,
+ "error": null,
+ "referee": {
+  "accuracy": 0.8833,
+  "changed_accuracy": 0.0,
+  "persistence_accuracy": 0.8833,
+  "episodes": 2
+ },
+ "theory": {
+  "world_id": "orbit",
+  "version": 15,
+  "parent": 14,
+  "memory": {},
+  "rules": [],
+  "unknowns": [],
+  "note": "Cycle 15: more experience, no rule changes."
+ },
+ "laws": {
+  "bus off clears payload": {
+   "n": 17,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "bus warm-up before payload": {
+   "n": 36,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "capture validity (band, calibration)": {
+   "n": 43,
+   "accuracy": 0.651,
+   "persistence": 0.651
+  },
+  "downlink only in passes": {
+   "n": 27,
+   "accuracy": 0.704,
+   "persistence": 0.704
+  },
+  "lagged temperature": {
+   "n": 720,
+   "accuracy": 0.39,
+   "persistence": 0.39
+  },
+  "storage overwrite": {
+   "n": 17,
+   "accuracy": 0.471,
+   "persistence": 0.471
+  }
+ },
+ "held_out_play": {
+  "accuracy": 0.8878,
+  "changed_accuracy": 0.0,
+  "persistence_accuracy": 0.8878,
+  "episodes": 24
+ }
+}

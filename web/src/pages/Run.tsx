@@ -3,7 +3,9 @@ import { ApiError, api, runBase } from "../api";
 import PhaseRail from "../components/PhaseRail";
 import SystemPanel from "../components/SystemPanel";
 import Tabs, { type TabRequest } from "../components/Tabs";
-import { BigNumbers, LiveSentence } from "../components/Stage";
+import ChangeCard from "../components/ChangeCard";
+import { BigNumbers, LiveSentence, WhyLine } from "../components/Stage";
+import StoryStrip from "../components/StoryStrip";
 import type { RunView } from "../state";
 import { useRun, type Conn } from "../useRun";
 import { go, humanGoal, shortTitle } from "../ui";
@@ -134,7 +136,9 @@ export function RunLayout({
         <PhaseRail v={v} />
         <FirstVisitHint />
         <LiveSentence v={v} pendingShift={pending || queued != null} />
+        <WhyLine v={v} />
         <BigNumbers v={v} />
+        <StoryStrip v={v} />
         <div className="stage-actions">
           {showShift && runId && (
             <ShiftControl v={v} runId={runId} ready={!!v.playbook} onApply={(k) => { setErr(null); setQueued(k); }} onError={setErr} />
@@ -143,6 +147,7 @@ export function RunLayout({
           {v.finished && controls && <button className="btn" onClick={() => go("/")}>Try another system</button>}
         </div>
         {err && <p className="error" role="alert">{err}</p>}
+        {v.shifted && base && <ChangeCard v={v} base={base} onHidden={!controls && v.finished ? () => open("hidden") : undefined} />}
       </section>
 
       <section className="visual" aria-label="System">

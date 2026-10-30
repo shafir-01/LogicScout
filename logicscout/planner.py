@@ -176,3 +176,151 @@ class PlannerPolicy:
 
 def _lit(v: Any) -> str:
     return repr(v)
+
+
+def goal_fields(success_expr: str) -> set[str]:
+    """Observation fields the success expression reads (obs.x or obs['x'])."""
+    out: set[str] = set()
+    try:
+        tree = ast.parse(success_expr.strip(), mode="eval")
+    except SyntaxError:
+        return out
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name) and node.value.id == "obs":
+            out.add(node.attr)
+        elif (isinstance(node, ast.Subscript) and isinstance(node.value, ast.Name) and node.value.id == "obs"
+              and isinstance(node.slice, ast.Constant) and isinstance(node.slice.value, str)):
+            out.add(node.slice.value)
+    return out
+
+
+class RobustPlannerPolicy:
+    """Plans against every still-plausible theory instead of one best guess.
+
+    Each candidate first action is scored by its WORST lookahead value across the theories (maximin),
+    then by how many goal fields the theories disagree on for that step (fewer is safer), then by the
+    mean value. With a single theory it behaves exactly like PlannerPolicy. Drop-in Policy:
+    reset / next_action / after_step / as_playbook_stub.
+    """
+
+    def __init__(self, theories: list[Theory], manual: WorldManual, objective: Objective, depth: int = 5,
+                 beam: int = 24):
+        if not theories:
+            raise ValueError("need at least one theory")
+        self.theories, self.manual, self.objective = list(theories), manual, objective
+        self.theory = self.theories[0]
+        self.depth, self.beam = depth, beam
+        self.goal = goal_fields(objective.success)
+        self.candidates = candidate_actions(manual)
+        if not self.candidates:
+            raise ValueError("manual has no actions to plan with")
+        self._single = PlannerPolicy(self.theory, manual, objective, depth, beam) if len(self.theories) == 1 else None
+        self.preds = [Predictor(t) for t in self.theories]
+        self.last_plan: list[Action] = []
+        self.last_disagreement: list[str] = []
+        self.last_scores: dict[str, dict] = {}
+
+    def reset(self) -> None:
+        if self._single is not None:
+            self._single.reset()
+        self.preds = [Predictor(t) for t in self.theories]
+        self.last_plan, self.last_disagreement, self.last_scores = [], [], {}
+
+    def _success(self, obs: Observation, mem: dict) -> bool:
+        return bool(safe_evaluate(self.objective.success, {"obs": obs.fields, "args": {}, "mem": mem, "t": obs.t}))
+
+    def _values(self, pred: Predictor, obs: Observation) -> list[float]:
+        """Best lookahead value reachable after each candidate first action, inside one theory. The beam
+        also keeps (up to beam/2 extra) the best node of first actions that fell out of it, so fewer of them
+        are judged on one step alone."""
+        n = len(self.candidates)
+        vals = [-1e9] * n
+        beams: list[tuple[tuple[int, ...], Predictor, Observation]] = [((), pred.clone(), obs)]
+        for d in range(self.depth):
+            expanded: list[tuple[float, tuple[int, ...], Predictor, Observation]] = []
+            seen: set[str] = set()
+            for seq, p0, o0 in beams:
+                for i, action in enumerate(self.candidates):
+                    p = p0.clone()
+                    o = Observation(t=o0.t + 1, fields=p.predict(o0, action))
+                    p.advance(o)
+                    s = seq + (i,)
+                    if self._success(o, p.mem):
+                        val = SUCCESS - d
+                    else:
+                        val = progress(self.objective.success, o, p.mem) - 0.001 * d
+                    if val > vals[s[0]]:
+                        vals[s[0]] = val
+                    if val < SUCCESS - self.depth:
+                        k = f"{s[0]}|{_key(o, p)}"
+                        if k not in seen:
+                            seen.add(k)
+                            expanded.append((val, s, p, o))
+            expanded.sort(key=lambda e: (-e[0], e[1]))
+            keep = expanded[: self.beam]
+            have = {e[1][0] for e in keep}
+            for e in expanded[self.beam:]:
+                if len(keep) >= self.beam + self.beam // 2:
+                    break
+                if e[1][0] not in have:
+                    have.add(e[1][0])
+                    keep.append(e)
+            beams = [(s, p, o) for _, s, p, o in keep]
+            if not beams:
+                break
+        return vals
+
+    def _disagree(self, obs: Observation, action: Action) -> list[str]:
+        outs = [p.clone().predict(obs, action) for p in self.preds]
+        fields = sorted({f for o in outs for f in o if f != "t"})
+        return [f for f in fields if any(not _same_value(outs[0].get(f), o.get(f)) for o in outs[1:])]
+
+    def _sync(self, pred: Predictor, obs: Observation) -> None:
+        if pred.obs is None or pred.obs.t != obs.t or pred.obs.fields != obs.fields:
+            if pred.obs is None or obs.t <= pred.obs.t:
+                pred.reset(obs)
+            else:
+                pred.obs = obs
+
+    def next_action(self, obs: Observation) -> Action:
+        if self._single is not None:
+            action = self._single.next_action(obs)
+            self.last_plan = self._single.last_plan
+            self.last_disagreement = []
+            return action
+        for p in self.preds:
+            self._sync(p, obs)
+        per = [self._values(p, obs) for p in self.preds]
+        best_key, best_i = None, 0
+        scores: dict[str, dict] = {}
+        for i, action in enumerate(self.candidates):
+            vs = [v[i] for v in per]
+            worst, mean = min(vs), sum(vs) / len(vs)
+            risky = [f for f in self._disagree(obs, action) if f in self.goal]
+            key = (round(worst, 6), -len(risky), round(mean, 6), -i)
+            scores[f"{action.name}{json.dumps(action.args, sort_keys=True, default=str)}"] = {
+                "worst": round(worst, 4), "mean": round(mean, 4), "disagree": risky}
+            if best_key is None or key > best_key:
+                best_key, best_i = key, i
+        action = self.candidates[best_i]
+        self.last_scores = scores
+        self.last_plan = [action]
+        self.last_disagreement = self._disagree(obs, action)
+        for p in self.preds:
+            p.predict(obs, action)  # stage so after_step can commit memory / delayed effects
+        return action
+
+    def after_step(self, obs: Observation) -> None:
+        if self._single is not None:
+            self._single.after_step(obs)
+            return
+        for p in self.preds:
+            p.advance(obs)
+
+    def as_playbook_stub(self) -> Playbook:
+        return PlannerPolicy(self.theory, self.manual, self.objective).as_playbook_stub()
+
+
+def _same_value(a: Any, b: Any) -> bool:
+    from logicscout.theory import _eq
+    return _eq(a, b)

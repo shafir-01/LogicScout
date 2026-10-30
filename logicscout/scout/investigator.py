@@ -11,7 +11,7 @@ import re
 import zlib
 from typing import Any
 
-from logicscout import dsl
+from logicscout import dsl, safety
 from logicscout.contracts import (
     Action, Hypothesis, Mismatch, Observation, Probe, ProbeOutcome, Rule, Theory, WorldManual, WorldPort,
 )
@@ -51,12 +51,13 @@ def _short(v: Any) -> str:
 
 class Investigator:
     def __init__(self, llm, port: WorldPort, manual: WorldManual, log: Logbook,
-                 priors: list[Hypothesis] | None = None) -> None:
+                 priors: list[Hypothesis] | None = None, use_induction: bool = True) -> None:
         self.llm = llm
         self.port = port
         self.manual = manual
         self.log = log
         self.priors = list(priors or [])
+        self.use_induction = use_induction
         self.transitions: list[Transition] = []
         self.hypotheses: dict[str, Hypothesis] = {}
         self.probes_used = 0
@@ -78,6 +79,7 @@ class Investigator:
         self._rng = random.Random(zlib.crc32(manual.world_id.encode()))
         self._tried: set[tuple[str, str, str]] = set()
         self._fitted: set[str] = set()  # data-fitted rivals: judged by hit rate; model rivals must be exact
+        self.equivalent_rules: dict[str, list[str]] = {}  # adopted rule id -> rival rule ids that fit equally well
 
     # ------------------------------------------------------------------ main loop
 
@@ -99,7 +101,7 @@ class Investigator:
                     and self._accuracy(theory) >= TARGET_ACCURACY):
                 break
             cycles += 1
-            if not self._induce(theory):
+            if self.use_induction and not self._induce(theory):
                 self._mine(theory)
             if not any(g.get("model") for g in self._open_groups()):
                 await self._hypothesize(theory, focus)
@@ -249,7 +251,7 @@ class Investigator:
         """No probes left: fit rules to the most recent experience only (the current regime) and keep each
         one that raises accuracy on it. Returns the theory unchanged when nothing helps."""
         recent = self.transitions[-window:]
-        if len(recent) < 8:
+        if len(recent) < 8 or not self.use_induction:
             return theory
         new = self._base(theory)
         try:
@@ -458,6 +460,8 @@ class Investigator:
     # ------------------------------------------------------------------ 2b. data-fitted rivals
 
     def _fits(self) -> list[dict]:
+        if not self.use_induction:
+            return []
         try:
             return induce.induce(self.manual, self.transitions)
         except Exception as e:
@@ -722,6 +726,7 @@ class Investigator:
         best = await self._searched_probe(theory, groups)
         if best:
             cands.append(best)
+        cands = __import__("logicscout.scout.novelty", fromlist=["merge"]).merge(self, theory, groups, cands)  # probes beyond rival disagreement
         for c in cands:
             c["actions"] = c["actions"][: self.budget_left]
         cands = [c for c in cands if c["actions"]]
@@ -739,9 +744,15 @@ class Investigator:
         scored = []
         for c in cands:
             start = current if c["seed"] is None else starts[c["seed"]]
+            keep = safety.safe_prefix(self._base(theory), start, c["actions"], self.manual)  # safe exploration
+            if keep == 0:
+                continue
+            c["actions"] = c["actions"][:keep]
             score, preds = self._score(theory, groups, start, c["actions"]) if groups else (0.0, {})
             score += self._novelty(c["actions"], inert)
             scored.append((score, -len(c["actions"]), c, preds))
+        if not scored:
+            return None
         best_i = max(range(len(scored)), key=lambda k: (scored[k][0], scored[k][1], -k))
         score, _, best, preds = scored[best_i]
         probe = Probe(id=self._new_probe_id(), purpose=best["purpose"], hypotheses=hyps, seed=best["seed"],
@@ -780,6 +791,9 @@ class Investigator:
                 except Exception:
                     preds[hid] = _strip_t(obs.fields)
                     rules[hid] = ([], {})
+            if "_base" in preds and safety.new_violations(self.manual, obs.fields, preds["_base"]):
+                self.log.append("note", {"text": f"probe {probe.id} stopped: next step predicted to break a safety limit"})
+                break
             res = await asyncio.to_thread(self.port.act, action)
             self.probes_used += 1
             self.budget_left -= 1
@@ -791,6 +805,7 @@ class Investigator:
             if res.error:
                 data["error"] = res.error
             ev = self.log.append("probe.step", data)
+            safety.record(self.log, self.manual, obs, nxt)
             rec["observations"].append(nxt)
             if not res.error:
                 self.transitions.append((obs, action, nxt))
@@ -874,8 +889,11 @@ class Investigator:
             if not sup:
                 continue
             cur = self._accuracy(new)
-            best = max(sup, key=lambda i: (self._accuracy(self._with(new, i)), -list(self.hypotheses).index(i)))
+            accs = {i: self._accuracy(self._with(new, i)) for i in sup}
+            best = max(sup, key=lambda i: (accs[i], -list(self.hypotheses).index(i)))
             cand = self._with(new, best)
+            # rivals that explain all experience exactly as well are not identified: keep them, marked
+            twins = [self.hypotheses[i].rule.id for i in sup if i != best and abs(accs[i] - accs[best]) <= 1e-9]
             if self._accuracy(cand) + 1e-9 >= cur:
                 self._adopted.update(sup)
                 rep = self._replaces.get(best)
@@ -886,7 +904,10 @@ class Investigator:
                 rule.status = "supported"
                 rule.evidence = sorted(set(self._evidence.get(best, [])))
                 new = cand
-                learned.append(f"{rule.id}: {rule.statement}")
+                learned.append(f"{rule.id}: {rule.statement}"
+                               + (f" (equivalent so far: {', '.join(twins)})" if twins else ""))
+                if twins:
+                    self.equivalent_rules[rule.id] = twins
         for h in self.hypotheses.values():
             if h.status == "refuted":
                 for r in new.rules:
@@ -907,6 +928,11 @@ class Investigator:
             if s and s["fired"]:
                 r.confidence = round((s["correct"] + 1) / (s["fired"] + 2), 3)
         new.unknowns = self._unknowns or new.unknowns
+        live = {r.id for r in new.rules if r.status in ("tentative", "supported")}
+        equiv = {k: v for k, v in self.equivalent_rules.items() if k in live}
+        new.unknowns = list(new.unknowns) + [q for q in (
+            f"{k} vs {', '.join(v)}: predict all experience equally (equivalent so far)" for k, v in equiv.items())
+            if q not in new.unknowns]
         new.version = old.version + 1
         new.parent = old.version
         new.note = ("Learned: " + "; ".join(learned)) if learned else f"Cycle {cycle}: more experience, no rule changes."
@@ -915,7 +941,7 @@ class Investigator:
             base_acc = persistence_accuracy(self.transitions)
         except Exception:
             base_acc = 0.0
-        self.log.append("theory.revised", {"theory": new.model_dump(), "diff": diff(old, new),
+        self.log.append("theory.revised", {"theory": new.model_dump(), "diff": {**diff(old, new), "equivalent_rules": equiv},
                                            "accuracy": round(acc, 4), "baseline_accuracy": round(base_acc, 4)})
         return new
 

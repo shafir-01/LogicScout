@@ -1,0 +1,173 @@
+{
+ "world": "orbit",
+ "variant": "standard",
+ "mode": "induction",
+ "seed": 0,
+ "probe_budget": 60,
+ "probes_used": 60,
+ "lab_steps": 60,
+ "wall_s": 43.8,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "tokens": 0,
+ "rules": 5,
+ "error": null,
+ "referee": {
+  "accuracy": 0.9021,
+  "changed_accuracy": 0.1823,
+  "persistence_accuracy": 0.8833,
+  "episodes": 2
+ },
+ "theory": {
+  "world_id": "orbit",
+  "version": 11,
+  "parent": 10,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R6",
+    "statement": "After 'heater', heater_on becomes args.state == 'on' (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "heater",
+    "when": "True",
+    "effects": {
+     "heater_on": "args.state == 'on'"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.923,
+    "evidence": [
+     53,
+     55,
+     57,
+     59,
+     64
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R8",
+    "statement": "After 'power' when args.unit == 'bus', bus_on becomes args.state == 'on' (fits 6/6 past steps)",
+    "kind": "transition",
+    "action": "power",
+    "when": "args.unit == 'bus'",
+    "effects": {
+     "bus_on": "args.state == 'on'"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.889,
+    "evidence": [
+     77,
+     82
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R12",
+    "statement": "After 'power' when args.state == 'on', bus_on becomes args.unit == 'bus' (fits 7/7 past steps)",
+    "kind": "transition",
+    "action": "power",
+    "when": "args.state == 'on'",
+    "effects": {
+     "bus_on": "args.unit == 'bus'"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.909,
+    "evidence": [
+     78,
+     86
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R26",
+    "statement": "After 'heater' when args.state == 'on', temp becomes max(obs.temp + -0.1, 0.1) (fits 2/4 past steps)",
+    "kind": "transition",
+    "action": "heater",
+    "when": "args.state == 'on'",
+    "effects": {
+     "temp": "max(obs.temp + -0.1, 0.1)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.571,
+    "evidence": [
+     129,
+     135
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R31",
+    "statement": "After 'power' when obs.temp > 0.15, temp becomes obs.temp * 0.75 (mined from experience)",
+    "kind": "transition",
+    "action": "power",
+    "when": "obs.temp > 0.15",
+    "effects": {
+     "temp": "obs.temp * 0.75"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.571,
+    "evidence": [
+     153,
+     155,
+     160
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [],
+  "note": "Learned: R31: After 'power' when obs.temp > 0.15, temp becomes obs.temp * 0.75 (mined from experience)"
+ },
+ "laws": {
+  "bus off clears payload": {
+   "n": 17,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "bus warm-up before payload": {
+   "n": 36,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "capture validity (band, calibration)": {
+   "n": 43,
+   "accuracy": 0.651,
+   "persistence": 0.651
+  },
+  "downlink only in passes": {
+   "n": 27,
+   "accuracy": 0.704,
+   "persistence": 0.704
+  },
+  "lagged temperature": {
+   "n": 720,
+   "accuracy": 0.428,
+   "persistence": 0.39
+  },
+  "storage overwrite": {
+   "n": 17,
+   "accuracy": 0.471,
+   "persistence": 0.471
+  }
+ },
+ "held_out_play": {
+  "accuracy": 0.9054,
+  "changed_accuracy": 0.2247,
+  "persistence_accuracy": 0.8878,
+  "episodes": 24
+ }
+}

@@ -15,16 +15,18 @@ from pathlib import Path
 from typing import Any, Callable
 
 from logicscout import config as cfg
+from logicscout import safety
 from logicscout.contracts import (
     LLM, Action, Event, Hypothesis, Mismatch, ModelCall, Objective, Observation, Phase, RunConfig, RunState, Theory,
     WorldManual,
 )
 from logicscout.dsl import safe_evaluate
 from logicscout.logbook import Logbook
-from logicscout.scout import synth
+from logicscout.scout import rivals, synth
 from logicscout.scout.investigator import Investigator
 from logicscout.scout.monitor import DriftMonitor
 from logicscout.scout.transfer import MechanismLibrary
+from logicscout.scout.trial import reality_trial
 from logicscout.theory import Predictor, accuracy, compare, persistence_accuracy
 
 EPISODES = 4
@@ -32,6 +34,7 @@ MAX_EPISODES = 8  # extra episodes are allowed only while a hidden change is sti
 MAX_REPROBES = 3
 MAX_REFITS = 3
 REFIT_BUDGET = 6
+MAX_TRIALS = 2  # reality trials per compile; each one spends real steps from the adaptation allowance
 REPROBE_CAPS = {"hypothesize": 2, "design_probe": 1, "revise_theory": 1}  # model calls are finite
 RefereeFn = Callable[..., Any]
 
@@ -86,6 +89,7 @@ class _Mirror:
         m.setdefault("tokens", 0)
         m.setdefault("model_ids", [])
         m.setdefault("probes_used", 0)
+        m.setdefault("safety_violations", 0)
 
     async def _run(self) -> None:
         while True:
@@ -108,6 +112,8 @@ class _Mirror:
                 for h in s.hypotheses:
                     if h.id == d.get("id"):
                         h.status = status
+            elif ev.kind == "safety.violation":
+                m["safety_violations"] = m.get("safety_violations", 0) + 1
             elif ev.kind == "probe.step":
                 m["probes_used"] = m.get("probes_used", 0) + 1
             elif ev.kind == "model.call":
@@ -146,6 +152,11 @@ class Mission:
         self.truth: list[dict[str, Any]] = []  # private ground-truth per episode, merged at the end
         self.wrong_actions = 0
         self.reprobed_since_shift = False
+        self.trial_port_factory: Callable[[], Any] | None = None  # opens a separate session (mission side)
+        self.shift_log: list[tuple[int, str | None]] = []  # replayed on the trial session so it matches
+        self._trial_session: Any = None
+        self._trial_shifts = 0
+        self._trials_run = 0
 
     # ---- helpers -------------------------------------------------------------------------
     def phase(self, p: Phase, **data: Any) -> None:
@@ -210,6 +221,7 @@ class Mission:
         else:
             rec = self.session.admin.shift(seed)
         self.shifts += 1
+        self.shift_log.append((seed, kind))
         self.private_dir.mkdir(parents=True, exist_ok=True)
         path = self.private_dir / "private.json"
         try:
@@ -260,7 +272,8 @@ class Mission:
 
         self.phase("probing")
         self.budget = self.config.probe_budget or manual.probe_budget
-        self.inv = Investigator(self.llm, self.port, manual, self.log, priors)
+        kw = {} if getattr(self.config, "use_induction", True) else {"use_induction": False}
+        self.inv = Investigator(self.llm, self.port, manual, self.log, priors, **kw)
         self.theory = await self.inv.investigate(Theory(world_id=manual.world_id), self.budget)
         self.sync_hypotheses()
         self.phase("theory")
@@ -277,6 +290,98 @@ class Mission:
         self.policy, self.playbook = await synth.synthesize(self.llm, self.theory, self.manual, self.objective,
                                                             self.log, start, attempts=synth.RETRIES + 1 if model else 0)
         self.state.playbook = self.playbook
+        await self.trial_gate(seed, model)
+
+    # ---- reality trial: the controller must work on the real system, not only inside the theory ----
+    def _trial_port(self) -> Any:
+        """Mission side: one extra sandbox session for reality trials, kept in step with the hidden changes
+        applied to the operated system. Only its port reaches the trial."""
+        if self._trial_session is None:
+            self._trial_session = self.trial_port_factory()
+        s = self._trial_session
+        admin = getattr(s, "admin", None)
+        while admin is not None and self._trial_shifts < len(self.shift_log):
+            seed, kind = self.shift_log[self._trial_shifts]
+            try:
+                admin.shift(seed, kind=kind) if kind else admin.shift(seed)
+            except TypeError:
+                admin.shift(seed)
+            except Exception as e:
+                self.note(f"the trial copy could not apply a hidden change ({type(e).__name__})")
+            self._trial_shifts += 1
+        return getattr(s, "port", s)
+
+    def _trial_seed(self, operate_seed: int) -> int:
+        self._trials_run += 1
+        for s in episode_seeds(self.manual, operate_seed + 101 + 37 * self._trials_run, 4):
+            if s != operate_seed:
+                return s
+        return operate_seed
+
+    async def trial_gate(self, seed: int, model: bool) -> None:
+        if self.trial_port_factory is None:
+            if not self.m.get("trials"):
+                self.m["trials"] = {"run": 0, "rejected": 0, "steps": 0, "skipped": True}
+                self.note("reality trial skipped: no separate sandbox session; the controller was checked "
+                          "only inside the learned theory")
+            return
+        stats = self.m.setdefault("trials", {"run": 0, "rejected": 0, "steps": 0})
+        stats.pop("skipped", None)
+        for k in range(MAX_TRIALS):
+            cap = min(self.objective.horizon, max(0, MAX_TRIALS * self.objective.horizon - stats["steps"]))  # own allowance, not probes
+            if cap <= 0:
+                self.note("reality trial skipped: the trial allowance is spent")
+                return
+            pb, theory = self.playbook, self.theory
+            try:
+                res = await reality_trial(lambda: safety.SafeGuard(synth.make_policy(pb, theory, self.manual, self.objective),
+                                                                    theory, self.manual), theory,
+                                          self._trial_port, self.manual, self.objective, self._trial_seed(seed),
+                                          max_steps=cap, ignore=self.within_resolution)
+            except Exception as e:
+                self.log.append("error", {"message": f"reality trial failed to run: {type(e).__name__}: {e}"})
+                return
+            self.mirror.drain()
+            stats["run"] += 1
+            stats["steps"] += res["steps"]
+            stats["rejected"] += not res["accepted"]
+            self.inv.transitions.extend(res["transitions"])  # trial experience is experience
+            for b, act, a in res["transitions"]:
+                safety.record(self.log, self.manual, b, a)
+            self.log.append("playbook.trial", {
+                "playbook_id": pb.id, "origin": pb.origin, "theory_version": theory.version, "attempt": k,
+                **{key: res[key] for key in ("predicted_success", "predicted_steps", "real_success", "mismatch_rate",
+                                             "steps", "truncated", "seed", "accepted", "reason")},
+            })
+            if res["accepted"]:
+                return
+            if k == MAX_TRIALS - 1:
+                self.note("the controller failed its reality trial again; it is deployed under drift monitoring "
+                          "(trial limit reached)")
+                return
+            prev_phase = self.state.phase
+            self.phase("reprobing")
+            self.note("reality trial failed: returning to investigation with the trial experience")
+            before = self.theory.version
+            budget = self.adapt_budget(REFIT_BUDGET)
+            if budget > 0:
+                self.theory = await self.inv.investigate(self.theory, budget=budget,
+                                                         caps={"hypothesize": 0, "design_probe": 0, "revise_theory": 0})
+            elif callable(getattr(self.inv, "refit_recent", None)):
+                self.theory = self.inv.refit_recent(self.theory)
+            self.sync_hypotheses()
+            self.score_theory()
+            self.phase(prev_phase)
+            self.check_stop()
+            if self.theory.version == before:
+                self.note("the trial experience did not change the theory; the controller is deployed under "
+                          "drift monitoring")
+                return
+            start = await self.reset(seed)
+            self.policy, self.playbook = await synth.synthesize(self.llm, self.theory, self.manual, self.objective,
+                                                                self.log, start,
+                                                                attempts=synth.RETRIES + 1 if model else 0)
+            self.state.playbook = self.playbook
 
     async def control(self) -> None:
         self.phase("control")
@@ -318,6 +423,9 @@ class Mission:
     async def episode(self, ep: int, seed: int) -> dict[str, Any]:
         obs = await self.reset(seed)
         policy = synth.make_policy(self.playbook, self.theory, self.manual, self.objective)
+        if self.playbook.origin == "planner":  # plan against every theory still consistent with experience
+            policy = rivals.robust_policy(policy, self.theory, self.inv, self.manual, self.objective)
+        policy = safety.SafeGuard(policy, self.theory, self.manual)  # operator limits, enforced on predictions
         predictor = Predictor(self.theory)
         predictor.reset(obs)
         recent: list[Mismatch] = []
@@ -346,6 +454,7 @@ class Mission:
                 "observation": new.model_dump(), "mismatches": [m.model_dump() for m in mismatches],
                 **({"error": res.error} if res.error else {}),
             })
+            safety.record(self.log, self.manual, obs, new)
             if self.shift_at is not None and mismatches and not out["after_reprobe"]:
                 self.wrong_actions += 1
             recent = (recent + mismatches)[-20:]
@@ -379,6 +488,7 @@ class Mission:
                 break
             if res.done:
                 break
+        self.m["safety_blocked"] = self.m.get("safety_blocked", 0) + policy.blocked
         out["true_success"] = await self.true_success()
         return out
 
@@ -491,6 +601,7 @@ async def run_mission(
     controls: MissionControls | None = None,
     prompt_log: Path | None = None,
     referee: RefereeFn | None = None,
+    trial_port_factory: Callable[[], Any] | None = None,
 ) -> RunState:
     """Run the full arc. Never raises: failures end in phase "failed" with everything preserved.
     The caller owns the logbook and closes it. Pass `referee` (logicscout.referee.evaluate) to score the run."""
@@ -502,6 +613,7 @@ async def run_mission(
         previous = llm.on_call
         llm.on_call = call_recorder(log, previous)
     mission = Mission(config, log, llm, session, state, controls, prompt_log, referee, mirror)
+    mission.trial_port_factory = trial_port_factory  # opens a separate session of the same world/variant
     try:
         await mission.run()
         mission.phase("done")

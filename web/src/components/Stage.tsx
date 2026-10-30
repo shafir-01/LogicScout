@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { EpisodeItem, ProbeItem, RunView, TimelineItem } from "../state";
-import { pct } from "../ui";
+import { fmt, pct } from "../ui";
 import { backInControl } from "./PhaseRail";
 
 type Tone = "" | "ok" | "bad" | "warn";
@@ -82,7 +82,8 @@ export function liveSentence(v: RunView, pendingShift = false): { text: string; 
       return { text: n ? `${plural(n, "guess", "guesses")} so far. Designing a first experiment.` : "Forming first guesses about how it works.", tone: "" };
     }
     case "theory": {
-      const last = [...v.timeline].reverse().find((t) => t.kind === "theory" || t.kind === "playbook" || t.kind === "rejected");
+      const last = [...v.timeline].reverse().find((t) => t.kind === "theory" || t.kind === "playbook" || t.kind === "rejected" || t.kind === "trial");
+      if (last?.kind === "trial") return last.real ? { text: "Tested the plan on a fresh copy. It worked.", tone: "ok" } : { text: "Tested the plan on a fresh copy. It failed, so it’s revising.", tone: "warn" };
       if (last?.kind === "rejected") return { text: `Its plan failed in simulation. Revising (try ${rejects + 1}).`, tone: "warn" };
       if (last?.kind === "playbook") return { text: last.simulated?.success && last.simulated.steps ? `Plan ready. In simulation it reaches the goal in ${plural(last.simulated.steps, "step")}.` : "Plan ready.", tone: "" };
       if (last?.kind === "theory") return { text: `Its rules now predict ${pct(last.accuracy)} of what happens next.`, tone: "" };
@@ -142,6 +143,56 @@ function useDwell(next: { text: string; tone: Tone }, urgent: boolean, ms = 1500
   return shown;
 }
 
+/** One plain sentence explaining what the latest step means. */
+export function whatJustHappened(v: RunView): string {
+  if (v.failed) return "The run hit an error and stopped. Nothing after this point was learned.";
+  if (v.finished) {
+    if (v.referee) return "A separate referee ran its controller on fresh situations it never saw while learning. Open Details for the evidence.";
+    return "The run is over. Open Details to see every experiment and the rules it learned.";
+  }
+  const last = v.timeline[v.timeline.length - 1];
+  if (v.phase === "briefing" && (!last || last.kind === "note")) return "It searches public sources for how systems like this usually behave. These are only guesses until its own experiments test them.";
+  if (v.phase === "encounter") return "It only knows the system’s buttons and readings. No manual, no hidden rules.";
+  if (!last) return v.phase === "probing" ? "It proposes competing ideas about how the system works, then designs a test that can tell them apart." : "";
+  switch (last.kind) {
+    case "probe": {
+      const outs = Object.values(last.hypOutcomes);
+      const ok = outs.filter((o) => o.status === "supported").length;
+      const no = outs.filter((o) => o.status === "refuted").length;
+      if (last.outcome) return `It made ${plural(last.steps || last.probe.actions?.length || 0, "move")} and compared the readings with each idea: ${ok} confirmed, ${no} ruled out.`;
+      return "It picked a short sequence of moves where its competing ideas predict different readings, so the result will tell them apart.";
+    }
+    case "theory":
+      return Number.isFinite(last.baseline)
+        ? `It rewrote its rules. They now predict ${pct(last.accuracy)} of the next readings correctly, versus ${pct(last.baseline)} if you simply assume nothing changes.`
+        : `It rewrote its rules. They now predict ${pct(last.accuracy)} of the next readings correctly.`;
+    case "playbook":
+      return "It turned its rules into a controller: plain if-this-then-that steps that run without any AI. It checked the plan in simulation first.";
+    case "rejected":
+      return "The controller failed when replayed against its own rules, so it was thrown away before touching the real system.";
+    case "trial":
+      return last.real ? "Before trusting the plan, it ran it on a fresh copy of the system. It reached the goal." : "Before trusting the plan, it ran it on a fresh copy of the system. It missed the goal, so the plan was rejected.";
+    case "episode":
+      return v.shifted && !v.recovered
+        ? "The controller keeps driving with its old rules. Each reading is checked against what the rules predicted."
+        : "The controller is now driving the system on its own. No AI is involved in these steps; every reading is checked against a prediction.";
+    case "shift":
+      return "One hidden rule of the system was changed. LogicScout was not told what, or that anything changed at all.";
+    case "drift": {
+      const m = last.mismatches?.[0];
+      if (last.level === "suspected" && m) return `It expected ${m.field.replace(/_/g, " ")} to be ${fmt(m.predicted)} but saw ${fmt(m.observed)}. One miss could be noise, so it keeps watching.`;
+      return "Its predictions kept failing in a way that noise can’t explain, so it treats its rules as out of date and goes back to experimenting.";
+    }
+    case "recovery":
+      return `It re-tested the parts that broke, fixed its rules, and reached the goal again${last.stepsDown ? ` ${plural(last.stepsDown, "step")} after the change` : ""}.`;
+    case "referee":
+      return "A separate referee ran its controller on fresh situations it never saw while learning.";
+    case "note":
+      return "";
+  }
+  return "";
+}
+
 export function LiveSentence({ v, pendingShift = false }: { v: RunView; pendingShift?: boolean }) {
   const { text, tone } = useDwell(liveSentence(v, pendingShift), v.finished || pendingShift);
   const loading = v.lastSeq < 0 && !v.config;
@@ -152,6 +203,11 @@ export function LiveSentence({ v, pendingShift = false }: { v: RunView; pendingS
         : <span key={shape(text)} className="live-text">{text}</span>}
     </p>
   );
+}
+
+export function WhyLine({ v }: { v: RunView }) {
+  const text = whatJustHappened(v);
+  return <p className="live-why">{text ? <span key={shape(text)} className="live-why-text">{text}</span> : " "}</p>;
 }
 
 function Tile({ label, value, sub, loading, title }: { label: string; value: ReactNode; sub: string; loading: boolean; title?: string }) {
@@ -177,10 +233,10 @@ export function BigNumbers({ v }: { v: RunView }) {
   return (
     <dl className="numbers">
       <Tile
-        label="Predicts correctly" loading={loading}
-        value={pct(latest?.accuracy)}
-        sub={hasBase ? `vs ${pct(latest.baseline)} if nothing changes` : latest ? "" : "after first experiments"}
-        title={hasBase ? "Share of next-step values its rules predict correctly. Baseline assumes nothing changes." : undefined}
+        label="Predicts the next step" loading={loading}
+        value={latest && hasBase && latest.accuracy < latest.baseline + 0.01 ? "–" : pct(latest?.accuracy)}
+        sub={!latest ? "after first experiments" : !hasBase ? "" : latest.accuracy < latest.baseline + 0.01 ? "no better than guessing nothing changes yet" : `vs ${pct(latest.baseline)} by assuming nothing changes`}
+        title="How often its rules correctly predict every reading one step ahead."
       />
       {r && cases.length ? (
         <Tile label="Unseen tests" loading={false}

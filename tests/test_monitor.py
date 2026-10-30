@@ -63,3 +63,32 @@ def test_uncovered_field_keyed_by_field_and_reset():
     assert st == "confirmed" and m.rules_implicated == ["field:temp"]
     m.reset(theory())
     assert m.status == "ok" and m.observe([]) == "ok"
+
+
+def _stream(m, rate_fail, n, start=0):
+    """r2 is checked every step and fails on a fixed pattern with the given rate; r1 is always right."""
+    out = []
+    for i in range(start, start + n):
+        bad = (i * rate_fail) % 1 + rate_fail >= 1
+        out.append(m.observe([miss(rules=("r2",))] if bad else [], ["r1"] + ([] if bad else ["r2"])))
+    return out
+
+
+def test_slow_detector_quiet_on_stationary_chronic_error():
+    m = DriftMonitor(theory())
+    assert "confirmed" not in _stream(m, 0.2, 300)
+
+
+def test_slow_detector_catches_rising_failure_rate_of_an_unreliable_rule():
+    m = DriftMonitor(theory())
+    assert "confirmed" not in _stream(m, 0.2, 40)
+    assert "confirmed" in _stream(m, 0.7, 60, start=40)
+    assert m.rules_implicated[0] == "r2"
+
+
+def test_reference_level_is_frozen_after_the_reference_period():
+    m = DriftMonitor(theory(), reference=10)
+    _stream(m, 0.2, 30)
+    frozen = m.baseline
+    _stream(m, 0.4, 3, start=30)
+    assert m.baseline == frozen

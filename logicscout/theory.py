@@ -120,15 +120,25 @@ def _eq(p: Any, o: Any) -> bool:
     return p == o
 
 
-def compare(predicted: dict, observed: dict, sources: dict[str, list[str]] | None = None) -> list[Mismatch]:
+def _within(p: Any, o: Any, band: float | None) -> bool:
+    if band is None or isinstance(p, bool) or isinstance(o, bool):
+        return False
+    if not (isinstance(p, (int, float)) and isinstance(o, (int, float))) or math.isnan(p) or math.isnan(o):
+        return False
+    return abs(p - o) <= band
+
+
+def compare(predicted: dict, observed: dict, sources: dict[str, list[str]] | None = None,
+            tol: dict[str, float] | None = None) -> list[Mismatch]:
     """Mismatches over observed fields (excluding `t`). A missing or None prediction is a mismatch
-    unless the observed value is also None."""
+    unless the observed value is also None. `tol` (optional) gives per-field absolute tolerances for
+    numeric fields (see logicscout.noise); without it the comparison is unchanged."""
     out = []
     for field, o in observed.items():
         if field == "t":
             continue
         p = predicted.get(field)
-        if not _eq(p, o):
+        if not _eq(p, o) and not (tol and _within(p, o, tol.get(field))):
             out.append(Mismatch(field=field, predicted=p, observed=o, rule_ids=list((sources or {}).get(field, []))))
     return out
 
@@ -168,6 +178,91 @@ def accuracy(theory: Theory, transitions: list[Transition]) -> float:
 def persistence_accuracy(transitions: list[Transition]) -> float:
     """Baseline: predict that nothing changes."""
     return _score((before.fields, after.fields) for before, _, after in transitions)
+
+
+# ---- metrics that cannot hide failures ------------------------------------------------------------
+
+def changed_pairs(transitions: list[Transition]) -> list[tuple[int, str]]:
+    """(step index, field) pairs whose observed value changed from before to after (excluding `t`)."""
+    return [(i, f) for i, (before, _, after) in enumerate(transitions) for f in after.fields
+            if f != "t" and not _eq(before.fields.get(f), after.fields[f])]
+
+
+def _masked(theory: Theory, transitions: list[Transition], keep) -> tuple[int, int]:
+    """(correct, total) over (step, field) pairs where keep(i, before, after, field) is true."""
+    correct = total = 0
+    for i, ((before, _, after), (_, p, _)) in enumerate(zip(transitions, _replay(theory, transitions))):
+        for f, o in after.fields.items():
+            if f == "t" or not keep(i, before, after, f):
+                continue
+            total += 1
+            correct += int(_eq(p.get(f), o))
+    return correct, total
+
+
+def changed_counts(theory: Theory, transitions: list[Transition]) -> tuple[int, int]:
+    return _masked(theory, transitions, lambda i, b, a, f: not _eq(b.fields.get(f), a.fields[f]))
+
+
+def changed_accuracy(theory: Theory, transitions: list[Transition]) -> float:
+    """Accuracy only over (step, field) pairs whose value actually changed. Predicting "nothing changes"
+    scores 0 here by construction, so a lazy theory cannot hide behind quiet steps."""
+    c, n = changed_counts(theory, transitions)
+    return c / n if n else 0.0
+
+
+def field_counts(theory: Theory, transitions: list[Transition], fields) -> tuple[int, int]:
+    keep = set(fields)
+    return _masked(theory, transitions, lambda i, b, a, f: f in keep)
+
+
+def field_accuracy(theory: Theory, transitions: list[Transition], fields) -> float:
+    """Accuracy restricted to the given fields (e.g. the fields the goal is defined over)."""
+    c, n = field_counts(theory, transitions, fields)
+    return c / n if n else 0.0
+
+
+def goal_fields(success_expr: str) -> list[str]:
+    """Observation fields named in an objective's success expression (obs.<name>)."""
+    import re
+
+    return list(dict.fromkeys(re.findall(r"\bobs\.([A-Za-z_]\w*)", success_expr or "")))
+
+
+def rollout_counts(theory: Theory, episodes: list[list[Transition]], horizon: int = 5) -> dict[int, tuple[int, int]]:
+    """Open-loop rollouts. From every real starting point of each episode (the predictor having tracked
+    truth up to there, so latent memory and delayed effects are real), predict k steps ahead by feeding
+    the theory's own predictions back in, under the actions really taken. Score step k against the real
+    observation k steps later. Returns {k: (correct, total)}."""
+    out = {k: (0, 0) for k in range(1, horizon + 1)}
+    for ep in episodes:
+        if not ep:
+            continue
+        tracker = Predictor(theory)
+        tracker.reset(ep[0][0])
+        for i in range(len(ep)):
+            sim = tracker.clone()
+            obs = ep[i][0]
+            for k in range(1, horizon + 1):
+                j = i + k - 1
+                if j >= len(ep):
+                    break
+                _, action, real_after = ep[j]
+                p = sim.predict(obs, action)
+                c, n = out[k]
+                fields = [f for f in real_after.fields if f != "t"]
+                out[k] = (c + len(fields) - len(compare(p, real_after.fields)), n + len(fields))
+                obs = Observation(t=obs.t + 1, fields=p)
+                sim.advance(obs)
+            before, action, after = ep[i]
+            tracker.predict(before, action)
+            tracker.advance(after)
+    return out
+
+
+def rollout_accuracy(theory: Theory, episodes: list[list[Transition]], horizon: int = 5) -> dict[int, float]:
+    """{k: accuracy of the k-step open-loop prediction}, k = 1..horizon (see rollout_counts)."""
+    return {k: (c / n if n else 0.0) for k, (c, n) in rollout_counts(theory, episodes, horizon).items()}
 
 
 def rule_stats(theory: Theory, transitions: list[Transition]) -> dict[str, dict[str, int]]:

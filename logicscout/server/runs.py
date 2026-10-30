@@ -169,6 +169,9 @@ class RunRegistry:
                     kwargs["referee"] = evaluate
                 except ImportError:
                     run.log.append("note", {"text": "referee unavailable"})
+            if "trial_port_factory" in params:  # a separate session of the same world for reality trials
+                opener, c = _deps()[2], run.state.config
+                kwargs["trial_port_factory"] = lambda: opener(c.world_id, c.variant)
             result = await mission(run.state.config, run.log, llm, run.session, run.state, run.controls, **kwargs)
             if isinstance(result, RunState):
                 run.state = result
@@ -199,6 +202,11 @@ class RunRegistry:
         (run.dir / "state.json").write_text(run.state.model_dump_json(), encoding="utf-8")
         run.done = True
         run.log.close()
+        try:
+            from logicscout.anchor import anchor
+            anchor(run.dir)
+        except Exception:
+            pass
 
     # ---- disk-backed lookups -------------------------------------------------------
     def summary(self, run_id: str) -> dict[str, Any] | None:

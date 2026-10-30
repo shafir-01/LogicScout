@@ -1,0 +1,78 @@
+{
+ "world": "relay",
+ "variant": "standard",
+ "mode": "model",
+ "seed": 0,
+ "probe_budget": 50,
+ "probes_used": 50,
+ "lab_steps": 50,
+ "wall_s": 3.4,
+ "model_calls": 5,
+ "failed_calls": 5,
+ "tokens": 0,
+ "rules": 0,
+ "error": null,
+ "referee": {
+  "accuracy": 0.7854,
+  "changed_accuracy": 0.0,
+  "persistence_accuracy": 0.7854,
+  "episodes": 2
+ },
+ "theory": {
+  "world_id": "relay",
+  "version": 13,
+  "parent": 12,
+  "memory": {},
+  "rules": [],
+  "unknowns": [],
+  "note": "Cycle 13: more experience, no rule changes."
+ },
+ "laws": {
+  "buoy capacity per send": {
+   "n": 11,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "buoy contact window": {
+   "n": 148,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "buoy recharge": {
+   "n": 91,
+   "accuracy": 0.549,
+   "persistence": 0.549
+  },
+  "newest-first queue order": {
+   "n": 131,
+   "accuracy": 0.634,
+   "persistence": 0.634
+  },
+  "periodic arrivals": {
+   "n": 240,
+   "accuracy": 0.167,
+   "persistence": 0.167
+  },
+  "prioritize reorders queue": {
+   "n": 46,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "satellite delivery latency": {
+   "n": 51,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "satellite energy cost": {
+   "n": 113,
+   "accuracy": 0.549,
+   "persistence": 0.549
+  }
+ },
+ "held_out_play": {
+  "accuracy": 0.7576,
+  "changed_accuracy": 0.0,
+  "persistence_accuracy": 0.7576,
+  "episodes": 24
+ }
+}

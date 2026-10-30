@@ -6,8 +6,8 @@ import pytest
 from logicscout.contracts import Action
 from logicscout.referee.referee import random_action
 from logicscout.theory import accuracy, persistence_accuracy, validate_theory
-from logicscout.worlds.forge import OBJ_ID, ForgeWorld
-from logicscout.worlds.mechanisms import MECHANISMS, reference_theory
+from logicscout.worlds.forge import OBJ_ID, ForgeWorld, best_reference_accuracy, reference_accuracies
+from logicscout.worlds.mechanisms import MECHANISMS, OUT_OF_FAMILY, reference_theory
 
 SEEDS = range(1, 37)
 
@@ -178,8 +178,9 @@ def test_server_variant_validation_and_forge_new():
     from logicscout.server.app import create_app
 
     R.check_variant("forge", "g42")
+    R.check_variant("forge", "x42")
     R.check_variant("plant", "standard")
-    for wid, v in (("forge", "g1234567"), ("forge", "x1"), ("plant", "g4"), ("plant", "long_line")):
+    for wid, v in (("forge", "g1234567"), ("forge", "y1"), ("forge", "x1234567"), ("plant", "g4"), ("plant", "long_line")):
         with pytest.raises(ValueError):
             R.check_variant(wid, v)
     c = TestClient(create_app())
@@ -188,3 +189,91 @@ def test_server_variant_validation_and_forge_new():
     assert r["manual"] == ForgeWorld.manual_for(r["variant"]).model_dump(mode="json")
     assert any(m["world_id"] == "forge" and m["title"] == "Unknown system #1" for m in c.get("/api/worlds").json())
     assert c.post("/api/runs", json={"world_id": "plant", "variant": "g5"}).status_code == 400
+
+
+# ---- out-of-family variants (x<seed>) ---------------------------------------------------
+
+X_SEEDS = range(1, 13)  # ("drift" is also a neutral reading name, so it is not a banned word)
+LAW_WORDS = re.compile(r"delay|cooldown|window|capacity|reservoir|precondition|invert|threshold|lockout|"
+                       r"heat|rate.limit|regen|cost|mechanism|noise|noisy|jitter|saturat|diminish|mode|gradual|wear",
+                       re.I)
+
+
+def test_x_variants_are_deterministic_and_out_of_family():
+    for s in X_SEEDS:
+        a, b = ForgeWorld(f"x{s}"), ForgeWorld(f"x{s}")
+        assert a.laws == b.laws and a.manual() == b.manual() and a.laws != ForgeWorld(f"g{s}").laws
+        assert trace(a, 3) == trace(b, 3) and trace(a, 4) == trace(a, 4)
+        kinds = a.laws["x"]["kinds"]
+        assert 2 <= len(kinds) <= 4 and set(kinds) <= set(OUT_OF_FAMILY) and not set(kinds) & set(MECHANISMS)
+        assert a.manual().title == f"Unknown system #x{s}" and a.referee_cases_for(f"x{s}")[0].variant == f"x{s}"
+        assert any("Hidden 3-mode" in t or "Noisy" in t or "wear" in t or "Saturating" in t
+                   for t in ForgeWorld.truth(a.laws))
+    assert "x" not in ForgeWorld("g3").laws
+
+
+def test_x_noise_is_reproducible_and_success_uses_the_true_reading():
+    noisy = [s for s in X_SEEDS if "noise" in ForgeWorld.default_laws(f"x{s}")["x"]["kinds"]]
+    assert noisy
+    w = ForgeWorld(f"x{noisy[0]}")
+    out = w.laws["names"]["fields"]["out"]
+    diffs = 0
+    for seed in range(5):
+        w.reset(seed)
+        for _ in range(10):
+            obs = w.act(Action(name=w.laws["names"]["hold"])).observation
+            diffs += obs.fields[out] != w.sim.f["out"]
+            assert abs(obs.fields[out] - w.sim.f["out"]) <= 1
+    assert diffs > 0
+    assert w.success(OBJ_ID) == (w.sim.f["out"] >= w.target)
+
+
+def test_x_manual_has_no_law_parameters():
+    for s in X_SEEDS:
+        m = ForgeWorld.manual_for(f"x{s}")
+        laws = ForgeWorld.default_laws(f"x{s}")
+        text = m.model_dump_json()
+        assert not LAW_WORDS.search(text), (s, LAW_WORDS.search(text))
+        for k in [k for k in laws if k not in ("names", "mechanisms")] + list(laws["x"]):
+            assert f'"{k}"' not in text and f"{k}=" not in text, (s, k)
+        assert all(sentence not in text for sentence in ForgeWorld.truth(laws))
+        assert m.summary == ForgeWorld.manual_for(f"g{s}").summary
+
+
+def test_x_oracle_beats_random_and_producer_spam_fails():
+    oracle_wins = random_wins = n = 0
+    for s in X_SEEDS:
+        v = f"x{s}"
+        h = ForgeWorld.manual_for(v).objectives[0].horizon
+        for c in ForgeWorld.referee_cases_for(v)[:2]:
+            w = ForgeWorld(v)
+            w.reset(c.seed)
+            oracle_wins += oracle(w, h)
+            w.reset(c.seed)
+            random_wins += run_random(w, h, c.seed)
+            w.reset(c.seed)
+            for _ in range(h):
+                w.act(Action(name=w.laws["names"]["P"]))
+            assert not w.success(OBJ_ID), (v, c.seed)
+            n += 1
+    print(f"x-variants: oracle {oracle_wins}/{n}  random {random_wins}/{n}")
+    assert oracle_wins / n >= 0.9
+    assert random_wins / n <= 0.2
+
+
+def test_reference_theory_is_exact_in_family_and_only_approximate_out_of_family():
+    for s in (1, 2, 3):
+        assert best_reference_accuracy(f"g{s}") == 1.0
+    for s in X_SEEDS:
+        r = reference_accuracies(f"x{s}")
+        assert validate_theory(reference_theory(ForgeWorld.default_laws(f"x{s}")), ForgeWorld.manual_for(f"x{s}")) == []
+        assert 0.0 < r["accuracy"] < 1.0, (s, r)
+        assert r == reference_accuracies(f"x{s}")
+
+
+def test_x_shift_and_clone():
+    w = ForgeWorld("x5")
+    c = w.clone()
+    assert c.sim is not w.sim and c.sim.key() == w.sim.key()
+    rec = w.shift(1)
+    assert rec.kind in w.laws["mechanisms"] and "x" in w.laws

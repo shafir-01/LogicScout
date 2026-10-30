@@ -16,12 +16,13 @@ EVENT_KINDS = {
     "briefing.query", "briefing.source", "briefing.claim", "briefing.checked",
     "hypothesis.proposed", "hypothesis.supported", "hypothesis.refuted",
     "probe.designed", "probe.step", "probe.outcome",
-    "theory.revised", "playbook.compiled", "playbook.rejected",
+    "theory.revised", "playbook.compiled", "playbook.rejected", "playbook.trial",
     "control.step", "control.goal",
     "shift.applied",  # public: only "the hidden world changed", never what
     "drift.suspected", "drift.confirmed", "recovery.done",
     "transfer.loaded", "transfer.saved",
     "referee.report", "model.call", "note", "error",
+    "safety.violation",  # a real reading broke an operator limit from manual.safety
 }
 
 

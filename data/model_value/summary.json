@@ -1,0 +1,266 @@
+{
+  "cells": {
+    "forge/x101": {
+      "induction": {
+        "runs": 2,
+        "accuracy": [
+          0.9465,
+          0.9646
+        ],
+        "changed_accuracy": [
+          0.8541,
+          0.8769
+        ],
+        "model_calls": 0,
+        "laws": {},
+        "persistence_accuracy": 0.7125,
+        "accuracy_mean": 0.956,
+        "changed_accuracy_mean": 0.865,
+        "laws_mean": {}
+      }
+    },
+    "forge/x202": {
+      "induction": {
+        "runs": 2,
+        "accuracy": [
+          0.7389,
+          0.7256
+        ],
+        "changed_accuracy": [
+          0.5321,
+          0.5014
+        ],
+        "model_calls": 0,
+        "laws": {},
+        "persistence_accuracy": 0.5689,
+        "accuracy_mean": 0.732,
+        "changed_accuracy_mean": 0.517,
+        "laws_mean": {}
+      }
+    },
+    "gate/standard": {
+      "induction": {
+        "runs": 2,
+        "accuracy": [
+          0.9233,
+          0.9256
+        ],
+        "changed_accuracy": [
+          0.5217,
+          0.5297
+        ],
+        "model_calls": 0,
+        "laws": {
+          "arming evicts the oldest": [
+            1.0,
+            1.0
+          ],
+          "backing off clears strikes": [
+            0.0,
+            0.0
+          ],
+          "commit within arm window": [
+            0.0,
+            0.0
+          ],
+          "empty bucket returns 429": [
+            0.0,
+            0.0
+          ],
+          "stale arm falls back to draft": [
+            0.0,
+            0.0
+          ],
+          "token cost per request": [
+            0.947,
+            0.947
+          ],
+          "token refill": [
+            0.511,
+            0.511
+          ]
+        },
+        "persistence_accuracy": 0.8539,
+        "law_n": {
+          "arming evicts the oldest": 6,
+          "backing off clears strikes": 15,
+          "commit within arm window": 4,
+          "empty bucket returns 429": 24,
+          "stale arm falls back to draft": 6,
+          "token cost per request": 356,
+          "token refill": 317
+        },
+        "law_persistence": {
+          "arming evicts the oldest": 1.0,
+          "backing off clears strikes": 0.0,
+          "commit within arm window": 0.0,
+          "empty bucket returns 429": 0.0,
+          "stale arm falls back to draft": 0.0,
+          "token cost per request": 0.455,
+          "token refill": 0.511
+        },
+        "accuracy_mean": 0.924,
+        "changed_accuracy_mean": 0.526,
+        "laws_mean": {
+          "arming evicts the oldest": 1.0,
+          "backing off clears strikes": 0.0,
+          "commit within arm window": 0.0,
+          "empty bucket returns 429": 0.0,
+          "stale arm falls back to draft": 0.0,
+          "token cost per request": 0.947,
+          "token refill": 0.511
+        }
+      }
+    },
+    "orbit/standard": {
+      "induction": {
+        "runs": 2,
+        "accuracy": [
+          0.9021,
+          0.8958
+        ],
+        "changed_accuracy": [
+          0.1823,
+          0.1458
+        ],
+        "model_calls": 0,
+        "laws": {
+          "bus off clears payload": [
+            0.0,
+            0.0
+          ],
+          "bus warm-up before payload": [
+            0.0,
+            0.0
+          ],
+          "capture validity (band, calibration)": [
+            0.651,
+            0.651
+          ],
+          "downlink only in passes": [
+            0.704,
+            0.704
+          ],
+          "lagged temperature": [
+            0.428,
+            0.408
+          ],
+          "storage overwrite": [
+            0.471,
+            0.471
+          ]
+        },
+        "persistence_accuracy": 0.8833,
+        "law_n": {
+          "bus off clears payload": 17,
+          "bus warm-up before payload": 36,
+          "capture validity (band, calibration)": 43,
+          "downlink only in passes": 27,
+          "lagged temperature": 720,
+          "storage overwrite": 17
+        },
+        "law_persistence": {
+          "bus off clears payload": 0.0,
+          "bus warm-up before payload": 0.0,
+          "capture validity (band, calibration)": 0.651,
+          "downlink only in passes": 0.704,
+          "lagged temperature": 0.39,
+          "storage overwrite": 0.471
+        },
+        "accuracy_mean": 0.899,
+        "changed_accuracy_mean": 0.164,
+        "laws_mean": {
+          "bus off clears payload": 0.0,
+          "bus warm-up before payload": 0.0,
+          "capture validity (band, calibration)": 0.651,
+          "downlink only in passes": 0.704,
+          "lagged temperature": 0.418,
+          "storage overwrite": 0.471
+        }
+      }
+    },
+    "relay/standard": {
+      "induction": {
+        "runs": 2,
+        "accuracy": [
+          0.875,
+          0.8771
+        ],
+        "changed_accuracy": [
+          0.6602,
+          0.6148
+        ],
+        "model_calls": 0,
+        "laws": {
+          "buoy capacity per send": [
+            0.0,
+            0.0
+          ],
+          "buoy contact window": [
+            0.601,
+            0.081
+          ],
+          "buoy recharge": [
+            0.659,
+            0.549
+          ],
+          "newest-first queue order": [
+            0.443,
+            0.389
+          ],
+          "periodic arrivals": [
+            0.871,
+            0.721
+          ],
+          "prioritize reorders queue": [
+            0.37,
+            0.304
+          ],
+          "satellite delivery latency": [
+            0.0,
+            0.0
+          ],
+          "satellite energy cost": [
+            0.549,
+            0.85
+          ]
+        },
+        "persistence_accuracy": 0.7854,
+        "law_n": {
+          "buoy capacity per send": 11,
+          "buoy contact window": 148,
+          "buoy recharge": 91,
+          "newest-first queue order": 131,
+          "periodic arrivals": 240,
+          "prioritize reorders queue": 46,
+          "satellite delivery latency": 51,
+          "satellite energy cost": 113
+        },
+        "law_persistence": {
+          "buoy capacity per send": 0.0,
+          "buoy contact window": 0.0,
+          "buoy recharge": 0.549,
+          "newest-first queue order": 0.634,
+          "periodic arrivals": 0.167,
+          "prioritize reorders queue": 0.0,
+          "satellite delivery latency": 0.0,
+          "satellite energy cost": 0.549
+        },
+        "accuracy_mean": 0.876,
+        "changed_accuracy_mean": 0.637,
+        "laws_mean": {
+          "buoy capacity per send": 0.0,
+          "buoy contact window": 0.341,
+          "buoy recharge": 0.604,
+          "newest-first queue order": 0.416,
+          "periodic arrivals": 0.796,
+          "prioritize reorders queue": 0.337,
+          "satellite delivery latency": 0.0,
+          "satellite energy cost": 0.7
+        }
+      }
+    }
+  },
+  "total_model_calls": 0,
+  "runs": 10
+}

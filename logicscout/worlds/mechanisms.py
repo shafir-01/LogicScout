@@ -111,7 +111,7 @@ def describe(L: JSON) -> list[str]:
                    f"{L['lockout_steps']} steps ({F['ready']} false).")
     if "decoy" in N:
         out.append(f"'{N['decoy']}' removes 1 from {F['out']}.")
-    return out
+    return out + describe_x(L)
 
 
 # ---- reference DSL theory --------------------------------------------------------------
@@ -268,3 +268,66 @@ def mutate(L: JSON, rng: random.Random, kind: str | None = None) -> tuple[str, s
     else:
         L["heat_limit"] = L["heat_limit"] - 2 if L["heat_limit"] > 2 else L["heat_limit"] + 3
     return kind, SHIFT_LABELS[kind]
+
+
+# ---- out-of-family mechanisms ("x<seed>" variants) ----------------------------------------
+# Deliberately OUTSIDE the in-family set above and outside the rule miner's search templates:
+# none of them is a gate, a fixed lag or a fixed-gain counter. `reference_theory` ignores them, so for an
+# x-variant it is only an in-family approximation (see forge.best_reference_accuracy).
+
+OUT_OF_FAMILY = ("noise", "saturation", "modes", "drift")
+X_SEED_OFFSET = 10_000_000  # in-family base laws for x<seed> come from a seed no g-variant can use
+
+
+def generate_x_laws(seed: int, attempt: int = 0) -> JSON:
+    """In-family base (3-5 mechanisms) plus 2-4 out-of-family mechanisms under L["x"]."""
+    L = generate_laws(X_SEED_OFFSET + seed, attempt)
+    rng = random.Random(seed * 2_000_029 + 101 + 4241 * attempt)
+    kinds = sorted(rng.sample(OUT_OF_FAMILY, rng.randint(2, 4)), key=OUT_OF_FAMILY.index)
+    F = L["names"]["fields"]
+    X: JSON = {"kinds": kinds}
+    if "noise" in kinds:
+        # +-1 jitter on readings (objective reading always; one other numeric reading when there is one)
+        others = [k for k in F if k not in ("out", "ready", "last", "set")]
+        X["noisy"] = ["out"] + rng.sample(others, min(1, len(others)))
+    if "saturation" in kinds:
+        X["sat"] = rng.randint(6, 14)  # yield = ceil(gain * sat / (sat + level reached)): diminishing returns
+    if "modes" in kinds:
+        X["mode_every"] = rng.randint(2, 4)  # hidden mode advances 0->1->2->0 every k effective producer uses
+        X["mode_bonus"] = rng.randint(1, 2)
+    if "drift" in kinds:
+        X["drift_every"] = rng.randint(6, 10)  # gain wears down by 1 every n steps (floor 1)
+    L["x"] = X
+    return L
+
+
+def x_gain(L: JSON, gain: int, t: int, level: int, mode: int) -> int:
+    """Producer yield after the out-of-family response curves (integer, deterministic)."""
+    X = L["x"]
+    if "drift" in X["kinds"]:
+        gain = max(1, gain - t // X["drift_every"])
+    if "saturation" in X["kinds"]:
+        s = X["sat"]
+        gain = max(1, -(-gain * s // (s + max(0, level))))
+    if "modes" in X["kinds"]:
+        gain = (gain, gain // 2, gain + X["mode_bonus"])[mode]
+    return gain
+
+
+def describe_x(L: JSON) -> list[str]:
+    X, F, N = L.get("x"), L["names"]["fields"], L["names"]
+    if not X:
+        return []
+    out = []
+    if "noise" in X["kinds"]:
+        out.append("Noisy instruments: " + ", ".join(F[k] for k in X["noisy"])
+                   + " read the true value plus a jitter of -1, 0 or +1 (never below 0).")
+    if "saturation" in X["kinds"]:
+        out.append(f"Saturating response: each production yields ceil(gain * {X['sat']} / ({X['sat']} + "
+                   f"{F['out']} + any buffered amount)), so returns diminish as the level rises.")
+    if "modes" in X["kinds"]:
+        out.append(f"Hidden 3-mode cycle: every {X['mode_every']} effective '{N['P']}' uses the machine moves "
+                   f"normal -> weak (half yield) -> strong (+{X['mode_bonus']}) -> normal; the mode is not shown.")
+    if "drift" in X["kinds"]:
+        out.append(f"Gradual wear: the producer's gain drops by 1 every {X['drift_every']} steps (minimum 1).")
+    return out

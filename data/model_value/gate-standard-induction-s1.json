@@ -1,0 +1,207 @@
+{
+ "world": "gate",
+ "variant": "standard",
+ "mode": "induction",
+ "seed": 1,
+ "probe_budget": 50,
+ "probes_used": 50,
+ "lab_steps": 50,
+ "wall_s": 46.9,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "tokens": 0,
+ "rules": 6,
+ "error": null,
+ "referee": {
+  "accuracy": 0.9256,
+  "changed_accuracy": 0.5297,
+  "persistence_accuracy": 0.8539,
+  "episodes": 6
+ },
+ "theory": {
+  "world_id": "gate",
+  "version": 12,
+  "parent": 11,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R4",
+    "statement": "After every step, arm_age becomes obs.arm_age + obs.jobs_armed (fits 20/21 past steps)",
+    "kind": "transition",
+    "action": "*",
+    "when": "True",
+    "effects": {
+     "arm_age": "obs.arm_age + obs.jobs_armed"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.933,
+    "evidence": [
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R1",
+    "statement": "After 'call', last_job becomes (obs.last_job + 1) if args.endpoint == 'create' else (obs.last_job) (fits 5/5 past steps)",
+    "kind": "transition",
+    "action": "call",
+    "when": "True",
+    "effects": {
+     "last_job": "(obs.last_job + 1) if args.endpoint == 'create' else (obs.last_job)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.967,
+    "evidence": [
+     25,
+     27,
+     28,
+     31
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R3",
+    "statement": "After 'call', jobs_draft becomes (obs.jobs_draft - obs.arm_age) if args.endpoint == 'create' else (obs.jobs_draft) (fits 7/8 past steps)",
+    "kind": "transition",
+    "action": "call",
+    "when": "True",
+    "effects": {
+     "jobs_draft": "(obs.jobs_draft - obs.arm_age) if args.endpoint == 'create' else (obs.jobs_draft)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.9,
+    "evidence": [
+     37,
+     39,
+     41
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R5",
+    "statement": "After 'wait', arm_age becomes obs.arm_age + obs.jobs_armed (fits 11/11 past steps)",
+    "kind": "transition",
+    "action": "wait",
+    "when": "True",
+    "effects": {
+     "arm_age": "obs.arm_age + obs.jobs_armed"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.958,
+    "evidence": [
+     48,
+     50,
+     53,
+     55
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R6",
+    "statement": "After 'wait', last_status becomes 200 (fits 11/11 past steps)",
+    "kind": "transition",
+    "action": "wait",
+    "when": "True",
+    "effects": {
+     "last_status": "200"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.958,
+    "evidence": [
+     48,
+     50,
+     53,
+     56
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R17",
+    "statement": "After 'call', tokens becomes (obs.tokens - 1) if (t + 1) % 2 == 1 else (obs.tokens) (fits 20/26 past steps)",
+    "kind": "periodic",
+    "action": "call",
+    "when": "True",
+    "effects": {
+     "tokens": "(obs.tokens - 1) if (t + 1) % 2 == 1 else (obs.tokens)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.767,
+    "evidence": [
+     121,
+     122,
+     123
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [],
+  "note": "Learned: R17: After 'call', tokens becomes (obs.tokens - 1) if (t + 1) % 2 == 1 else (obs.tokens) (fits 20/26 past steps)"
+ },
+ "laws": {
+  "arming evicts the oldest": {
+   "n": 6,
+   "accuracy": 1.0,
+   "persistence": 1.0
+  },
+  "backing off clears strikes": {
+   "n": 15,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "commit within arm window": {
+   "n": 4,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "empty bucket returns 429": {
+   "n": 24,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "stale arm falls back to draft": {
+   "n": 6,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "token cost per request": {
+   "n": 356,
+   "accuracy": 0.947,
+   "persistence": 0.455
+  },
+  "token refill": {
+   "n": 317,
+   "accuracy": 0.511,
+   "persistence": 0.511
+  }
+ },
+ "held_out_play": {
+  "accuracy": 0.8978,
+  "changed_accuracy": 0.4474,
+  "persistence_accuracy": 0.8371,
+  "episodes": 24
+ }
+}

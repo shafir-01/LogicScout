@@ -11,7 +11,7 @@ const KINDS = [
   "theory.revised", "playbook.compiled", "playbook.rejected",
   "control.step", "control.goal", "shift.applied",
   "drift.suspected", "drift.confirmed", "recovery.done",
-  "transfer.loaded", "transfer.saved", "referee.report", "model.call", "note", "error",
+  "transfer.loaded", "transfer.saved", "playbook.trial", "safety.violation", "referee.report", "model.call", "note", "error",
 ];
 
 export type Conn = "connecting" | "open" | "retrying" | "closed";

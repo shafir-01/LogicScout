@@ -20,6 +20,7 @@ export type TimelineItem =
   | { kind: "drift"; seq: number; level: "suspected" | "confirmed"; mismatches?: Mismatch[]; surprise?: number; rules?: string[] }
   | { kind: "recovery"; seq: number; stepsDown?: number; probesUsed?: number }
   | { kind: "referee"; seq: number; rate: number }
+  | { kind: "trial"; seq: number; real?: boolean; predicted?: boolean; accepted?: boolean; steps?: number; mismatch?: number }
   | { kind: "note"; seq: number; text: string; error?: boolean };
 
 export interface Sim { success?: boolean; steps?: number }
@@ -60,6 +61,7 @@ export interface RunView {
   referee: RefereeReport | null;
   calls: ModelCall[];
   metrics: Dict;
+  safetyViolations: number;
 }
 
 export const initialView: RunView = {
@@ -67,7 +69,7 @@ export const initialView: RunView = {
   hypotheses: {}, timeline: [], theory: null, versions: [], playbook: null, simulated: null,
   obs: null, prevObs: null, obsT: null, obsTick: 0, lastAction: null, probeSteps: 0, controlSteps: 0,
   shifted: false, drift: "none", recovered: false, driftRules: [], recoveryDiff: null, queries: [], sources: [], claims: [], checked: null,
-  mechanisms: [], referee: null, calls: [], metrics: {},
+  mechanisms: [], referee: null, calls: [], metrics: {}, safetyViolations: 0,
 };
 
 export type ViewAction =
@@ -100,6 +102,13 @@ function updateProbe(s: RunView, probeId: string, f: (p: ProbeItem) => ProbeItem
 
 const ENDED: Phase[] = ["done", "failed"];
 const num = (x: unknown) => (typeof x === "number" ? x : NaN);
+
+/** Safety-limit violations seen so far (events or server metrics), or null when the system has no limits and none were reported. */
+export function safetyCount(v: RunView): number | null {
+  const m = Number(v.metrics?.safety_violations);
+  const n = Math.max(v.safetyViolations, Number.isFinite(m) ? m : 0);
+  return v.manual?.safety?.length || n > 0 || Number.isFinite(m) ? n : null;
+}
 
 export function apply(s: RunView, ev: LSEvent): RunView {
   if (ev.seq <= s.lastSeq) return s;
@@ -225,6 +234,10 @@ export function apply(s: RunView, ev: LSEvent): RunView {
       const r = d.report as RefereeReport | undefined;
       return { ...s, referee: r ?? s.referee, timeline: r ? push({ kind: "referee", seq: ev.seq, rate: r.success_rate }) : s.timeline };
     }
+    case "playbook.trial":
+      return { ...s, timeline: push({ kind: "trial", seq: ev.seq, real: d.real_success as boolean, predicted: d.predicted_success as boolean, accepted: d.accepted as boolean, steps: d.steps as number, mismatch: d.mismatch_rate as number }) };
+    case "safety.violation":
+      return { ...s, safetyViolations: s.safetyViolations + 1 };
     case "model.call":
       return { ...s, calls: [...s.calls, (d.call ?? d) as ModelCall] };
     case "note":

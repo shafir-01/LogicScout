@@ -68,6 +68,7 @@ class Gate(World):
             objectives=[Objective(id="commit5", text="Commit 5 jobs without triggering a lockout",
                                   success="obs.committed >= 5 and obs.lockouts == 0", horizon=40)],
             probe_budget=50,
+            safety=["obs.lockouts == 0"],  # operator alarm limits (public), not the hidden laws
             briefing_topics=[
                 "REST API rate limiting token bucket 429 retry after",
                 "two-phase commit arm then execute command timeout expires",

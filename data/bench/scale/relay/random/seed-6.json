@@ -1,0 +1,47 @@
+{
+ "world": "relay",
+ "variant": "standard",
+ "arm": "random",
+ "seed": 6,
+ "lab_seed": 13,
+ "objective_id": "bulk8",
+ "shift_after": 40,
+ "elapsed_s": 0.0,
+ "status": "ok",
+ "model_calls": 0,
+ "tokens": 0,
+ "probes_used": 0,
+ "n_cases": 4,
+ "successes": 0,
+ "success": 0.0,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  }
+ ]
+}

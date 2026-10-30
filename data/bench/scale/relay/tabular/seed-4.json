@@ -1,0 +1,69 @@
+{
+ "world": "relay",
+ "variant": "standard",
+ "arm": "tabular",
+ "seed": 4,
+ "lab_seed": 11,
+ "objective_id": "bulk8",
+ "shift_after": 40,
+ "elapsed_s": 1.7,
+ "status": "ok",
+ "wall_s": 1.7,
+ "model_calls": 0,
+ "tokens": 0,
+ "success": 0.0,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.7875,
+ "persistence_accuracy": 0.7604,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": false,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "rules contradicted on held-out standard cases: T1 x1, T12 x4, T2 x2, T3 x4, T4 x4, T5 x6, T6 x5, T8 x3",
+  "changed-value accuracy 0.2251 over 542 changed (step, field) pairs (persistence scores 0.0 there); open-loop rollout accuracy by horizon {1: 0.5942, 2: 0.5147, 3: 0.4574, 4: 0.4272, 5: 0.4057}",
+  "no_law_text_in_prompts: unverified, no prompt log supplied",
+  "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "93cf3eae9b387524724b2fdd6daeff43548f15dbee1f927575dcf22abae23ed4",
+ "n_cases": 4,
+ "successes": 0,
+ "probes_used": 100,
+ "table_rules": 8,
+ "fit_accuracy_on_own_data": 0.8418,
+ "playbook_origin": "planner"
+}

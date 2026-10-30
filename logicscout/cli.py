@@ -82,7 +82,8 @@ async def _run(args: argparse.Namespace) -> int:
                 print(line, flush=True)
 
     task = asyncio.create_task(printer())
-    await run_mission(cfg, log, llm, session, state, MissionControls(), prompt_log=prompt_log, referee=evaluate)
+    await run_mission(cfg, log, llm, session, state, MissionControls(), prompt_log=prompt_log, referee=evaluate,
+                      trial_port_factory=lambda: open_session(args.world))
     log.close()
     await task
     print(f"run {run_id}: phase={state.phase}; log at {run_dir}")
@@ -99,6 +100,23 @@ def _worlds() -> int:
     return 0
 
 
+def _verify(path: str) -> int:
+    from pathlib import Path
+
+    from logicscout.anchor import verify
+
+    try:
+        rep = verify(Path(path))
+    except FileNotFoundError as e:
+        print(e, file=sys.stderr)
+        return 2
+    print(f"run {rep['run_id']}: {rep['n_events']} events, head {str(rep['head_digest'])[:16]}")
+    print(f"chain recomputes: {rep['chain_ok']}; anchored: {rep['anchored']}; matches anchor: {rep['anchor_ok']}")
+    for n in rep["notes"]:
+        print(" - " + n)
+    return 0 if rep["ok"] else 1
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="logicscout")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -111,9 +129,13 @@ def main(argv: list[str] | None = None) -> None:
     r.add_argument("--transfer", action="store_true")
     r.add_argument("--budget", type=int, default=None)
     sub.add_parser("worlds", help="list available worlds")
+    v = sub.add_parser("verify", help="verify a run or replay log against its external anchor")
+    v.add_argument("path", help="run or replay directory containing events.jsonl")
     args = p.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(errors="replace")
+    if args.cmd == "verify":
+        sys.exit(_verify(args.path))
     sys.exit(asyncio.run(_run(args)) if args.cmd == "run" else _worlds())
 
 

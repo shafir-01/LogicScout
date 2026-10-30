@@ -1,0 +1,169 @@
+{
+ "world": "orbit",
+ "variant": "standard",
+ "mode": "both",
+ "seed": 0,
+ "probe_budget": 60,
+ "probes_used": 60,
+ "lab_steps": 60,
+ "wall_s": 5.6,
+ "model_calls": 5,
+ "failed_calls": 5,
+ "tokens": 0,
+ "rules": 5,
+ "error": null,
+ "referee": {
+  "accuracy": 0.9,
+  "changed_accuracy": 0.1771,
+  "persistence_accuracy": 0.8833,
+  "episodes": 2
+ },
+ "theory": {
+  "world_id": "orbit",
+  "version": 12,
+  "parent": 11,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R6",
+    "statement": "After 'heater', heater_on becomes args.state == 'on' (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "heater",
+    "when": "True",
+    "effects": {
+     "heater_on": "args.state == 'on'"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.9,
+    "evidence": [
+     53,
+     61
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R14",
+    "statement": "After 'power' when args.unit == 'bus', bus_on becomes args.state == 'on' (fits 3/3 past steps)",
+    "kind": "transition",
+    "action": "power",
+    "when": "args.unit == 'bus'",
+    "effects": {
+     "bus_on": "args.state == 'on'"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.875,
+    "evidence": [
+     89,
+     93
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R30",
+    "statement": "After 'power' when args.unit == 'payload', temp becomes obs.temp + -0.1 (fits 4/10 past steps)",
+    "kind": "transition",
+    "action": "power",
+    "when": "args.unit == 'payload'",
+    "effects": {
+     "temp": "obs.temp + -0.1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.429,
+    "evidence": [
+     128,
+     137
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R35",
+    "statement": "After 'power' when args.unit == 'payload', fault becomes (obs.fault) if obs.bus_on else (args.state == 'on') (fits 11/11 past steps)",
+    "kind": "transition",
+    "action": "power",
+    "when": "args.unit == 'payload'",
+    "effects": {
+     "fault": "(obs.fault) if obs.bus_on else (args.state == 'on')"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.929,
+    "evidence": [
+     148,
+     155
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R40",
+    "statement": "After 'downlink', temp becomes max(obs.temp + -0.3, 0) (fits 5/8 past steps)",
+    "kind": "transition",
+    "action": "downlink",
+    "when": "True",
+    "effects": {
+     "temp": "max(obs.temp + -0.3, 0)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.636,
+    "evidence": [
+     164,
+     170
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [],
+  "note": "Cycle 12: more experience, no rule changes."
+ },
+ "laws": {
+  "bus off clears payload": {
+   "n": 17,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "bus warm-up before payload": {
+   "n": 36,
+   "accuracy": 0.528,
+   "persistence": 0.0
+  },
+  "capture validity (band, calibration)": {
+   "n": 43,
+   "accuracy": 0.651,
+   "persistence": 0.651
+  },
+  "downlink only in passes": {
+   "n": 27,
+   "accuracy": 0.704,
+   "persistence": 0.704
+  },
+  "lagged temperature": {
+   "n": 720,
+   "accuracy": 0.343,
+   "persistence": 0.39
+  },
+  "storage overwrite": {
+   "n": 17,
+   "accuracy": 0.471,
+   "persistence": 0.471
+  }
+ },
+ "held_out_play": {
+  "accuracy": 0.9012,
+  "changed_accuracy": 0.223,
+  "persistence_accuracy": 0.8878,
+  "episodes": 24
+ }
+}

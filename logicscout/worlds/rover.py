@@ -71,6 +71,7 @@ class RoverWorld(World):
                 success="obs.sites_confirmed >= 3 and obs.energy > 0", horizon=45,
             )],
             probe_budget=50,
+            safety=["obs.heat <= 4", "not obs.locked"],  # operator alarm limits (public), not the hidden laws
             lab_seeds=(0, 1000),
             briefing_topics=[
                 "planetary rover motor overheating thermal limit drive duty cycle",

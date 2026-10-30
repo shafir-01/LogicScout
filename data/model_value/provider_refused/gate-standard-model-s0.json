@@ -1,0 +1,73 @@
+{
+ "world": "gate",
+ "variant": "standard",
+ "mode": "model",
+ "seed": 0,
+ "probe_budget": 50,
+ "probes_used": 50,
+ "lab_steps": 50,
+ "wall_s": 6.7,
+ "model_calls": 5,
+ "failed_calls": 5,
+ "tokens": 0,
+ "rules": 0,
+ "error": null,
+ "referee": {
+  "accuracy": 0.8539,
+  "changed_accuracy": 0.0,
+  "persistence_accuracy": 0.8539,
+  "episodes": 6
+ },
+ "theory": {
+  "world_id": "gate",
+  "version": 12,
+  "parent": 11,
+  "memory": {},
+  "rules": [],
+  "unknowns": [],
+  "note": "Cycle 12: more experience, no rule changes."
+ },
+ "laws": {
+  "arming evicts the oldest": {
+   "n": 6,
+   "accuracy": 1.0,
+   "persistence": 1.0
+  },
+  "backing off clears strikes": {
+   "n": 15,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "commit within arm window": {
+   "n": 4,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "empty bucket returns 429": {
+   "n": 24,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "stale arm falls back to draft": {
+   "n": 6,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "token cost per request": {
+   "n": 356,
+   "accuracy": 0.455,
+   "persistence": 0.455
+  },
+  "token refill": {
+   "n": 317,
+   "accuracy": 0.511,
+   "persistence": 0.511
+  }
+ },
+ "held_out_play": {
+  "accuracy": 0.8371,
+  "changed_accuracy": 0.0,
+  "persistence_accuracy": 0.8371,
+  "episodes": 24
+ }
+}

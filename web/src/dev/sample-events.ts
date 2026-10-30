@@ -15,6 +15,7 @@ const manual = {
   observations: [{ name: "queue", type: "int" }, { name: "link_a", type: "int" }, { name: "link_b", type: "int" }, { name: "delivered", type: "int" }],
   objectives: [{ id: "o1", text: "Deliver 6 messages", success: "obs.delivered >= 6", horizon: 30 }],
   probe_budget: 24,
+  safety: ["obs.queue <= 20"],
   layout: {
     kind: "graph",
     nodes: [{ id: "src", label: "source", x: 0, y: 1, field: "queue" }, { id: "a", label: "relay A", x: 1, y: 0, field: "link_a" },
@@ -49,6 +50,7 @@ e("theory.revised", { theory: { world_id: "dev", version: 1, rules: [rule("r1", 
 e("theory.revised", { theory: { world_id: "dev", version: 2, rules: [rule("r1", "Routing to A moves one message to relay A", "supported", 0.94), rule("r2", "Relays deliver after one step", "supported", 0.8, "briefing", ["https://example.org/relay"]), rule("r3", "Relay B drops every third message", "refuted", 0.1)], unknowns: [], note: "delay confirmed" }, diff: {}, accuracy: 0.91, baseline_accuracy: 0.41 });
 e("briefing.checked", { claims: [{ claim: "Each relay forwards one message per step", status: "confirmed", citations: ["https://example.org/relay"] }] });
 e("playbook.compiled", { playbook: { id: "pb1", world_id: "dev", objective_id: "o1", theory_version: 2, origin: "synthesized", rules: [{ when: "obs.link_a == 0", do: { name: "route", args: { link: "'a'" } }, why: "keep A busy" }], fallback: { name: "wait", args: {} } }, simulated: { success: true, steps: 14 } });
+e("playbook.trial", { predicted_success: true, real_success: true, mismatch_rate: 0.04, steps: 13, accepted: true });
 e("phase", { phase: "control" });
 for (let i = 0; i < 6; i++) e("control.step", { episode: 0, step: i, action: { name: "route", args: { link: "a" } }, predicted: {}, observation: obs(3 + i, 8 - i, 1, 0, i), mismatches: [] });
 e("control.goal", { episode: 0, steps: 6 });
@@ -61,7 +63,8 @@ e("phase", { phase: "reprobing" });
 e("phase", { phase: "recovered" });
 e("recovery.done", { steps_down: 4, probes_used: 5 });
 e("phase", { phase: "referee" });
-e("referee.report", { report: { run_id: "dev-sample", world_id: "dev", theory_version: 3, playbook_id: "pb2", cases: [{ case_id: "c1", success: true, steps: 12, cost: 0 }, { case_id: "c2", success: true, steps: 15, cost: 0 }, { case_id: "c3", success: false, steps: 30, cost: 0 }], success_rate: 0.67, prediction_accuracy: 0.88, baselines: { random: 0.1, greedy: 0.33 }, leakage_checks: { no_laws_in_prompts: true, held_out_seeds: true }, notes: [], digest: "0000" } });
+e("referee.report", { report: { run_id: "dev-sample", world_id: "dev", theory_version: 3, playbook_id: "pb2", cases: [{ case_id: "c1", success: true, steps: 12, cost: 0 }, { case_id: "c2", success: true, steps: 15, cost: 0 }, { case_id: "c3", success: false, steps: 30, cost: 0 }], success_rate: 0.67, prediction_accuracy: 0.88, baselines: { random: 0.1, greedy: 0.33 }, leakage_checks: { no_laws_in_prompts: true, held_out_seeds: true }, notes: [], digest: "0000",
+  changed_accuracy: 0.81, changed_baseline: 0, rollout_accuracy: { 1: 0.88, 2: 0.8, 3: 0.71, 5: 0.6 }, goal_field_accuracy: 0.9, n_transitions: 120, n_changed: 64 } });
 e("phase", { phase: "done" });
 
 export const SAMPLE_EVENTS: LSEvent[] = out;

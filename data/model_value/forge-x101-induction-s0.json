@@ -1,0 +1,339 @@
+{
+ "world": "forge",
+ "variant": "x101",
+ "mode": "induction",
+ "seed": 0,
+ "probe_budget": 60,
+ "probes_used": 60,
+ "lab_steps": 60,
+ "wall_s": 44.9,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "tokens": 0,
+ "rules": 14,
+ "error": null,
+ "referee": {
+  "accuracy": 0.9465,
+  "changed_accuracy": 0.8541,
+  "persistence_accuracy": 0.7125,
+  "episodes": 6
+ },
+ "theory": {
+  "world_id": "forge",
+  "version": 12,
+  "parent": 11,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R15",
+    "statement": "After every step, yield_mark becomes (obs.yield_mark - 1) if obs.yield_mark >= 1 else (obs.yield_mark + 2 * obs.trace) (fits 17/20 past steps)",
+    "kind": "transition",
+    "action": "*",
+    "when": "True",
+    "effects": {
+     "yield_mark": "(obs.yield_mark - 1) if obs.yield_mark >= 1 else (obs.yield_mark + 2 * obs.trace)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.833,
+    "evidence": [
+     71,
+     72,
+     73,
+     74,
+     75,
+     78
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R1",
+    "statement": "After 'cycle', span becomes obs.span + 1 (fits 5/5 past steps)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "True",
+    "effects": {
+     "span": "obs.span + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.952,
+    "evidence": [
+     21,
+     24,
+     27
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R11",
+    "statement": "After 'kick', charge becomes obs.charge + 1 (fits 3/3 past steps)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "True",
+    "effects": {
+     "charge": "obs.charge + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.952,
+    "evidence": [
+     54,
+     55,
+     56,
+     61
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R16",
+    "statement": "After 'kick', span becomes obs.span + 1 (fits 6/6 past steps)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "True",
+    "effects": {
+     "span": "obs.span + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.952,
+    "evidence": [
+     72,
+     79
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R18",
+    "statement": "After 'kick', yield_mark becomes 2 (fits 5/6 past steps)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "True",
+    "effects": {
+     "yield_mark": "2"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.905,
+    "evidence": [
+     72,
+     81
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R24",
+    "statement": "After 'cycle', trace becomes 0 (fits 9/9 past steps)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "True",
+    "effects": {
+     "trace": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.952,
+    "evidence": [
+     92,
+     94,
+     96,
+     98,
+     102
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R25",
+    "statement": "After 'kick', trace becomes 0 (fits 7/7 past steps)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "True",
+    "effects": {
+     "trace": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.952,
+    "evidence": [
+     93,
+     95,
+     97,
+     99,
+     103
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R33",
+    "statement": "After 'draw', span becomes obs.span + 1 (fits 3/3 past steps)",
+    "kind": "transition",
+    "action": "draw",
+    "when": "True",
+    "effects": {
+     "span": "obs.span + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.917,
+    "evidence": [
+     136,
+     141
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R35",
+    "statement": "After 'bleed', yield_mark becomes (obs.yield_mark - 1) if obs.yield_mark == 2 else (obs.yield_mark) (fits 9/9 past steps)",
+    "kind": "transition",
+    "action": "bleed",
+    "when": "True",
+    "effects": {
+     "yield_mark": "(obs.yield_mark - 1) if obs.yield_mark == 2 else (obs.yield_mark)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.786,
+    "evidence": [
+     135,
+     143
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R36",
+    "statement": "After 'cycle', beacon becomes (obs.beacon - min(args.level, obs.beacon)) if args.level >= 2 else (3) (fits 14/16 past steps)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "True",
+    "effects": {
+     "beacon": "(obs.beacon - min(args.level, obs.beacon)) if args.level >= 2 else (3)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.857,
+    "evidence": [
+     155,
+     157,
+     159
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R40",
+    "statement": "After 'bleed', trace becomes obs.trace + 1 (fits 10/10 past steps)",
+    "kind": "transition",
+    "action": "bleed",
+    "when": "True",
+    "effects": {
+     "trace": "obs.trace + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.929,
+    "evidence": [
+     156,
+     163
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R46",
+    "statement": "After 'cycle', yield_mark becomes max(obs.yield_mark + -1, 0) (fits 18/18 past steps)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "True",
+    "effects": {
+     "yield_mark": "max(obs.yield_mark + -1, 0)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.952,
+    "evidence": [
+     174,
+     178
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R44",
+    "statement": "After 'draw', flux becomes obs.flux + obs.drift (fits 6/6 past steps)",
+    "kind": "transition",
+    "action": "draw",
+    "when": "True",
+    "effects": {
+     "flux": "obs.flux + obs.drift"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.917,
+    "evidence": [
+     186,
+     188,
+     190,
+     192,
+     193
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R45",
+    "statement": "After 'draw', drift becomes 0 (fits 6/6 past steps)",
+    "kind": "transition",
+    "action": "draw",
+    "when": "True",
+    "effects": {
+     "drift": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.917,
+    "evidence": [
+     186,
+     188,
+     190,
+     192,
+     194
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [
+   "R5 vs R6: predict all experience equally (equivalent so far)",
+   "R11 vs R12: predict all experience equally (equivalent so far)",
+   "R13 vs R14: predict all experience equally (equivalent so far)",
+   "R16 vs R17: predict all experience equally (equivalent so far)",
+   "R18 vs R19: predict all experience equally (equivalent so far)",
+   "R33 vs R34: predict all experience equally (equivalent so far)",
+   "R40 vs R41: predict all experience equally (equivalent so far)"
+  ],
+  "note": "Learned: R44: After 'draw', flux becomes obs.flux + obs.drift (fits 6/6 past steps); R45: After 'draw', drift becomes 0 (fits 6/6 past steps)"
+ }
+}

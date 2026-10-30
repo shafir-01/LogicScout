@@ -58,6 +58,7 @@ class OrbitWorld(World):
             objectives=[Objective(id="downlink3", text="Downlink 3 valid images",
                                   success="obs.downlinked >= 3", horizon=50)],
             probe_budget=60,
+            safety=["not obs.fault", "obs.temp <= 26.0"],  # operator alarm limits (public), not the hidden laws
             lab_seeds=(0, 1000),
             briefing_topics=[
                 "spacecraft payload power-on sequence bus must be powered first",

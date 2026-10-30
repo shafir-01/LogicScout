@@ -303,6 +303,8 @@ def create_app() -> FastAPI:
 
     from logicscout.server.whatif import router as _whatif
     app.include_router(_whatif(reg))
+    from logicscout.server.evidence import router as _evidence
+    app.include_router(_evidence)
 
     @app.api_route("/api/{rest:path}", methods=["GET", "POST", "PUT", "DELETE"], include_in_schema=False)
     def api_404(rest: str):

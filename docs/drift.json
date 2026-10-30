@@ -1,0 +1,399 @@
+{
+ "note": "offline, no model calls, 1 seed per configuration, 9 configurations (relay x2 objectives, plant, forge g1-g6), 160 control steps per run, change at step 50",
+ "before": {
+  "overall": {
+   "stationary": {
+    "runs": 9,
+    "steps": 1440,
+    "false_alarms": 4,
+    "false_alarms_per_100_steps": 0.28,
+    "runs_with_false_alarm": 2
+   },
+   "abrupt": {
+    "runs": 10,
+    "detected": 1,
+    "missed": 9,
+    "detection_rate": 0.1,
+    "false_alarms_before_change": 5,
+    "delay_median": 3,
+    "delay_mean": 3,
+    "delay_max": 3
+   },
+   "gradual": {
+    "runs": 12,
+    "detected": 1,
+    "missed": 11,
+    "detection_rate": 0.083,
+    "false_alarms_before_change": 6,
+    "delay_median": 3,
+    "delay_mean": 3,
+    "delay_max": 3
+   },
+   "harmless": {
+    "runs": 27,
+    "alarmed": 0,
+    "alarm_rate": 0.0
+   }
+  },
+  "per_world": {
+   "relay": {
+    "stationary": {
+     "runs": 2,
+     "steps": 320,
+     "false_alarms": 0,
+     "false_alarms_per_100_steps": 0.0,
+     "runs_with_false_alarm": 0
+    },
+    "abrupt": {
+     "runs": 3,
+     "detected": 0,
+     "missed": 3,
+     "detection_rate": 0.0,
+     "false_alarms_before_change": 0
+    },
+    "gradual": {
+     "runs": 3,
+     "detected": 0,
+     "missed": 3,
+     "detection_rate": 0.0,
+     "false_alarms_before_change": 0
+    },
+    "harmless": {
+     "runs": 3,
+     "alarmed": 0,
+     "alarm_rate": 0.0
+    }
+   },
+   "plant": {
+    "stationary": {
+     "runs": 1,
+     "steps": 160,
+     "false_alarms": 3,
+     "false_alarms_per_100_steps": 1.88,
+     "runs_with_false_alarm": 1
+    },
+    "abrupt": {
+     "runs": 1,
+     "detected": 0,
+     "missed": 1,
+     "detection_rate": 0.0,
+     "false_alarms_before_change": 3
+    },
+    "gradual": {
+     "runs": 1,
+     "detected": 0,
+     "missed": 1,
+     "detection_rate": 0.0,
+     "false_alarms_before_change": 3
+    },
+    "harmless": {
+     "runs": 2,
+     "alarmed": 0,
+     "alarm_rate": 0.0
+    }
+   },
+   "forge": {
+    "stationary": {
+     "runs": 6,
+     "steps": 960,
+     "false_alarms": 1,
+     "false_alarms_per_100_steps": 0.1,
+     "runs_with_false_alarm": 1
+    },
+    "abrupt": {
+     "runs": 6,
+     "detected": 1,
+     "missed": 5,
+     "detection_rate": 0.167,
+     "false_alarms_before_change": 2,
+     "delay_median": 3,
+     "delay_mean": 3,
+     "delay_max": 3
+    },
+    "gradual": {
+     "runs": 8,
+     "detected": 1,
+     "missed": 7,
+     "detection_rate": 0.125,
+     "false_alarms_before_change": 3,
+     "delay_median": 3,
+     "delay_mean": 3,
+     "delay_max": 3
+    },
+    "harmless": {
+     "runs": 22,
+     "alarmed": 0,
+     "alarm_rate": 0.0
+    }
+   }
+  },
+  "per_kind": {
+   "forge:capacity": {
+    "runs": 1,
+    "detected": 0,
+    "missed": 1,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 1
+   },
+   "forge:control": {
+    "runs": 1,
+    "detected": 1,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 3,
+    "delay_mean": 3,
+    "delay_max": 3
+   },
+   "forge:cooldown": {
+    "runs": 1,
+    "detected": 0,
+    "missed": 1,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 0
+   },
+   "forge:delay": {
+    "runs": 1,
+    "detected": 0,
+    "missed": 1,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 1
+   },
+   "forge:resource": {
+    "runs": 1,
+    "detected": 0,
+    "missed": 1,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 0
+   },
+   "forge:threshold": {
+    "runs": 1,
+    "detected": 0,
+    "missed": 1,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 0
+   },
+   "plant:drain": {
+    "runs": 1,
+    "detected": 0,
+    "missed": 1,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 3
+   },
+   "relay:sat_latency": {
+    "runs": 1,
+    "detected": 0,
+    "missed": 1,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 0
+   },
+   "relay:window_period": {
+    "runs": 2,
+    "detected": 0,
+    "missed": 2,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 0
+   }
+  }
+ },
+ "after": {
+  "overall": {
+   "stationary": {
+    "runs": 9,
+    "steps": 1440,
+    "false_alarms": 1,
+    "false_alarms_per_100_steps": 0.07,
+    "runs_with_false_alarm": 1
+   },
+   "abrupt": {
+    "runs": 10,
+    "detected": 8,
+    "missed": 2,
+    "detection_rate": 0.8,
+    "false_alarms_before_change": 0,
+    "delay_median": 6.0,
+    "delay_mean": 32.6,
+    "delay_max": 79
+   },
+   "gradual": {
+    "runs": 13,
+    "detected": 12,
+    "missed": 1,
+    "detection_rate": 0.923,
+    "false_alarms_before_change": 0,
+    "delay_median": 23.0,
+    "delay_mean": 33.1,
+    "delay_max": 79
+   },
+   "harmless": {
+    "runs": 27,
+    "alarmed": 1,
+    "alarm_rate": 0.037
+   }
+  },
+  "per_world": {
+   "relay": {
+    "stationary": {
+     "runs": 2,
+     "steps": 320,
+     "false_alarms": 0,
+     "false_alarms_per_100_steps": 0.0,
+     "runs_with_false_alarm": 0
+    },
+    "abrupt": {
+     "runs": 2,
+     "detected": 0,
+     "missed": 2,
+     "detection_rate": 0.0,
+     "false_alarms_before_change": 0
+    },
+    "gradual": {
+     "runs": 2,
+     "detected": 2,
+     "missed": 0,
+     "detection_rate": 1.0,
+     "false_alarms_before_change": 0,
+     "delay_median": 45.0,
+     "delay_mean": 45,
+     "delay_max": 45
+    },
+    "harmless": {
+     "runs": 4,
+     "alarmed": 0,
+     "alarm_rate": 0.0
+    }
+   },
+   "plant": {
+    "stationary": {
+     "runs": 1,
+     "steps": 160,
+     "false_alarms": 0,
+     "false_alarms_per_100_steps": 0.0,
+     "runs_with_false_alarm": 0
+    },
+    "harmless": {
+     "runs": 3,
+     "alarmed": 0,
+     "alarm_rate": 0.0
+    }
+   },
+   "forge": {
+    "stationary": {
+     "runs": 6,
+     "steps": 960,
+     "false_alarms": 1,
+     "false_alarms_per_100_steps": 0.1,
+     "runs_with_false_alarm": 1
+    },
+    "abrupt": {
+     "runs": 8,
+     "detected": 8,
+     "missed": 0,
+     "detection_rate": 1.0,
+     "false_alarms_before_change": 0,
+     "delay_median": 6.0,
+     "delay_mean": 32.6,
+     "delay_max": 79
+    },
+    "gradual": {
+     "runs": 11,
+     "detected": 10,
+     "missed": 1,
+     "detection_rate": 0.909,
+     "false_alarms_before_change": 0,
+     "delay_median": 14.0,
+     "delay_mean": 30.7,
+     "delay_max": 79
+    },
+    "harmless": {
+     "runs": 20,
+     "alarmed": 1,
+     "alarm_rate": 0.05
+    }
+   }
+  },
+  "per_kind": {
+   "forge:capacity": {
+    "runs": 1,
+    "detected": 1,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 79,
+    "delay_mean": 79,
+    "delay_max": 79
+   },
+   "forge:control": {
+    "runs": 1,
+    "detected": 1,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 3,
+    "delay_mean": 3,
+    "delay_max": 3
+   },
+   "forge:cooldown": {
+    "runs": 1,
+    "detected": 1,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 5,
+    "delay_mean": 5,
+    "delay_max": 5
+   },
+   "forge:delay": {
+    "runs": 2,
+    "detected": 2,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 41.5,
+    "delay_mean": 41.5,
+    "delay_max": 79
+   },
+   "forge:resource": {
+    "runs": 1,
+    "detected": 1,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 7,
+    "delay_mean": 7,
+    "delay_max": 7
+   },
+   "forge:threshold": {
+    "runs": 1,
+    "detected": 1,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 5,
+    "delay_mean": 5,
+    "delay_max": 5
+   },
+   "forge:window": {
+    "runs": 1,
+    "detected": 1,
+    "missed": 0,
+    "detection_rate": 1.0,
+    "false_alarms_before_change": 0,
+    "delay_median": 79,
+    "delay_mean": 79,
+    "delay_max": 79
+   },
+   "relay:window_period": {
+    "runs": 2,
+    "detected": 0,
+    "missed": 2,
+    "detection_rate": 0.0,
+    "false_alarms_before_change": 0
+   }
+  }
+ },
+ "filter_hidden_mismatches_after_change": {
+  "before": 0,
+  "after": 0
+ }
+}

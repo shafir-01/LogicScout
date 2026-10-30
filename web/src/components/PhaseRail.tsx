@@ -1,12 +1,20 @@
 import type { RunView } from "../state";
 
 const STEPS = ["Unknown", "Learning", "Understood", "In control", "Rules changed", "Recovered"] as const;
+const HINTS = [
+  "Has only the list of buttons and readings.",
+  "Running experiments to test its guesses.",
+  "Its rules now predict better than guessing nothing changes.",
+  "Running the system toward the goal using its own plan.",
+  "A hidden rule was changed without telling it.",
+  "Reached the goal again after the change.",
+];
 
 export function reached(v: RunView, i: number): boolean {
   switch (i) {
     case 0: return true;
     case 1: return v.probeSteps > 0 || v.phase === "probing";
-    case 2: return v.versions.length > 0 || !!v.playbook;
+    case 2: return !!v.playbook || v.versions.some((x) => x.accuracy >= x.baseline + 0.05);
     case 3: return v.controlSteps > 0;
     case 4: return v.shifted;
     case 5: return v.recovered;
@@ -57,7 +65,7 @@ export default function PhaseRail({ v }: { v: RunView }) {
           : "";
         const cls = ["step", isCur ? "is-current" : "", done ? "is-done" : "", tone ? `is-${tone}` : "", i === focus ? "is-focus" : ""].join(" ");
         return (
-          <li key={label} className={cls} aria-current={isCur ? "step" : undefined}>
+          <li key={label} className={cls} aria-current={isCur ? "step" : undefined} title={HINTS[i]}>
             <span className="step-bar" aria-hidden="true" />
             <span className="step-label">{label}</span>
           </li>

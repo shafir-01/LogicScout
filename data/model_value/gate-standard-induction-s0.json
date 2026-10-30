@@ -1,0 +1,179 @@
+{
+ "world": "gate",
+ "variant": "standard",
+ "mode": "induction",
+ "seed": 0,
+ "probe_budget": 50,
+ "probes_used": 37,
+ "lab_steps": 37,
+ "wall_s": 46.0,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "tokens": 0,
+ "rules": 5,
+ "error": null,
+ "referee": {
+  "accuracy": 0.9233,
+  "changed_accuracy": 0.5217,
+  "persistence_accuracy": 0.8539,
+  "episodes": 6
+ },
+ "theory": {
+  "world_id": "gate",
+  "version": 10,
+  "parent": 9,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R1",
+    "statement": "After 'call', last_job becomes (obs.last_job + 1) if args.endpoint == 'create' else (obs.last_job) (fits 5/5 past steps)",
+    "kind": "transition",
+    "action": "call",
+    "when": "True",
+    "effects": {
+     "last_job": "(obs.last_job + 1) if args.endpoint == 'create' else (obs.last_job)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.963,
+    "evidence": [
+     25,
+     26,
+     27,
+     28
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R2",
+    "statement": "After 'call', jobs_draft becomes (obs.jobs_draft + 1) if args.endpoint == 'create' else (obs.jobs_draft) (fits 5/5 past steps)",
+    "kind": "transition",
+    "action": "call",
+    "when": "True",
+    "effects": {
+     "jobs_draft": "(obs.jobs_draft + 1) if args.endpoint == 'create' else (obs.jobs_draft)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.926,
+    "evidence": [
+     25,
+     26,
+     27,
+     29
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R5",
+    "statement": "After 'wait', last_status becomes 200 (fits 8/8 past steps)",
+    "kind": "transition",
+    "action": "wait",
+    "when": "True",
+    "effects": {
+     "last_status": "200"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.929,
+    "evidence": [
+     46,
+     48
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R6",
+    "statement": "After 'call', tokens becomes (obs.tokens - 1) if (t + 1) % 2 == 1 else (obs.tokens) (fits 11/15 past steps)",
+    "kind": "periodic",
+    "action": "call",
+    "when": "True",
+    "effects": {
+     "tokens": "(obs.tokens - 1) if (t + 1) % 2 == 1 else (obs.tokens)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.815,
+    "evidence": [
+     59,
+     61,
+     62
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R7",
+    "statement": "After 'call' when args.endpoint == 'commit', last_status becomes 404 (mined from experience)",
+    "kind": "transition",
+    "action": "call",
+    "when": "args.endpoint == 'commit'",
+    "effects": {
+     "last_status": "404"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.875,
+    "evidence": [
+     74,
+     77
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [],
+  "note": "Cycle 10: more experience, no rule changes."
+ },
+ "laws": {
+  "arming evicts the oldest": {
+   "n": 6,
+   "accuracy": 1.0,
+   "persistence": 1.0
+  },
+  "backing off clears strikes": {
+   "n": 15,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "commit within arm window": {
+   "n": 4,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "empty bucket returns 429": {
+   "n": 24,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "stale arm falls back to draft": {
+   "n": 6,
+   "accuracy": 0.0,
+   "persistence": 0.0
+  },
+  "token cost per request": {
+   "n": 356,
+   "accuracy": 0.947,
+   "persistence": 0.455
+  },
+  "token refill": {
+   "n": 317,
+   "accuracy": 0.511,
+   "persistence": 0.511
+  }
+ },
+ "held_out_play": {
+  "accuracy": 0.8962,
+  "changed_accuracy": 0.4455,
+  "persistence_accuracy": 0.8371,
+  "episodes": 24
+ }
+}

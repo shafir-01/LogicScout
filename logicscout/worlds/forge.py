@@ -1,7 +1,9 @@
 """Forge: procedurally generated unknown systems. PRIVATE (hidden laws).
 
 A seed composes 3-5 mechanisms (logicscout/worlds/mechanisms.py) over neutral components, so no one
-has seen the system before a run. Variant "standard" = seed 1; variant "g<seed>" = any seed.
+has seen the system before a run. Variant "standard" = seed 1; variant "g<seed>" = any seed (in-family).
+Variant "x<seed>" = an OUT-OF-FAMILY system: an in-family base plus 2-4 mechanisms the generator family and
+the rule miner do not contain (sensor noise, saturating response, a hidden 3-mode cycle, gradual drift).
 Each instance carries its own manual: `world.manual()` on an instance returns the per-variant manual
 (an instance attribute shadows the classmethod); `ForgeWorld.manual_for(variant)` does the same.
 """
@@ -18,7 +20,10 @@ from logicscout.contracts import (
     StepResult, WorldManual,
 )
 from logicscout.worlds.base import World, register
-from logicscout.worlds.mechanisms import LEVELS, SHIFT_LABELS, SINCE_CAP, action_list, describe, generate_laws, mutate
+from logicscout.worlds.mechanisms import (
+    LEVELS, SHIFT_LABELS, SINCE_CAP, action_list, describe, generate_laws, generate_x_laws, mutate, reference_theory,
+    x_gain,
+)
 
 OBJ_ID = "reach"
 STANDARD_SEED = 1
@@ -26,21 +31,30 @@ _FIELD_TYPES = {"ready": "bool"}
 _CAL_BEAM = 48
 
 
-VARIANT_RE = re.compile(r"^g\d{1,6}$")
+VARIANT_RE = re.compile(r"^[gx]\d{1,6}$")  # g<seed> in-family, x<seed> out-of-family
+
+
+def variant_key(variant: str) -> tuple[str, int]:
+    """("g" | "x", seed). "standard" is ("g", 1)."""
+    if variant == "standard":
+        return "g", STANDARD_SEED
+    if isinstance(variant, str) and VARIANT_RE.match(variant):
+        return variant[0], int(variant[1:])
+    raise ValueError(f"unknown forge variant {variant!r}; use 'standard', 'g<seed>' or 'x<seed>'")
 
 
 def variant_seed(variant: str) -> int:
-    if variant == "standard":
-        return STANDARD_SEED
-    if isinstance(variant, str) and VARIANT_RE.match(variant):
-        return int(variant[1:])
-    raise ValueError(f"unknown forge variant {variant!r}; use 'standard' or 'g<seed>'")
+    return variant_key(variant)[1]
+
+
+def is_out_of_family(variant: str) -> bool:
+    return variant_key(variant)[0] == "x"
 
 
 class _Sim:
     """Plain-Python state machine for one generated system (fast; used by the world and calibration)."""
 
-    __slots__ = ("L", "t", "f", "res", "cd", "lock", "since", "pipe")
+    __slots__ = ("L", "t", "f", "res", "cd", "lock", "since", "pipe", "ep", "mode", "xuses")
 
     def __init__(self, L: JSON) -> None:
         self.L = L
@@ -63,6 +77,7 @@ class _Sim:
         self.cd = self.lock = 0
         self.since = SINCE_CAP
         self.pipe = [0] * self._d()
+        self.ep, self.mode, self.xuses = seed, 0, 0
 
     def _d(self) -> int:
         return int(self.L.get("delay_steps", 0)) if "delay" in self.L["mechanisms"] else 0
@@ -71,11 +86,28 @@ class _Sim:
         s = _Sim.__new__(_Sim)
         s.L, s.t, s.res, s.cd, s.lock, s.since = self.L, self.t, self.res, self.cd, self.lock, self.since
         s.f, s.pipe = dict(self.f), list(self.pipe)
+        s.ep, s.mode, s.xuses = self.ep, self.mode, self.xuses
         return s
 
     def key(self) -> tuple:
-        return (tuple(sorted(self.f.items())), self.res, self.cd, self.lock, self.since, tuple(self.pipe),
-                self.t % self.L.get("window_period", 1))
+        k = (tuple(sorted(self.f.items())), self.res, self.cd, self.lock, self.since, tuple(self.pipe),
+             self.t % self.L.get("window_period", 1))
+        X = self.L.get("x")
+        if X:
+            k += (self.mode, self.xuses, self.t // X.get("drift_every", 10**9))
+        return k
+
+    def reading(self) -> dict:
+        """What the instruments show: the true fields, plus +-1 jitter on noisy readings (x-variants only).
+        The jitter is a pure function of (system, reset seed, t, reading), so runs are reproducible."""
+        X = self.L.get("x")
+        if not X or "noise" not in X["kinds"]:
+            return dict(self.f)
+        out = dict(self.f)
+        for k in X["noisy"]:
+            j = random.Random(f"{X['salt']}:{self.ep}:{self.t}:{k}").randint(-1, 1)
+            out[k] = max(0, out[k] + j)
+        return out
 
     def step(self, role: str, level: int = 0) -> None:
         L, m, f = self.L, self.L["mechanisms"], self.f
@@ -91,6 +123,9 @@ class _Sim:
         if "resource" in m:
             gates = gates and self.res >= L["res_cost"]
         gain = L["gain"] + (L["bonus"] * f["set"] if "control" in m else 0)
+        X = L.get("x")
+        if X:
+            gain = x_gain(L, gain, self.t, f["out"] + f.get("buf", 0) + sum(self.pipe), self.mode)
         cap = "capacity" in m
         tgt = "buf" if cap else "out"
 
@@ -142,6 +177,10 @@ class _Sim:
             f["moves"] += role != "hold"
         if "last" in f:
             f["last"] = self.L["names"]["order"].index(role)
+        if X and "modes" in X["kinds"] and gates:
+            self.xuses += 1
+            if self.xuses >= X["mode_every"]:
+                self.xuses, self.mode = 0, (self.mode + 1) % 3
         self.t += 1
 
     def potential(self) -> float:
@@ -171,21 +210,25 @@ def beam_best(sim: _Sim, horizon: int, width: int = _CAL_BEAM) -> int:
     return best
 
 
-@lru_cache(maxsize=256)
-def _generate(seed: int) -> tuple[str, WorldManual]:
+@lru_cache(maxsize=512)
+def _generate(seed: int, family: str = "g") -> tuple[str, WorldManual]:
     import json
 
-    rng = random.Random(seed * 7 + 3)
+    rng = random.Random(seed * 7 + 3 + (500_009 if family == "x" else 0))
     horizon = rng.randint(24, 36)
     for attempt in range(50):  # reject systems where spamming the producer already reaches the target
-        L = generate_laws(seed, attempt)
+        if family == "x":
+            L = generate_x_laws(seed, attempt)
+            L["x"]["salt"] = f"x{seed}"
+        else:
+            L = generate_laws(seed, attempt)
         worst = min(beam_best(_start(L, s, 0), horizon) for s in range(4))
         target = max(4, math.ceil(0.8 * worst))
         if spam_best(L, horizon) < target:
             break
     else:
-        raise RuntimeError(f"forge seed {seed}: no system resists producer spam")
-    return json.dumps(L), _build_manual(seed, L, target, horizon)
+        raise RuntimeError(f"forge seed {family}{seed}: no system resists producer spam")
+    return json.dumps(L), _build_manual(seed if family == "g" else f"x{seed}", L, target, horizon)
 
 
 def _start(L: JSON, seed: int, out: int | None = None) -> _Sim:
@@ -209,7 +252,7 @@ def spam_best(L: JSON, horizon: int) -> int:
     return best
 
 
-def _build_manual(seed: int, L: JSON, target: int, horizon: int) -> WorldManual:
+def _build_manual(seed: int | str, L: JSON, target: int, horizon: int) -> WorldManual:
     N, F = L["names"], L["names"]["fields"]
     actions = []
     for r in N["order"]:
@@ -233,6 +276,8 @@ def _build_manual(seed: int, L: JSON, target: int, horizon: int) -> WorldManual:
         objectives=[Objective(id=OBJ_ID, text=f"Reach {F['out']} >= {target} within {horizon} steps",
                               success=f"obs.{F['out']} >= {target}", horizon=horizon)],
         probe_budget=60,
+        # operator alarm limits (public): the core's ready light stays on, the reservoir gauge never empties
+        safety=[f"obs.{F[k]}" if k == "ready" else f"obs.{F[k]} >= 1" for k in ("ready", "gauge") if k in F],
         lab_seeds=(0, 1000),
         briefing_topics=[],
         layout={"kind": "graph", "nodes": [{"id": c, "label": c.title()} for c in comps],
@@ -262,7 +307,8 @@ class ForgeWorld(World):
 
     @classmethod
     def manual_for(cls, variant: str) -> WorldManual:
-        return _generate(variant_seed(variant))[1].model_copy(deep=True)
+        family, seed = variant_key(variant)
+        return _generate(seed, family)[1].model_copy(deep=True)
 
     @classmethod
     def generate(cls, seed: int) -> ForgeWorld:
@@ -276,7 +322,7 @@ class ForgeWorld(World):
 
     def observe(self) -> Observation:
         F = self.laws["names"]["fields"]
-        return Observation(t=self.sim.t, fields={"t": self.sim.t, **{F[k]: v for k, v in self.sim.f.items()}})
+        return Observation(t=self.sim.t, fields={"t": self.sim.t, **{F[k]: v for k, v in self.sim.reading().items()}})
 
     def act(self, action: Action) -> StepResult:
         role = self.roles.get(action.name)
@@ -305,7 +351,8 @@ class ForgeWorld(World):
     def default_laws(cls, variant: str) -> JSON:
         import json
 
-        return json.loads(_generate(variant_seed(variant))[0])
+        family, seed = variant_key(variant)
+        return json.loads(_generate(seed, family)[0])
 
     @classmethod
     def variants(cls) -> list[str]:
@@ -338,9 +385,41 @@ class ForgeWorld(World):
 
     @classmethod
     def referee_cases_for(cls, variant: str) -> list[Case]:
-        variant_seed(variant)
+        variant_key(variant)
         return [Case(case_id=f"forge-{variant}-{s}", seed=s, variant=variant, objective_id=OBJ_ID)
                 for s in (10001, 10002, 10003, 10004, 10005, 10006)]
 
 
-__all__ = ["ForgeWorld", "OBJ_ID", "action_list", "beam_best", "spam_best", "variant_seed", "VARIANT_RE"]
+def reference_accuracies(variant: str, episodes: int = 6, steps: int = 40) -> dict:
+    """How well the IN-FAMILY reference theory (every in-family mechanism written exactly in the DSL) predicts
+    this system, on uniformly random play from the referee seeds. For g-variants it is exact (1.0); for
+    x-variants no exact compact theory is claimed, so this is the in-family ceiling a learned theory is
+    compared against. Returns {"accuracy", "changed_accuracy", "persistence", "n"}."""
+    from logicscout.contracts import Action
+    from logicscout.theory import accuracy, changed_accuracy, persistence_accuracy
+
+    w = ForgeWorld(variant)
+    theory = reference_theory(w.laws)
+    acts = []
+    for a in w.instance_manual.actions:
+        acts += [Action(name=a.name, args={"level": lv}) for lv in range(LEVELS)] if a.params else [Action(name=a.name)]
+    rng = random.Random(variant_seed(variant))
+    tr = []
+    for c in ForgeWorld.referee_cases_for(variant)[:episodes]:
+        obs = w.reset(c.seed)
+        for _ in range(steps):
+            a = rng.choice(acts)
+            new = w.act(a).observation
+            tr.append((obs, a, new))
+            obs = new
+    return {"accuracy": round(accuracy(theory, tr), 4), "changed_accuracy": round(changed_accuracy(theory, tr), 4),
+            "persistence": round(persistence_accuracy(tr), 4), "n": len(tr)}
+
+
+def best_reference_accuracy(variant: str) -> float:
+    """Prediction accuracy of the in-family reference theory on this variant (1.0 in-family; < 1 out-of-family)."""
+    return reference_accuracies(variant)["accuracy"]
+
+
+__all__ = ["ForgeWorld", "OBJ_ID", "action_list", "beam_best", "best_reference_accuracy", "is_out_of_family",
+           "reference_accuracies", "spam_best", "variant_key", "variant_seed", "VARIANT_RE"]

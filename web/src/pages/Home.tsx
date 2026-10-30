@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ApiError, api, type Replay } from "../api";
 import type { RunConfig, WorldManual } from "../types";
 import { go, humanGoal, shortTitle } from "../ui";
+import HeroArt from "../components/HeroArt"; import UseCases from "../components/UseCases";
 
 type Item = { id: string; title: string; goal?: string };
 type Forge = { variant: string; manual: WorldManual };
@@ -128,6 +129,7 @@ export default function Home() {
           <a className="btn btn-primary btn-xl" href={watchHref}>Watch it learn</a>
           <button className="link-more" onClick={toTry}>Try it live ↓</button>
         </div>
+        <HeroArt />
         <p className="credits">Reasoning by NVIDIA Nemotron on Nebius · public knowledge via Tavily</p>
       </section>
 
@@ -145,6 +147,7 @@ export default function Home() {
         <p className="quiet">Every result is checked by an independent referee on cases the AI never saw.</p>
       </section>
 
+      <UseCases />
       <section className="try" id="try" aria-labelledby="try-title">
         <h2 id="try-title" className="section-title">Try it live</h2>
         <p className="try-sub">Pick a system. ‘Unknown system’ is generated just for you, so nobody has seen it before. A live run takes about three minutes.</p>
@@ -180,6 +183,7 @@ export default function Home() {
         )}
         {err && <p className="error" role="alert">{err}</p>}
       </section>
+      <p className="small dim" style={{ textAlign: "center", margin: "24px 0" }}><a href="#/evidence" className="dim">Evidence</a></p>
     </main>
   );
 }

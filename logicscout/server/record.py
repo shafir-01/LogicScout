@@ -19,6 +19,8 @@ def record(run_id: str, name: str) -> None:
     for f in ("events.jsonl", "state.json"):  # prompts.jsonl and private.json are never copied
         shutil.copy2(src / f, dst / f)
     (dst / "debrief.json").write_text(json.dumps(R.debrief_from_disk(src), indent=2), encoding="utf-8")
+    from logicscout.anchor import anchor
+    anchor(dst)
     print(f"recorded {run_id} -> {dst}")
 
 

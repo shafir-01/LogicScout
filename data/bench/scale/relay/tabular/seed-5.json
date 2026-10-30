@@ -1,0 +1,69 @@
+{
+ "world": "relay",
+ "variant": "standard",
+ "arm": "tabular",
+ "seed": 5,
+ "lab_seed": 12,
+ "objective_id": "bulk8",
+ "shift_after": 40,
+ "elapsed_s": 1.2,
+ "status": "ok",
+ "wall_s": 1.2,
+ "model_calls": 0,
+ "tokens": 0,
+ "success": 0.0,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.8146,
+ "persistence_accuracy": 0.7604,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": false,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "rules contradicted on held-out standard cases: T1 x1, T2 x2, T3 x4, T8 x4, T9 x4",
+  "changed-value accuracy 0.1458 over 542 changed (step, field) pairs (persistence scores 0.0 there); open-loop rollout accuracy by horizon {1: 0.7598, 2: 0.6811, 3: 0.6222, 4: 0.5898, 5: 0.5685}",
+  "no_law_text_in_prompts: unverified, no prompt log supplied",
+  "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "c700b658e53a2213083d6d8b4a37531955e5c9de4bd948198a634318265d1678",
+ "n_cases": 4,
+ "successes": 0,
+ "probes_used": 100,
+ "table_rules": 5,
+ "fit_accuracy_on_own_data": 0.8291,
+ "playbook_origin": "planner"
+}

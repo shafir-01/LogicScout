@@ -8,7 +8,7 @@ export interface Objective { id: string; text: string; success: string; horizon:
 export interface WorldManual {
   world_id: string; title: string; domain: string; summary: string;
   actions: ActionSpec[]; observations: FieldSpec[]; objectives: Objective[];
-  probe_budget: number; briefing_topics?: string[]; layout?: Dict;
+  probe_budget: number; briefing_topics?: string[]; layout?: Dict; safety?: string[];
 }
 export interface Action { name: string; args?: Dict }
 export interface Observation { t: number; fields: Dict; events?: string[] }
@@ -46,6 +46,8 @@ export interface RefereeReport {
   run_id: string; world_id: string; theory_version: number; playbook_id: string; cases: CaseResult[];
   success_rate: number; prediction_accuracy: number; baselines: Record<string, number>;
   leakage_checks: Record<string, boolean>; notes: string[]; digest: string;
+  changed_accuracy?: number | null; changed_baseline?: number | null; rollout_accuracy?: Record<string, number> | null;
+  goal_field_accuracy?: number | null; n_transitions?: number | null; n_changed?: number | null;
 }
 export interface RunState {
   run_id: string; config: RunConfig; phase: Phase; live: boolean; theory?: Theory | null; playbook?: Playbook | null;

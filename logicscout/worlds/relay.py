@@ -61,6 +61,7 @@ class RelayWorld(World):
                           success="obs.priority_delivered >= 5", horizon=40),
             ],
             probe_budget=50,
+            safety=["obs.lost <= 2"],  # operator alarm limits (public), not the hidden laws
             lab_seeds=(0, 1000),
             briefing_topics=[
                 "store and forward messaging queue order FIFO",

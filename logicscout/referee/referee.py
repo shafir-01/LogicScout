@@ -130,8 +130,9 @@ def controller(theory: Theory, playbook: Playbook) -> PolicyFactory:
 # ---- case runner ---------------------------------------------------------------------------
 
 def run_case(cls: type[World], case: Case, objective_id: str, make_policy: PolicyFactory,
-             horizon: int | None = None) -> CaseResult:
-    """Fresh world of the case variant, reset(seed), run the policy to the horizon. Success is ground truth."""
+             horizon: int | None = None, record: list | None = None) -> CaseResult:
+    """Fresh world of the case variant, reset(seed), run the policy to the horizon. Success is ground truth.
+    Pass `record` (a list) to collect the (before, action, after) transitions the policy produced."""
     world = cls(variant=case.variant)
     manual = manual_of(cls, case.variant, world)
     objective = objective_of(manual, objective_id)
@@ -143,6 +144,8 @@ def run_case(cls: type[World], case: Case, objective_id: str, make_policy: Polic
         while steps < limit and not world.success(objective_id):
             action = policy.next_action(obs)
             res = world.act(action)
+            if record is not None:
+                record.append((obs, action, res.observation))
             steps += 1
             cost += res.cost
             errors += res.error is not None
@@ -186,8 +189,62 @@ def rule_contradictions(theory: Theory, transitions: list[tuple[Observation, Act
             if s["fired"] > s["correct"]}
 
 
+_OPTIONAL_METRICS = ("changed_accuracy", "changed_baseline", "rollout_accuracy", "goal_field_accuracy",
+                     "n_transitions", "n_changed")
+
+
+def _success_expr(manual: WorldManual, objective_id: str) -> str:
+    try:
+        return objective_of(manual, objective_id).success
+    except KeyError:
+        return ""
+
+
+def consequence_metrics(theory: Theory, episodes: list[list], success_expr: str,
+                        notes: list[str] | None = None, horizon: int = 5) -> dict:
+    """Metrics a "nothing changes" theory cannot game, pooled over held-out episodes (random-policy
+    probes plus the controller's own runs): accuracy on changed values only, open-loop k-step rollout
+    accuracy, and accuracy on the fields the goal is defined over."""
+    from logicscout.theory import changed_counts, changed_pairs, field_counts, goal_fields, rollout_counts
+
+    ch_c = ch_n = g_c = g_n = 0
+    roll: dict[int, list[int]] = {k: [0, 0] for k in range(1, horizon + 1)}
+    gf = goal_fields(success_expr)
+    n_tr = sum(len(ep) for ep in episodes)
+    for ep in episodes:
+        n_changed = len(changed_pairs(ep))
+        try:
+            c, n = changed_counts(theory, ep)
+            gc, gn = field_counts(theory, ep, gf) if gf else (0, 0)
+            rc = rollout_counts(theory, [ep], horizon)
+        except Exception as e:  # an unevaluable theory scores 0 on that episode
+            width = [sum(1 for f in a.fields if f != "t") for _, _, a in ep]
+            c, n, gc = 0, n_changed, 0
+            gn = sum(1 for _, _, a in ep for f in a.fields if f in gf)
+            rc = {k: (0, sum(width[k - 1:])) for k in range(1, horizon + 1)}
+            if notes is not None:
+                notes.append(f"metrics: theory could not be evaluated on an episode ({type(e).__name__}); scored 0")
+        ch_c, ch_n, g_c, g_n = ch_c + c, ch_n + n, g_c + gc, g_n + gn
+        for k, (kc, kn) in rc.items():
+            roll[k][0] += kc
+            roll[k][1] += kn
+    return {
+        "changed_accuracy": round(ch_c / ch_n, 4) if ch_n else 0.0,
+        "changed_baseline": 0.0,
+        "rollout_accuracy": {k: round(c / n, 4) for k, (c, n) in roll.items() if n},
+        "goal_field_accuracy": round(g_c / g_n, 4) if g_n else None,
+        "n_transitions": n_tr,
+        "n_changed": ch_n,
+    }
+
+
 def report_digest(report: RefereeReport) -> str:
-    return hashlib.sha256(canonical(report.model_dump(exclude={"digest"})).encode()).hexdigest()
+    # Optional metric fields are left out while unset, so reports recorded before they existed still verify.
+    d = report.model_dump(exclude={"digest"})
+    for k in _OPTIONAL_METRICS:
+        if d.get(k) in (None, {}):
+            d.pop(k, None)
+    return hashlib.sha256(canonical(d).encode()).hexdigest()
 
 
 # ---- main entry point -------------------------------------------------------------------------
@@ -215,15 +272,18 @@ def evaluate(
         notes.append(f"world declares no referee cases for objective {objective_id!r}")
 
     policy = make_policy or controller(theory, playbook)
-    results = [run_case(cls, c, objective_id, policy) for c in cases]
+    trajectories: list[list] = [[] for _ in cases]
+    results = [run_case(cls, c, objective_id, policy, record=trajectories[i]) for i, c in enumerate(cases)]
     rand = [run_case(cls, c, objective_id, lambda w, m, o, s=c.seed: RandomPolicy(m, s)) for c in cases]
     idle = [run_case(cls, c, objective_id, lambda w, m, o: IdlePolicy(m, playbook)) for c in cases]
 
     acc, pers, n_tr, contradicted = 0.0, 0.0, 0, {}
+    random_episodes: list[list] = []
     for c in cases:
         tr = collect_transitions(cls, c)
         if not tr:
             continue
+        random_episodes.append(tr)
         try:
             acc += accuracy(theory, tr) * len(tr)
         except Exception as e:
@@ -240,6 +300,12 @@ def evaluate(
     if contradicted:
         notes.append("rules contradicted on held-out standard cases: "
                      + ", ".join(f"{r} x{k}" for r, k in sorted(contradicted.items())))
+
+    metrics = consequence_metrics(theory, random_episodes + [t for t in trajectories if t],
+                                  _success_expr(manual, objective_id), notes)
+    notes.append(f"changed-value accuracy {metrics['changed_accuracy']} over {metrics['n_changed']} changed "
+                 f"(step, field) pairs (persistence scores 0.0 there); "
+                 f"open-loop rollout accuracy by horizon {metrics['rollout_accuracy']}")
 
     ev = [e if isinstance(e, Event) else Event.model_validate(e) for e in events] if events is not None else None
     law_variants = list(dict.fromkeys([variant] + (cls.variants() if variant == "standard" else [])))
@@ -261,7 +327,7 @@ def evaluate(
         run_id=run_id, world_id=world_id, theory_version=theory.version, playbook_id=playbook.id,
         cases=results, success_rate=success_rate(results), prediction_accuracy=acc,
         baselines={"random": success_rate(rand), "idle": success_rate(idle), "persistence_accuracy": pers},
-        leakage_checks=checks, notes=notes,
+        leakage_checks=checks, notes=notes, **metrics,
     )
     report.digest = report_digest(report)
     return report

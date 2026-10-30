@@ -63,6 +63,7 @@ class PlantWorld(World):
                 id=OBJ_ID, text="Hold tank level between 40 and 60 for 10 consecutive steps",
                 success="obs.in_band_streak >= 10", horizon=45)],
             probe_budget=50,
+            safety=["obs.level >= 5 and obs.level <= 95"],  # operator alarm limits (public), not the hidden laws
             lab_seeds=(0, 1000),
             briefing_topics=[
                 "centrifugal pump high discharge pressure trip setpoint reset",

@@ -1,0 +1,153 @@
+{
+ "world": "relay",
+ "variant": "standard",
+ "arm": "no_model",
+ "seed": 7,
+ "lab_seed": 14,
+ "objective_id": "bulk8",
+ "shift_after": 40,
+ "elapsed_s": 90.2,
+ "phase": "done",
+ "wall_s": 90.2,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "failure_rate": 0.0,
+ "tokens": 0,
+ "latency_s": 0.0,
+ "models": [],
+ "errors": [
+  "hypothesize failed: model disabled for this run (use_model=False): hypothesize; continuing with exploratory probes",
+  "revise_theory failed: model disabled for this run (use_model=False): revise_theory",
+  "hypothesize failed: model disabled for this run (use_model=False): hypothesize; continuing with exploratory probes",
+  "hypothesize failed: model disabled for this run (use_model=False): hypothesize; continuing with exploratory probes",
+  "hypothesize failed: model disabled for this run (use_model=False): hypothesize; continuing with exploratory probes"
+ ],
+ "success": 0.0,
+ "random": 0.0,
+ "idle": 0.0,
+ "prediction_accuracy": 0.9094,
+ "persistence_accuracy": 0.7604,
+ "cases": [
+  {
+   "case_id": "case-0",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-1",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-2",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  },
+  {
+   "case_id": "case-3",
+   "success": false,
+   "steps": 40,
+   "cost": 9.0,
+   "note": ""
+  }
+ ],
+ "leakage_checks": {
+  "no_law_text_in_prompts": false,
+  "scout_imports_clean": true,
+  "referee_cases_unseen": true,
+  "events_digest_ok": true
+ },
+ "referee_notes": [
+  "rules contradicted on held-out standard cases: R25 x1, R27 x2, R62 x2, R68 x5, R74 x3, R79 x1, R86 x4",
+  "changed-value accuracy 0.666 over 524 changed (step, field) pairs (persistence scores 0.0 there); open-loop rollout accuracy by horizon {1: 0.8929, 2: 0.8162, 3: 0.7642, 4: 0.7188, 5: 0.6961}",
+  "no_law_text_in_prompts: unverified, no prompt log supplied",
+  "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+  "digest = sha256 of this report: proves integrity (not edited), not correctness"
+ ],
+ "referee_digest": "f0875dc65c314dcf32ff050748c722ddf6927052cd087c54cb80a239eaf4aaad",
+ "n_cases": 4,
+ "successes": 0,
+ "drift_metrics": {
+  "shift_applied": true,
+  "shift_at_control_step": 40,
+  "control_steps_before_shift": 40,
+  "false_alarms_before_shift": 0,
+  "suspected_before_shift": 0,
+  "detected": true,
+  "detection_delay_steps": 131,
+  "recovered": false,
+  "recovery_steps": null,
+  "control_steps_total": 238
+ },
+ "playbook_origin": "planner",
+ "status": "ok",
+ "probes_used": 100,
+ "probes_to_competence": null,
+ "control_actions": 238,
+ "episodes": [
+  {
+   "seed": 14,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 15,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 16,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 17,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 18,
+   "success": false,
+   "steps": 11,
+   "true_success": false
+  },
+  {
+   "seed": 19,
+   "success": false,
+   "steps": 40,
+   "true_success": false
+  },
+  {
+   "seed": 20,
+   "success": false,
+   "steps": 7,
+   "true_success": false
+  },
+  {
+   "seed": 21,
+   "success": false,
+   "steps": 20,
+   "true_success": false
+  }
+ ],
+ "recovery": {
+  "detected_after_steps": 131,
+  "reprobe_probes": 32,
+  "recovered": false,
+  "true_success_after_shift": 0.0
+ },
+ "false_conclusions": {
+  "rules_refuted_in_run": 0,
+  "held_out_contradictions": 18
+ }
+}

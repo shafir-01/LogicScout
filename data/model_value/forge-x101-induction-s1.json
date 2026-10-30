@@ -1,0 +1,306 @@
+{
+ "world": "forge",
+ "variant": "x101",
+ "mode": "induction",
+ "seed": 1,
+ "probe_budget": 60,
+ "probes_used": 52,
+ "lab_steps": 52,
+ "wall_s": 40.8,
+ "model_calls": 0,
+ "failed_calls": 0,
+ "tokens": 0,
+ "rules": 13,
+ "error": null,
+ "referee": {
+  "accuracy": 0.9646,
+  "changed_accuracy": 0.8769,
+  "persistence_accuracy": 0.7125,
+  "episodes": 6
+ },
+ "theory": {
+  "world_id": "forge",
+  "version": 9,
+  "parent": 8,
+  "memory": {},
+  "rules": [
+   {
+    "id": "R20",
+    "statement": "After every step, yield_mark becomes (obs.yield_mark - 1) if obs.yield_mark >= 1 else (obs.yield_mark) (fits 19/23 past steps)",
+    "kind": "transition",
+    "action": "*",
+    "when": "True",
+    "effects": {
+     "yield_mark": "(obs.yield_mark - 1) if obs.yield_mark >= 1 else (obs.yield_mark)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.976,
+    "evidence": [
+     81,
+     82,
+     83,
+     84,
+     89
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R1",
+    "statement": "After 'cycle', span becomes obs.span + 1 (fits 5/5 past steps)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "True",
+    "effects": {
+     "span": "obs.span + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.955,
+    "evidence": [
+     21,
+     27
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R10",
+    "statement": "After 'kick', charge becomes obs.charge + 1 (fits 3/3 past steps)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "True",
+    "effects": {
+     "charge": "obs.charge + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.933,
+    "evidence": [
+     43,
+     48,
+     54
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R16",
+    "statement": "After 'kick', span becomes obs.span + 1 (fits 5/5 past steps)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "True",
+    "effects": {
+     "span": "obs.span + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.933,
+    "evidence": [
+     81,
+     82,
+     85
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R22",
+    "statement": "After 'bleed', trace becomes obs.trace + 1 (fits 6/6 past steps)",
+    "kind": "transition",
+    "action": "bleed",
+    "when": "True",
+    "effects": {
+     "trace": "obs.trace + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.917,
+    "evidence": [
+     83,
+     91
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R26",
+    "statement": "After 'draw', span becomes obs.span + 1 (fits 3/3 past steps)",
+    "kind": "transition",
+    "action": "draw",
+    "when": "True",
+    "effects": {
+     "span": "obs.span + 1"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.909,
+    "evidence": [
+     107,
+     111
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R30",
+    "statement": "After 'draw', flux becomes obs.flux + obs.drift (fits 3/3 past steps)",
+    "kind": "transition",
+    "action": "draw",
+    "when": "True",
+    "effects": {
+     "flux": "obs.flux + obs.drift"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.909,
+    "evidence": [
+     107,
+     115
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R35",
+    "statement": "After 'cycle', trace becomes 0 (fits 12/12 past steps)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "True",
+    "effects": {
+     "trace": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.955,
+    "evidence": [
+     125,
+     126,
+     132
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R33",
+    "statement": "After 'draw', drift becomes 0 (fits 4/4 past steps)",
+    "kind": "transition",
+    "action": "draw",
+    "when": "True",
+    "effects": {
+     "drift": "0"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.909,
+    "evidence": [
+     138,
+     140,
+     142,
+     144,
+     146
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R36",
+    "statement": "After 'kick', yield_mark becomes (2) if obs.drift == 0 else (obs.charge) (fits 10/12 past steps)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "True",
+    "effects": {
+     "yield_mark": "(2) if obs.drift == 0 else (obs.charge)"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.571,
+    "evidence": [
+     156,
+     159
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R38",
+    "statement": "After 'cycle', beacon becomes -1 * args.level + 3 (mined from experience)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "True",
+    "effects": {
+     "beacon": "-1 * args.level + 3"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.941,
+    "evidence": [
+     154,
+     157,
+     161
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R39",
+    "statement": "After 'cycle' when args.level == 1, beacon becomes 2 (mined from experience)",
+    "kind": "transition",
+    "action": "cycle",
+    "when": "args.level == 1",
+    "effects": {
+     "beacon": "2"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.857,
+    "evidence": [
+     154,
+     162
+    ],
+    "source": "probe",
+    "citations": []
+   },
+   {
+    "id": "R40",
+    "statement": "After 'kick' when obs.drift <= 1, yield_mark becomes 2 (mined from experience)",
+    "kind": "transition",
+    "action": "kick",
+    "when": "obs.drift <= 1",
+    "effects": {
+     "yield_mark": "2"
+    },
+    "memory": {},
+    "delay": 0,
+    "status": "supported",
+    "confidence": 0.9,
+    "evidence": [
+     156,
+     163
+    ],
+    "source": "probe",
+    "citations": []
+   }
+  ],
+  "unknowns": [
+   "R3 vs R4: predict all experience equally (equivalent so far)",
+   "R10 vs R11: predict all experience equally (equivalent so far)",
+   "R22 vs R23: predict all experience equally (equivalent so far)",
+   "R26 vs R27: predict all experience equally (equivalent so far)"
+  ],
+  "note": "Learned: R36: After 'kick', yield_mark becomes (2) if obs.drift == 0 else (obs.charge) (fits 10/12 past steps); R38: After 'cycle', beacon becomes -1 * args.level + 3 (mined from experience); R39: After 'cycle' when args.level == 1, beacon becomes 2 (mined from experience); R40: After 'kick' when obs.drift <= 1, yield_mark becomes 2 (mined from experience)"
+ }
+}
