@@ -18,6 +18,10 @@ from logicscout.contracts import ModelCall
 PROVIDER = "nebius-token-factory"
 TIMEOUTS = {"deep": 120.0, "fast": 60.0}
 MAX_TRANSIENT = 3
+# Nemotron 3 reasons before answering; long reasoning hit the completion cap and leaked into `content`.
+# Measured on Token Factory: thinking off answers the same JSON prompts in ~5s instead of 25s+/failure.
+THINKING = os.getenv("LS_THINKING", "off").lower() in ("1", "on", "true")
+MAX_TOKENS = int(os.getenv("LS_MAX_TOKENS", "6000"))
 _THINK = re.compile(r"<think>.*?(</think>|$)", re.S | re.I)
 _TYPES = {"object": dict, "array": list, "string": str, "integer": int, "number": (int, float), "boolean": bool}
 _SEMS: dict[int, asyncio.Semaphore] = {}
@@ -41,8 +45,19 @@ def strip_reasoning(text: str) -> str:
     return text.strip()
 
 
-def extract_json(text: str) -> dict:
-    text = strip_reasoning(text)
+def extract_json(text: str, schema: dict | None = None) -> dict:
+    """First JSON object in the text; with a schema, prefer the first object that satisfies it."""
+    found = list(_objects(strip_reasoning(text)))
+    if not found:
+        raise ValueError("no JSON object found in model output")
+    if schema:
+        for obj in found:
+            if not check_schema(obj, schema):
+                return obj
+    return found[0]
+
+
+def _objects(text: str):
     start = text.find("{")
     while start != -1:
         depth, in_str, esc = 0, False, False
@@ -65,12 +80,12 @@ def extract_json(text: str) -> dict:
                     try:
                         obj = json.loads(text[start : i + 1])
                         if isinstance(obj, dict):
-                            return obj
+                            yield obj
+                            start = i
                     except json.JSONDecodeError:
                         pass
                     break
         start = text.find("{", start + 1)
-    raise ValueError("no JSON object found in model output")
 
 
 def check_schema(obj: dict, schema: dict | None) -> list[str]:
@@ -154,6 +169,7 @@ class Nemotron:
         """Returns (text, ModelCall) for one successful completion, retrying transient errors."""
         sha = hashlib.sha256(json.dumps([model, system, user]).encode()).hexdigest()
         last = ""
+        budget = MAX_TOKENS
         for attempt in range(MAX_TRANSIENT):
             t0 = time.perf_counter()
             try:
@@ -164,6 +180,8 @@ class Nemotron:
                             messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
                             response_format={"type": "json_object"},
                             temperature=0.2,
+                            max_tokens=budget,
+                            extra_body={"chat_template_kwargs": {"enable_thinking": THINKING}},
                         ),
                         timeout=TIMEOUTS[tier],
                     )
@@ -181,6 +199,11 @@ class Nemotron:
             msg = resp.choices[0].message
             text = msg.content or ""
             got = getattr(resp, "model", None) or model
+            if getattr(resp.choices[0], "finish_reason", None) == "length" and attempt < MAX_TRANSIENT - 1:
+                last = f"completion cut at max_tokens={budget}"
+                self._fail(purpose, tier, model, t0, escalated, last, sha)
+                budget *= 2  # reasoning and answer share the cap: retry with room
+                continue
             call = ModelCall(purpose=purpose, tier=tier, model=got, provider=PROVIDER,
                              latency_ms=(time.perf_counter() - t0) * 1000,
                              prompt_tokens=getattr(usage, "prompt_tokens", None),
@@ -203,7 +226,7 @@ class Nemotron:
             text, call, got = await self._complete(purpose, t, self.model_for(t), sys_full, msg, esc)
             self._log(purpose, got, sys_full, msg, text)
             try:
-                obj = extract_json(text)
+                obj = extract_json(text, schema)
                 errs = check_schema(obj, schema)
                 err = "; ".join(errs)
             except ValueError as e:

@@ -16,7 +16,7 @@ from logicscout.contracts import (
     Action, Hypothesis, Mismatch, Observation, Probe, ProbeOutcome, Rule, Theory, WorldManual, WorldPort,
 )
 from logicscout.logbook import Logbook
-from logicscout.scout import prompts
+from logicscout.scout import induce, miner, prompts
 from logicscout.theory import (
     Predictor, Transition, accuracy, compare, diff, persistence_accuracy, rule_stats, validate_theory,
 )
@@ -24,7 +24,10 @@ from logicscout.theory import (
 MAX_PROBE_ACTIONS = 8
 MAX_CYCLES = 40
 # model-call caps per investigate() (credits are finite); past a cap the loop continues code-only
-CALL_CAPS = {"hypothesize": 3, "design_probe": 6, "revise_theory": 2}
+CALL_CAPS = {"hypothesize": 3, "design_probe": 3, "revise_theory": 2}
+MAX_INDUCED_OPEN = 4  # open data-fitted questions at a time
+SEARCHED_PROBES = 24  # code-generated candidate probes scored per design step
+MOSTLY_RIGHT = 0.75  # a rival right this often, and better than the current theory, counts as supported
 PROMPT_TRANSITIONS = 40
 TARGET_ACCURACY = 0.97
 REVISE_BELOW = 0.9
@@ -34,6 +37,11 @@ _KINDS = {"transition", "precondition", "constraint", "delay", "resource", "peri
 
 def _strip_t(fields: dict) -> dict:
     return {k: v for k, v in fields.items() if k != "t"}
+
+
+def _ordered(rules: list[Rule]) -> list[Rule]:
+    """Rules for every step ('*') first, so action-specific rules refine them."""
+    return sorted(rules, key=lambda r: r.action != "*")
 
 
 def _short(v: Any) -> str:
@@ -68,12 +76,16 @@ class Investigator:
         self._priors_loaded = False
         self._calls: dict[str, int] = dict.fromkeys(CALL_CAPS, 0)
         self._rng = random.Random(zlib.crc32(manual.world_id.encode()))
+        self._tried: set[tuple[str, str, str]] = set()
 
     # ------------------------------------------------------------------ main loop
 
-    async def investigate(self, theory: Theory, budget: int, focus: list[Mismatch] | None = None) -> Theory:
+    async def investigate(self, theory: Theory, budget: int, focus: list[Mismatch] | None = None,
+                          caps: dict[str, int] | None = None) -> Theory:
+        """`caps` lowers the per-purpose model-call caps for this pass (e.g. all 0 for a code-only refit)."""
         self.budget_left = max(0, int(budget))
         self._calls = dict.fromkeys(CALL_CAPS, 0)
+        self._caps = {**CALL_CAPS, **(caps or {})}
         theory = theory.model_copy(deep=True)
         self._sync_rule_counter(theory)
         if not self._priors_loaded:
@@ -82,10 +94,13 @@ class Investigator:
             await self._first_touch()
         cycles = idle = 0
         while self.budget_left > 0 and cycles < MAX_CYCLES:
-            if cycles >= 2 and not self._open_groups() and self._accuracy(theory) >= TARGET_ACCURACY:
+            if (cycles >= 2 and self.budget_left <= 0.3 * budget and not self._open_groups()
+                    and self._accuracy(theory) >= TARGET_ACCURACY):
                 break
             cycles += 1
-            if not self._open_groups():
+            if not self._induce(theory):
+                self._mine(theory)
+            if not any(g.get("model") for g in self._open_groups()):
                 await self._hypothesize(theory, focus)
             groups = self._open_groups()
             probe = await self._design(theory, groups)
@@ -118,7 +133,7 @@ class Investigator:
         return f"R{self._rule_n}"
 
     def _can_call(self, purpose: str) -> bool:
-        if self._calls.get(purpose, 0) >= CALL_CAPS[purpose]:
+        if self._calls.get(purpose, 0) >= getattr(self, "_caps", CALL_CAPS).get(purpose, 0):
             return False
         self._calls[purpose] = self._calls.get(purpose, 0) + 1
         return True
@@ -138,8 +153,9 @@ class Investigator:
         h = self.hypotheses[hid]
         t = self._base(theory)
         rep = self._replaces.get(hid)
-        t.rules = [r for r in t.rules if r.id != rep and r.id != h.rule.id] + [h.rule.model_copy(deep=True)]
-        t.rules[-1].status = "tentative"
+        new = h.rule.model_copy(deep=True)
+        new.status = "tentative"
+        t.rules = _ordered([r for r in t.rules if r.id != rep and r.id != h.rule.id] + [new])
         return t
 
     def _accuracy(self, theory: Theory) -> float:
@@ -227,6 +243,16 @@ class Investigator:
             yield i, b, a, o, p, compare(p, o.fields, pred.last_rules), pred
             pred.advance(o)
             prev = o
+
+    def residuals(self, theory: Theory, last: int = 60) -> list[list[Mismatch]]:
+        """Per-step mispredictions of `theory` on the most recent experience (empty list = all right)."""
+        out: list[list[Mismatch]] = []
+        try:
+            for _, _, _, _, _, mism, _ in self._replay(self._base(theory)):
+                out.append(mism)
+        except Exception:
+            return []
+        return out[-last:]
 
     def _surprises(self, theory: Theory) -> tuple[list[str], list[str]]:
         surprises, calm = [], []
@@ -341,8 +367,10 @@ class Investigator:
             return
         surprises, calm = self._surprises(theory)
         tested = [prompts.rule_line(h.rule) + f" -> {h.status}" for h in self.hypotheses.values()][-20:]
+        stats = induce.change_stats(self.manual, self.transitions)
+        fits = self._fit_lines()
         user = prompts.hypothesize_user(self.manual, dsl.DSL_GUIDE, self._base(theory), surprises, calm,
-                                        self.priors, focus, tested)
+                                        self.priors, focus, tested, stats, fits)
         try:
             out = await self.llm.json("hypothesize", prompts.SCIENTIST, user, prompts.HYPOTHESIZE_SCHEMA, tier="deep")
         except Exception as e:
@@ -382,7 +410,123 @@ class Investigator:
             for i in ids:
                 self.hypotheses[i].rivals = [j for j in ids if j != i]
                 self.log.append("hypothesis.proposed", {"hypothesis": self.hypotheses[i].model_dump(), "question": text})
-            self._groups.append({"question": text, "ids": ids, "closed": False})
+            self._groups.append({"question": text, "ids": ids, "closed": False, "model": True})
+
+    # ------------------------------------------------------------------ 2b. data-fitted rivals
+
+    def _fits(self) -> list[dict]:
+        try:
+            return induce.induce(self.manual, self.transitions)
+        except Exception as e:
+            self.log.append("error", {"message": f"rule fitting failed: {e}"})
+            return []
+
+    def _fit_lines(self) -> list[str]:
+        out = []
+        for c in self._fits()[:12]:
+            f = c["fits"][0]
+            out.append(f'{c["action"]}: {c["field"]} = {f["expr"]}  (fits {f["hits"]}/{f["n"]} steps; '
+                       f'"unchanged" fits {c["unchanged"]})')
+        return out
+
+    def _theory_hits(self, theory: Theory) -> dict[tuple[str, str, str], int]:
+        hits: dict[tuple[str, str, str], int] = {}
+        try:
+            for _, b, a, o, p, mism, _ in self._replay(self._base(theory)):
+                bad = {m.field for m in mism}
+                for f in o.fields:
+                    if f == "t":
+                        continue
+                    ok = int(f not in bad)
+                    keys = [(a.name, f, "True"), ("*", f, "True")]
+                    keys += [(a.name, f, f"args.{k} == {v!r}") for k, v in a.args.items() if isinstance(v, str)]
+                    for key in keys:
+                        hits[key] = hits.get(key, 0) + ok
+        except Exception:
+            pass
+        return hits
+
+    def _induce(self, theory: Theory) -> int:
+        """Offer simple rules fitted to all experience as rivals; probes must still support them.
+        Returns how many questions were opened."""
+        if len(self.transitions) < 6:
+            return 0
+        open_keys = {g["key"] for g in self._open_groups() if g.get("key")}
+        room = MAX_INDUCED_OPEN - len(open_keys)
+        if room <= 0:
+            return 1
+        have = self._theory_hits(theory)
+        active = [r for r in self._base(theory).rules if r.status in ("tentative", "supported")]
+        ranked = []
+        for c in self._fits():
+            key = (c["action"], c["field"], c.get("when", "True"))
+            if key in open_keys:
+                continue
+            fits = [f for f in c["fits"] if (*key, f["expr"]) not in self._tried][:2]
+            if not fits or fits[0]["hits"] <= have.get(key, 0) + 1:
+                continue
+            ranked.append((fits[0]["hits"] - have.get(key, 0), key, fits))
+        ranked.sort(key=lambda x: -x[0])
+        opened = 0
+        for _, (action, field, when), fits in ranked[:room]:
+            rep = next((r.id for r in active if r.action == action and r.when == when and set(r.effects) == {field}),
+                       None)
+            ids = []
+            for f in fits:
+                self._tried.add((action, field, f["expr"]))
+                where = "every step" if action == "*" else f"'{action}'" + ("" if when == "True" else f" when {when}")
+                rule = Rule(id=self._new_rule_id(), kind="periodic" if "%" in f["expr"] else "transition",
+                            statement=f"After {where}, {field} becomes {f['expr']} (fits {f['hits']}/{f['n']} past steps)",
+                            action=action, when=when, effects={field: f["expr"]})
+                if self._rule_errors(rule, theory):
+                    continue
+                ids.append(self._register(rule, rule.statement, "probe", rep, "fit").id)
+            if not ids:
+                continue
+            q = f"How does {field} change " + ("on every step?" if action == "*" else f"after '{action}'"
+                                                 + ("" if when == "True" else f" when {when}") + "?")
+            for i in ids:
+                self.hypotheses[i].rivals = [j for j in ids if j != i]
+                self.log.append("hypothesis.proposed", {"hypothesis": self.hypotheses[i].model_dump(),
+                                                        "question": q + " (fitted to experience)"})
+            self._groups.append({"question": q, "ids": ids, "closed": False, "key": (action, field, when)})
+            opened += 1
+        return opened
+
+    def _mine(self, theory: Theory) -> None:
+        """Second, independent rule source (lags, cooldowns, periodic guards) validated on held-out steps."""
+        if len(self.transitions) < 6:
+            return
+        open_keys = {g["key"] for g in self._open_groups() if g.get("key")}
+        room = MAX_INDUCED_OPEN - len(open_keys)
+        if room <= 0:
+            return
+        try:
+            mined = miner.mine(self.manual, self.transitions, self._base(theory), max_rules=8)
+        except Exception as e:
+            self.log.append("error", {"message": f"rule mining failed: {e}"})
+            return
+        active = [r for r in self._base(theory).rules if r.status in ("tentative", "supported")]
+        for rule in mined:
+            if room <= 0 or len(rule.effects) != 1:
+                continue
+            field = next(iter(rule.effects))
+            key = (rule.action, field, rule.when)
+            sig = (rule.action, field, rule.when + "|" + repr(sorted(rule.effects.items())) + repr(sorted(rule.memory.items())) + str(rule.delay))
+            if key in open_keys or sig in self._tried:
+                continue
+            self._tried.add(sig)
+            rule = rule.model_copy(update={"id": self._new_rule_id(), "status": "tentative"})
+            if self._rule_errors(rule, theory):
+                continue
+            rep = next((r.id for r in active if r.action == rule.action and r.when == rule.when
+                        and set(r.effects) == {field}), None)
+            h = self._register(rule, rule.statement, "probe", rep, "mined")
+            q = f"Does the mined rule for {field} hold?"
+            self.log.append("hypothesis.proposed", {"hypothesis": h.model_dump(), "question": q + " (mined from experience)"})
+            self._groups.append({"question": q, "ids": [h.id], "closed": False, "key": key})
+            open_keys.add(key)
+            room -= 1
 
     # ------------------------------------------------------------------ 3. design
 
@@ -438,13 +582,84 @@ class Investigator:
         return {"purpose": "Exploratory probe: random controls to gather fresh experience", "seed": seed,
                 "actions": self._random_actions(n)}
 
+    def _variants(self) -> list[Action]:
+        """Each control with every combination of its choice arguments (numbers at a typical value)."""
+        out = []
+        for spec in self.manual.actions:
+            combos: list[dict] = [{}]
+            for p in spec.params:
+                vals = (p.choices or ([True, False] if p.type == "bool" else [self._rep_arg(p, 0)]))[:4]
+                combos = [{**c, p.name: v} for c in combos for v in vals][:8]
+            out += [Action(name=spec.name, args=c) for c in combos]
+        return out
+
+    @staticmethod
+    def _sig(a: Action) -> str:
+        enum = {k: v for k, v in a.args.items() if isinstance(v, (str, bool))}
+        return a.name + (str(enum) if enum else "")
+
+    def _inert(self) -> set[str]:
+        """Control variants tried but never seen to change any field."""
+        tried: dict[str, int] = {}
+        active = set()
+        for b, a, o in self.transitions:
+            s = self._sig(a)
+            tried[s] = tried.get(s, 0) + 1
+            if compare(_strip_t(b.fields), _strip_t(o.fields)):
+                active.add(s)
+        return {s for s, n in tried.items() if s not in active and n < 6}
+
+    def _novelty(self, acts: list[Action], inert: set[str]) -> float:
+        seen = set()
+        prev = None
+        for b, a, o in self.transitions:
+            seen.add((prev, self._sig(a)))
+            prev = self._sig(a)
+        pairs = {(x, y) for x, y in zip([None] + [self._sig(a) for a in acts], [self._sig(a) for a in acts])}
+        new = len(pairs - seen)
+        late_inert = any(self._sig(a) in inert for a in acts[1:])
+        return 0.1 * new / max(1, len(acts)) + (0.3 if late_inert else 0.0)
+
+    async def _searched_probe(self, theory: Theory, groups: list[dict]) -> dict | None:
+        """Cheap code-side search: random short plans from the current state or a known seed,
+        keeping the one whose predicted outcomes differ most between rivals."""
+        current = await self._observe()
+        seeds = sorted(self._seed_cache)
+        best = None
+        plans = []
+        for spec in self.manual.actions:  # single-factor: repeat one control, everything else held
+            for v in range(2 if spec.params else 1):
+                act = Action(name=spec.name, args={p.name: self._rep_arg(p, v) for p in spec.params})
+                plans.append((f"Single-factor: repeat {spec.name}{act.args or ''} and watch what changes",
+                              None, [act] * 4))
+        inert = self._inert()
+        variants = self._variants()
+        seen = {(self._sig(x[1]), self._sig(y[1])) for x, y in zip(self.transitions, self.transitions[1:])}
+        pairs = [(a, b) for a in variants for b in variants if self._sig(b) in inert
+                 and self._sig(a) != self._sig(b) and (self._sig(a), self._sig(b)) not in seen]
+        for a, b in pairs[:40]:
+            # controls may only act after another one prepared the state (e.g. warm-up): try ordered pairs
+            k = self._rng.randint(1, 3)
+            plans.append((f"Coverage: {self._sig(b)} after {k}x {self._sig(a)}", None, [a] * k + [b]))
+        for _ in range(SEARCHED_PROBES):
+            seed = self._rng.choice(seeds) if seeds and self._rng.random() < 0.3 else None
+            plans.append(("Searched plan where the rival rules disagree most", seed,
+                          self._random_actions(self._rng.randint(3, 6))))
+        for purpose, seed, acts in plans:
+            start = current if seed is None else self._seed_cache[seed]
+            score, _ = self._score(theory, groups, start, acts) if groups else (0.0, {})
+            score += self._novelty(acts, inert)
+            if best is None or score > best[0] + 1e-9:
+                best = (score, {"purpose": purpose, "seed": seed, "actions": acts})
+        return best[1] if best and best[0] > 0 else None
+
     async def _design(self, theory: Theory, groups: list[dict]) -> Probe | None:
         cands: list[dict] = []
-        if groups and self._can_call("design_probe"):
+        if any(g.get("model") for g in groups) and self._can_call("design_probe"):
             current = await self._observe()
             qs = [{"question": g["question"], "rivals": [
                 {"id": i, "rule": prompts.rule_line(self.hypotheses[i].rule)} for i in g["ids"]
-                if self.hypotheses[i].status == "open"]} for g in groups]
+                if self.hypotheses[i].status == "open"]} for g in groups if g.get("model")]
             user = prompts.design_user(self.manual, qs, {"t": current.t, **_strip_t(current.fields)},
                                        sorted(self._seed_cache), self.manual.lab_seeds)
             try:
@@ -459,6 +674,9 @@ class Investigator:
             except Exception as e:
                 self.log.append("error", {"message": f"design_probe failed: {e}; using code-generated probes"})
         cands.append(self._random_probe())
+        best = await self._searched_probe(theory, groups)
+        if best:
+            cands.append(best)
         for c in cands:
             c["actions"] = c["actions"][: self.budget_left]
         cands = [c for c in cands if c["actions"]]
@@ -470,12 +688,14 @@ class Investigator:
             if c["seed"] is not None and c["seed"] not in starts:
                 starts[c["seed"]] = self._seed_cache.get(c["seed"]) or await self._reset(c["seed"])
         current = await self._observe()
+        inert = self._inert()
         hyps = sorted({i for g in groups for i in g["ids"] if self.hypotheses[i].status == "open"},
                       key=list(self.hypotheses).index)
         scored = []
         for c in cands:
             start = current if c["seed"] is None else starts[c["seed"]]
             score, preds = self._score(theory, groups, start, c["actions"]) if groups else (0.0, {})
+            score += self._novelty(c["actions"], inert)
             scored.append((score, -len(c["actions"]), c, preds))
         best_i = max(range(len(scored)), key=lambda k: (scored[k][0], scored[k][1], -k))
         score, _, best, preds = scored[best_i]
@@ -555,6 +775,7 @@ class Investigator:
             h = self.hypotheses[hid]
             rid = h.rule.id
             fired_at, seqs, wrong = [], [], None
+            right = misses = base_right = 0
             for st in rec["steps"]:
                 fired, sources = st["rules"].get(hid, ([], {}))
                 judged = [f for f, ids in sources.items() if ids and ids[-1] == rid and f in st["after"].fields]
@@ -564,11 +785,20 @@ class Investigator:
                     continue
                 seqs.append(st["seq"])
                 pred = st["preds"][hid]
+                base = st["preds"].get("_base") or {}
                 for f in judged:
-                    if compare({f: pred.get(f)}, {f: st["after"].fields[f]}):
-                        wrong = wrong or (f, pred.get(f), st["after"].fields[f], st["t"])
+                    seen = st["after"].fields[f]
+                    base_right += int(not compare({f: base.get(f)}, {f: seen}))
+                    if compare({f: pred.get(f)}, {f: seen}):
+                        misses += 1
+                        wrong = wrong or (f, pred.get(f), seen, st["t"])
+                    else:
+                        right += 1
             self._attempts[hid] = self._attempts.get(hid, 0) + 1
-            if wrong:
+            if wrong and right >= MOSTLY_RIGHT * (right + misses) and right > base_right:
+                status = "supported"
+                reason = f"right {right}/{right + misses} times (current theory {base_right}); not exact"
+            elif wrong:
                 f, p, o, t = wrong
                 status, reason = "refuted", f"predicted {f}={_short(p)}, saw {f}={_short(o)} at t={t}"
             elif seqs:
@@ -607,10 +837,9 @@ class Investigator:
                 for r in cand.rules:
                     if r.id == rep:
                         r.status = "retired"
-                rule = cand.rules.pop()
+                rule = next(r for r in cand.rules if r.id == self.hypotheses[best].rule.id)
                 rule.status = "supported"
                 rule.evidence = sorted(set(self._evidence.get(best, [])))
-                cand.rules.append(rule)
                 new = cand
                 learned.append(f"{rule.id}: {rule.statement}")
         for h in self.hypotheses.values():
@@ -686,11 +915,30 @@ class Investigator:
             rules.append(rule)
         if not rules:
             return theory, acc, ""
-        kept = {r.id for r in rules}
-        cand.rules = rules + [r for r in theory.rules if r.id not in kept and r.status in ("refuted", "retired")]
-        new_acc = self._accuracy(cand)
-        if new_acc > acc + 1e-9:
-            note = str(out.get("note") or "").strip()[:200]
-            return cand, new_acc, f"model revision raised accuracy {acc:.2f} -> {new_acc:.2f}" + (f" ({note})" if note else "")
-        self.log.append("note", {"text": f"Rejected a proposed revision: accuracy {new_acc:.2f} did not beat {acc:.2f}"})
-        return theory, acc, ""
+        if isinstance(mem, dict):
+            for k, v in mem.items():
+                self._mem_init.setdefault(str(k), v)
+        # proposed corrections are not adopted blindly: each becomes a rival that a probe must support
+        sig = lambda r: (r.action, r.when, r.effects, r.memory, r.delay)  # noqa: E731
+        scored = []
+        for rule in rules:
+            prev = by_id.get(rule.id)
+            if prev is not None and sig(prev) == sig(rule):
+                continue
+            rep = prev.id if prev is not None else None
+            rule.id = self._new_rule_id()
+            rule.status = "tentative"
+            h = self._register(rule, rule.statement, "probe", rep, "revision")
+            gain = self._accuracy(self._with(theory, h.id)) - acc
+            scored.append((gain, h.id))
+        keep = [hid for gain, hid in sorted(scored, key=lambda x: -x[0])[:6] if gain >= 0]
+        for gain, hid in scored:
+            if hid not in keep:
+                del self.hypotheses[hid]
+        for hid in keep:
+            h = self.hypotheses[hid]
+            q = "Does this correction from the revision hold?"
+            self.log.append("hypothesis.proposed", {"hypothesis": h.model_dump(), "question": q})
+            self._groups.append({"question": q, "ids": [hid], "closed": False, "model": True})
+        note = str(out.get("note") or "").strip()[:160]
+        return theory, acc, (f"model proposed {len(keep)} corrections to test" + (f" ({note})" if note else "")) if keep else ""

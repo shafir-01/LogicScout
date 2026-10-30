@@ -111,7 +111,7 @@ class FakeInvestigator:
         self.focus_seen = []
         FakeInvestigator.instances.append(self)
 
-    async def investigate(self, theory, budget, focus=None):
+    async def investigate(self, theory, budget, focus=None, caps=None):
         self.focus_seen.append(focus)
         obs = self.port.reset(0)
         gains = []

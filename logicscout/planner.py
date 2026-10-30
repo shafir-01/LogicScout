@@ -72,7 +72,10 @@ def _term(node: ast.AST, env: dict) -> float:
                 return max(a / b, -1.0) if b > 0 else 1.0 / (1.0 + b - a)
             if isinstance(op, (ast.LtE, ast.Lt)):
                 if a <= b:
-                    return 1.0 if isinstance(op, ast.LtE) or a < b else 0.95
+                    if isinstance(op, ast.Lt) and a == b:
+                        return 0.95
+                    # a satisfied upper bound still prefers slack, so the plan doesn't spend the allowance early
+                    return 1.0 - 0.3 * max(a, 0) / b if b > 0 else 1.0
                 return b / a if a > 0 and b >= 0 else 1.0 / (1.0 + a - b)
             if isinstance(op, ast.Eq):
                 return 1.0 / (1.0 + abs(a - b))

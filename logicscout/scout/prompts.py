@@ -155,8 +155,15 @@ def priors_block(priors: list[Hypothesis]) -> str:
 
 def hypothesize_user(manual: WorldManual, dsl_guide: str, theory: Theory, surprises: list[str],
                      recent: list[str], priors: list[Hypothesis], focus: list[Mismatch] | None,
-                     tested: list[str]) -> str:
+                     tested: list[str], stats: list[str] | None = None, fits: list[str] | None = None) -> str:
     parts = [manual_block(manual), "DSL:\n" + dsl_guide, theory_block(theory)]
+    if stats:
+        parts.append("CHANGE STATISTICS (per action: how often each field changed, and by how much):\n"
+                     + "\n".join(stats))
+    if fits:
+        parts.append("SIMPLE DATA FITS (computed by code and already being tested; do NOT repeat them. Explain what "
+                     "they miss: delayed effects, hidden counters or timers in mem, periodic t % k patterns, "
+                     "thresholds, caps, effects that depend on another field):\n" + "\n".join(fits))
     if focus:
         parts.append("RECENT LIVE MISMATCHES (the system may have changed):\n"
                      + "\n".join(_j(m.model_dump()) for m in focus))
@@ -170,8 +177,10 @@ def hypothesize_user(manual: WorldManual, dsl_guide: str, theory: Theory, surpri
     if tested:
         parts.append("ALREADY TESTED (do not repeat):\n" + "\n".join(tested))
     parts.append(
-        "TASK: propose 1-3 questions. Each question has 2-3 RIVAL rules that explain the same surprise in "
-        "different ways, so that some experiment would tell them apart. Each rival is one rule:\n" + RULE_SHAPE +
+        "TASK: propose 1-3 questions about the largest remaining surprises. Each question has 2-3 RIVAL rules that "
+        "explain the same surprise in different ways, so that some experiment would tell them apart. A rival must "
+        "reproduce the observed values of the surprises it targets exactly (check the arithmetic against the listed "
+        "transitions). Each rival is one rule:\n" + RULE_SHAPE +
         "\nUse 'replaces' when a rival corrects an existing rule. Declare initial values for any new mem var in "
         '"memory". Reply: {"questions":[{"question":"...","rivals":[rule,...]}],"memory":{},"unknowns":["..."]}'
     )

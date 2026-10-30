@@ -12,7 +12,7 @@ from typing import Any
 from logicscout.contracts import LLM, Objective, Observation, Playbook, Theory, WorldManual
 from logicscout.dsl import DSL_GUIDE
 from logicscout.logbook import Logbook
-from logicscout.planner import PlannerPolicy
+from logicscout.planner import PlannerPolicy, progress
 from logicscout.playbook import PlaybookRunner, simulate, validate_playbook
 
 RETRIES = 2
@@ -74,7 +74,8 @@ def build_prompt(theory: Theory, manual: WorldManual, objective: Objective, star
     return "\n\n".join([
         DSL_GUIDE,
         "Playbook rules use the same expressions; `when` sees obs, mem and t; action args are DSL expressions "
-        "(write literal numbers as plain expressions, e.g. \"3\").",
+        "(write literal numbers as plain expressions, e.g. \"3\"; string/enum values must be quoted literals, e.g. "
+        "\"'on'\"). Prefer few, general rules keyed on the fields the goal depends on.",
         f"System: {manual.title} ({manual.domain}). {manual.summary}",
         "Actions: " + json.dumps([a.model_dump() for a in manual.actions]),
         "Observed fields: " + json.dumps([f.model_dump() for f in manual.observations]),
@@ -85,12 +86,28 @@ def build_prompt(theory: Theory, manual: WorldManual, objective: Objective, star
     ])
 
 
-def _to_playbook(raw: dict[str, Any], theory: Theory, objective: Objective) -> Playbook:
+def _arg(manual: WorldManual | None, action: str, name: str, v: Any) -> str:
+    """Args are DSL expressions; a bare enum choice (send via=buoy) is quoted instead of rejected."""
+    if isinstance(v, bool) or not isinstance(v, str):
+        return json.dumps(v) if not isinstance(v, bool) else str(v)
+    spec = next((a for a in (manual.actions if manual else []) if a.name == action), None)
+    p = next((p for p in (spec.params if spec else []) if p.name == name), None)
+    if p is not None and p.choices and v in p.choices:
+        return repr(v)
+    return v
+
+
+def _template(manual: WorldManual | None, do: Any) -> dict:
+    do = do if isinstance(do, dict) else {}
+    name = str(do.get("name", ""))
+    return {"name": name, "args": {k: _arg(manual, name, k, v) for k, v in (do.get("args") or {}).items()}}
+
+
+def _to_playbook(raw: dict[str, Any], theory: Theory, objective: Objective, manual: WorldManual | None = None) -> Playbook:
     rules = []
     for r in raw.get("rules", []):
-        do = r.get("do", {})
         rules.append({"when": str(r.get("when", "True")), "why": str(r.get("why", "")),
-                      "do": {"name": do.get("name", ""), "args": {k: str(v) for k, v in (do.get("args") or {}).items()}}})
+                      "do": _template(manual, r.get("do"))})
     fb = raw.get("fallback") or {}
     return Playbook.model_validate({
         "id": f"pb-{uuid.uuid4().hex[:8]}",
@@ -101,7 +118,7 @@ def _to_playbook(raw: dict[str, Any], theory: Theory, objective: Objective) -> P
         "memory": raw.get("memory") or {},
         "updates": {k: str(v) for k, v in (raw.get("updates") or {}).items()},
         "rules": rules,
-        "fallback": {"name": fb.get("name", ""), "args": {k: str(v) for k, v in (fb.get("args") or {}).items()}},
+        "fallback": _template(manual, fb),
     })
 
 
@@ -128,14 +145,17 @@ async def synthesize(
     objective: Objective,
     log: Logbook,
     start_obs: Observation,
+    attempts: int = RETRIES + 1,
 ):
-    """Return (policy, playbook). The playbook is checked by simulation inside the learned theory."""
+    """Return (policy, playbook). The playbook is checked by simulation inside the learned theory.
+    attempts=0 skips the model and compiles the planner directly."""
     user = build_prompt(theory, manual, objective, start_obs)
     feedback = ""
-    for attempt in range(RETRIES + 1):
+    best: tuple[float, Playbook] | None = None
+    for attempt in range(attempts):
         try:
             raw = await llm.json("synthesize_playbook", SYSTEM, user + feedback, schema=PLAYBOOK_SCHEMA, tier="deep")
-            pb = _to_playbook(raw, theory, objective)
+            pb = _to_playbook(raw, theory, objective, manual)
         except Exception as e:  # model failure or malformed playbook: count as a failed attempt
             log.append("playbook.rejected", {"attempt": attempt, "errors": [f"{type(e).__name__}: {e}"]})
             feedback = f"\n\nYour previous answer could not be used: {e}. Return valid JSON in the shape above."
@@ -149,16 +169,40 @@ async def synthesize(
         if sim.get("success"):
             log.append("playbook.compiled", {"playbook": pb.model_dump(), "simulated": _summary(sim)})
             return PlaybookRunner(pb), pb
+        score = _progress(sim, objective, start_obs)
+        if best is None or score > best[0]:
+            best = (score, pb)
         log.append("playbook.rejected", {"attempt": attempt, "playbook": pb.model_dump(),
                                          "errors": ["did not reach the goal in simulation"], "simulated": _summary(sim)})
         feedback = (
             f"\n\nYour previous playbook did not reach the goal within {objective.horizon} steps when simulated "
-            f"in the learned theory. Previous playbook: {json.dumps(raw)[:2000]}\n"
+            f"in the learned theory (closeness to the goal at the end: {score:.2f} of 1). "
+            f"Check which theory rules move the goal fields and drive those. Previous playbook: {json.dumps(raw)[:2000]}\n"
             f"Last steps of the simulation: {_trace_tail(sim)}\nRevise it."
         )
-    log.append("note", {"text": "falling back to planner"})
+    if attempts:
+        log.append("note", {"text": "falling back to planner"})
     planner = PlannerPolicy(theory, manual, objective)
     pb = planner.as_playbook_stub()
     sim = simulate(PlannerPolicy(theory, manual, objective), theory, start_obs, objective.success, objective.horizon)
+    if not sim.get("success") and best is not None and best[0] > _progress(sim, objective, start_obs):
+        # neither reaches the goal in the theory: keep whichever got closest
+        log.append("note", {"text": "planner did no better in simulation; keeping the closest playbook"})
+        bsim = simulate(PlaybookRunner(best[1]), theory, start_obs, objective.success, objective.horizon)
+        log.append("playbook.compiled", {"playbook": best[1].model_dump(), "simulated": _summary(bsim)})
+        return PlaybookRunner(best[1]), best[1]
     log.append("playbook.compiled", {"playbook": pb.model_dump(), "simulated": _summary(sim)})
     return planner, pb
+
+
+def _progress(sim: dict[str, Any], objective: Objective, start: Observation) -> float:
+    if sim.get("success"):
+        return 1.0
+    trace = sim.get("trace") or []
+    if not trace:
+        return 0.0
+    last = Observation(t=start.t + len(trace), fields=trace[-1]["predicted"])
+    try:
+        return max(progress(objective.success, last, {}), 0.0)
+    except Exception:
+        return 0.0

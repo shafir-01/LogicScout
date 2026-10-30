@@ -30,6 +30,9 @@ from logicscout.theory import Predictor, accuracy, compare, persistence_accuracy
 EPISODES = 4
 MAX_EPISODES = 8  # extra episodes are allowed only while a hidden change is still unrecovered
 MAX_REPROBES = 3
+MAX_REFITS = 2
+REFIT_BUDGET = 6
+REPROBE_CAPS = {"hypothesize": 2, "design_probe": 1, "revise_theory": 1}  # model calls are finite
 RefereeFn = Callable[..., Any]
 
 
@@ -196,7 +199,16 @@ class Mission:
         if auto:
             self.auto_shift_done = True
         self.controls.shift_requested.clear()
-        rec = self.session.admin.shift(self.config.seed * 31 + self.shifts)
+        seed = self.config.seed * 31 + self.shifts
+        kind = getattr(self.controls, "shift_kind", None)
+        if kind:
+            self.controls.shift_kind = None
+            try:
+                rec = self.session.admin.shift(seed, kind=kind)
+            except TypeError:  # sandbox without a shift menu
+                rec = self.session.admin.shift(seed)
+        else:
+            rec = self.session.admin.shift(seed)
         self.shifts += 1
         self.private_dir.mkdir(parents=True, exist_ok=True)
         path = self.private_dir / "private.json"
@@ -260,10 +272,10 @@ class Mission:
         await self.finish()
         return self.state
 
-    async def compile(self, seed: int) -> None:
+    async def compile(self, seed: int, model: bool = True) -> None:
         start = await self.reset(seed)
         self.policy, self.playbook = await synth.synthesize(self.llm, self.theory, self.manual, self.objective,
-                                                            self.log, start)
+                                                            self.log, start, attempts=synth.RETRIES + 1 if model else 0)
         self.state.playbook = self.playbook
 
     async def control(self) -> None:
@@ -271,11 +283,12 @@ class Mission:
         seeds = episode_seeds(self.manual, self.config.seed, MAX_EPISODES)
         await self.compile(seeds[0])
         self.monitor = DriftMonitor(self.theory)
+        self.calibrate()
         episodes: list[dict[str, Any]] = []
         self.m["episodes"] = episodes
         self.m["drift"] = {"detected_after_steps": None, "probes": 0, "recovered": False}
         self.m.setdefault("time_to_competence", None)
-        reprobes = 0
+        reprobes = refits = 0
         for ep, seed in enumerate(seeds):
             if ep >= EPISODES and self.shift_at is None:
                 break
@@ -287,7 +300,14 @@ class Mission:
                 self.m["time_to_competence"] = self.probes_used()
             if result["success"] and self.shift_at is not None and result["after_reprobe"]:
                 self.recovered(result)
-            if result["drift"]:
+            if not result["success"] and not result["drift"] and refits < MAX_REFITS:
+                refits += 1
+                await self.refit(seeds[min(ep + 1, len(seeds) - 1)])
+            if result["drift"] and result["success"]:
+                self.note("goal reached despite the drift alarm; keeping the theory and recalibrating")
+                self.monitor.reset(self.theory)
+                self.calibrate()
+            elif result["drift"]:
                 if reprobes >= MAX_REPROBES:
                     self.note("drift confirmed again but the re-investigation limit is reached")
                     break
@@ -328,7 +348,7 @@ class Mission:
                 self.wrong_actions += 1
             recent = (recent + mismatches)[-20:]
             obs = new
-            status = self.monitor.observe(mismatches)
+            status = self.monitor.observe([m for m in mismatches if not self.within_resolution(m)])
             if status == "suspected" and self.state.phase != "drift":
                 self.phase("drift")
                 self.log.append("drift.suspected", {"mismatches": [m.model_dump() for m in mismatches],
@@ -336,7 +356,7 @@ class Mission:
             elif status == "ok" and self.state.phase == "drift":
                 self.note("suspected drift cleared: predictions match again")
                 self.phase("control")
-            elif status == "confirmed":
+            elif status == "confirmed" and not out["drift"]:
                 if self.state.phase != "drift":
                     self.phase("drift")
                     self.log.append("drift.suspected", {"mismatches": [m.model_dump() for m in mismatches],
@@ -345,7 +365,9 @@ class Mission:
                 if self.shift_at is not None and self.m["drift"]["detected_after_steps"] is None:
                     self.m["drift"]["detected_after_steps"] = self.control_steps - self.shift_at
                 out["drift"], out["focus"] = True, recent
-                break
+                if any(m.field in self.objective.success for m in recent):
+                    break  # the change touches what the goal depends on: stop and re-investigate now
+                self.note("drift is in fields the goal does not depend on: finishing the episode first")
             if goal_met(self.objective, obs):
                 out["success"] = True
                 self.log.append("control.goal", {"episode": ep, "steps": step})
@@ -355,21 +377,62 @@ class Mission:
         out["true_success"] = await self.true_success()
         return out
 
+    def within_resolution(self, m: Mismatch) -> bool:
+        """A float reading off by one display step (e.g. 1.5 vs 1.6) is rounding, not evidence of change."""
+        p, o = m.predicted, m.observed
+        if not all(isinstance(x, float) or (isinstance(x, int) and not isinstance(x, bool)) for x in (p, o)):
+            return False
+        if not any(f.name == m.field and f.type == "float" for f in self.manual.observations):
+            return False
+        vals = sorted({round(float(a.fields.get(m.field)), 6) for a, _, _ in self.inv.transitions[-80:]
+                       if isinstance(a.fields.get(m.field), (int, float))})
+        steps = [b - a for a, b in zip(vals, vals[1:]) if b - a > 1e-9]
+        return bool(steps) and abs(p - o) <= min(steps) + 1e-9
+
+    def adapt_budget(self, want: int) -> int:
+        """Probes after the first investigation share one allowance equal to the probe budget."""
+        return max(0, min(want, 2 * self.budget - self.probes_used()))
+
+    async def refit(self, next_seed: int) -> None:
+        """A failed episode is experience too: refit the theory on it (code-side fits, a few test probes,
+        no model calls) and recompile; a model playbook is re-synthesized only if it was in use."""
+        if self.adapt_budget(REFIT_BUDGET) <= 0:
+            return
+        self.phase("reprobing")
+        self.note("episode missed the goal: refitting the theory on the control experience")
+        before = self.theory.version
+        self.theory = await self.inv.investigate(self.theory, budget=self.adapt_budget(REFIT_BUDGET),
+                                                 caps={"hypothesize": 0, "design_probe": 0, "revise_theory": 0})
+        self.sync_hypotheses()
+        self.score_theory()
+        self.check_stop()
+        if self.theory.version != before:
+            await self.compile(next_seed, model=self.playbook.origin != "planner")
+            self.monitor.reset(self.theory)
+            self.calibrate()
+        self.phase("control")
+
     async def reprobe(self, focus: list[Mismatch], next_seed: int) -> None:
         self.phase("reprobing")
         before = self.probes_used()
-        budget = max(6, self.budget // 2)
-        self.theory = await self.inv.investigate(self.theory, budget=budget, focus=focus)
+        budget = self.adapt_budget(max(6, self.budget // 2))
+        self.theory = await self.inv.investigate(self.theory, budget=budget, focus=focus, caps=REPROBE_CAPS)
         self.sync_hypotheses()
         used = self.probes_used() - before
         self.m["drift"]["probes"] = self.m["drift"].get("probes", 0) + used
         self.score_theory()
         self.check_stop()
-        await self.compile(next_seed)
+        await self.compile(next_seed, model=self.playbook.origin != "planner")
         self.monitor.reset(self.theory)
+        self.calibrate()
         if self.shift_at is not None:
             self.reprobed_since_shift = True
         self.phase("control")
+
+    def calibrate(self) -> None:
+        residuals = getattr(self.inv, "residuals", None)
+        if callable(residuals):
+            self.monitor.calibrate(residuals(self.theory))
 
     def recovered(self, result: dict[str, Any]) -> None:
         d = self.m["drift"]
@@ -390,10 +453,16 @@ class Mission:
         else:
             args = (self.manual.world_id, self.theory, self.playbook, self.objective.id, self.state.run_id,
                     self.prompt_log)
+            params = inspect.signature(self.referee).parameters
+            kw: dict[str, Any] = {}
+            if "events" in params:
+                kw["events"] = list(self.log.events)
+            if "variant" in params:
+                kw["variant"] = getattr(self.config, "variant", "standard")
             if inspect.iscoroutinefunction(self.referee):
-                report = await self.referee(*args)
+                report = await self.referee(*args, **kw)
             else:
-                report = await asyncio.to_thread(self.referee, *args)
+                report = await asyncio.to_thread(self.referee, *args, **kw)
             self.state.referee = report
             self.log.append("referee.report", {"report": report.model_dump()})
         if self.config.use_transfer or any(e["success"] for e in self.m.get("episodes", [])):

@@ -158,7 +158,9 @@ async def test_llm_failure_still_explores_within_budget():
     theory = await inv.investigate(Theory(world_id="toy"), budget=15)
     assert inv.probes_used == 15 == port.acts
     assert "error" in kinds(log)
-    assert theory.rules == []  # never fabricate rules
+    # no model rules are fabricated; only rules fitted to experience and then supported by a probe
+    assert all("fits" in r.statement and r.status == "supported" for r in theory.rules)
+    assert all(r.evidence for r in theory.rules)
 
 
 async def test_priors_are_tested():
