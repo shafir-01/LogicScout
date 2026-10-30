@@ -54,6 +54,8 @@ class PlantWorld(World):
                 FieldSpec(name="pump_rate", type="int", description="Current pump rate."),
                 FieldSpec(name="valve_open", type="int", description="Current valve position."),
                 FieldSpec(name="tripped", type="bool", description="Pump protection trip active."),
+                FieldSpec(name="arriving", type="int",
+                          description="Inflow from the pump that will reach the tank on the next step."),
                 FieldSpec(name="in_band_streak", type="int",
                           description="Consecutive steps with level between 40 and 60."),
             ],
@@ -71,7 +73,7 @@ class PlantWorld(World):
                 "kind": "graph",
                 "nodes": [{"id": n, "label": n.title()} for n in ("inlet", "pump", "tank", "valve", "outlet")],
                 "edges": [["inlet", "pump"], ["pump", "tank"], ["tank", "valve"], ["valve", "outlet"]],
-                "bind": {"pump": ["pump_rate", "pressure", "tripped"], "tank": ["level", "in_band_streak"],
+                "bind": {"pump": ["pump_rate", "pressure", "tripped", "arriving"], "tank": ["level", "in_band_streak"],
                          "valve": ["valve_open"]},
             },
         )
@@ -102,7 +104,8 @@ class PlantWorld(World):
     def observe(self) -> Observation:
         return Observation(t=self.t, events=list(self.events), fields={
             "t": self.t, "level": self.level, "pressure": self.pressure, "pump_rate": self.pump_rate,
-            "valve_open": self.valve_open, "tripped": self.lock > 0, "in_band_streak": self.streak})
+            "valve_open": self.valve_open, "tripped": self.lock > 0,
+            "arriving": self.pipe[0] if self.pipe else 0, "in_band_streak": self.streak})
 
     def act(self, action: Action) -> StepResult:
         L = self.laws
@@ -152,9 +155,19 @@ class PlantWorld(World):
         w.laws, w.pipe, w.events = dict(self.laws), list(self.pipe), list(self.events)
         return w
 
-    def shift(self, seed: int) -> ShiftRecord:
+    @classmethod
+    def shift_menu(cls) -> list[dict]:
+        return [
+            {"id": "delay", "label": "Inflow takes one step longer to arrive"},
+            {"id": "trip", "label": "Pump trips at a lower pressure"},
+            {"id": "drain", "label": "Outlet drains at a different rate"},
+        ]
+
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
         rng = random.Random(seed)
-        kind = rng.choice(["delay", "trip", "drain"])
+        kind = kind or rng.choice(["delay", "trip", "drain"])
+        if kind not in {m["id"] for m in self.shift_menu()}:
+            raise ValueError(f"unknown shift kind {kind!r}")
         before = dict(self.laws)
         if kind == "delay":
             self.laws["delay"] += 1

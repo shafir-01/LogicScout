@@ -3,7 +3,7 @@ import { api } from "../api";
 import type { Rule } from "../types";
 import { Chip, fmt, statusTone } from "../ui";
 
-type Shift = { kind?: string; description?: string; before?: Record<string, unknown>; after?: Record<string, unknown>; at_t?: number };
+type Shift = { kind?: string; label?: string; description?: string; before?: Record<string, unknown>; after?: Record<string, unknown>; at_t?: number };
 
 function laws(d: Record<string, unknown>): string[] {
   for (const k of ["truth", "laws", "hidden_laws", "truth_before", "rules"]) {
@@ -14,7 +14,8 @@ function laws(d: Record<string, unknown>): string[] {
   return [];
 }
 
-export default function Debrief({ base, rules }: { base: string; rules: Rule[] }) {
+export default function Debrief({ base, rules, driftRules = [], recoveryDiff = null }:
+  { base: string; rules: Rule[]; driftRules?: string[]; recoveryDiff?: Record<string, unknown> | null }) {
   const [data, setData] = useState<Record<string, unknown> | null>(null);
   const [err, setErr] = useState<string | null>(null);
   useEffect(() => {
@@ -58,6 +59,15 @@ export default function Debrief({ base, rules }: { base: string; rules: Rule[] }
           )}
         </div>
         <div>
+          {shifts.length > 0 && (
+            <div className="you-changed">
+              {shifts.map((s, i) => <p key={i}><strong>You changed:</strong> {s.label ?? s.description}</p>)}
+              <p className="small"><strong>Scout concluded:</strong>{" "}
+                {driftRules.length ? <>rules implicated <span className="mono">{driftRules.join(", ")}</span></> : <span className="dim">no drift confirmed</span>}
+              </p>
+              {recoveryDiff && <div className="mono small dim">theory change after recovery: {fmt(recoveryDiff)}</div>}
+            </div>
+          )}
           <h3 className="label">Learned rules</h3>
           <ul className="plain laws">
             {learned.map((r) => (

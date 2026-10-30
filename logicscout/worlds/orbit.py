@@ -163,9 +163,19 @@ class OrbitWorld(World):
         self.t += 1
         return StepResult(observation=self.observe(), cost=1.0)
 
-    def shift(self, seed: int) -> ShiftRecord:
+    @classmethod
+    def shift_menu(cls) -> list[dict]:
+        return [
+            {"id": "band_moves", "label": "Safe imaging temperature range moves"},
+            {"id": "calibration_shortens", "label": "Calibration wears off sooner"},
+            {"id": "pass_schedule_shifts", "label": "Ground-station passes move and get shorter"},
+        ]
+
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
         r = random.Random(seed)
-        kind = ["band_moves", "calibration_shortens", "pass_schedule_shifts"][r.randrange(3)]
+        kind = kind or ["band_moves", "calibration_shortens", "pass_schedule_shifts"][r.randrange(3)]
+        if kind not in {m["id"] for m in self.shift_menu()}:
+            raise ValueError(f"unknown shift kind {kind!r}")
         L = self.laws
         before = {k: (list(v) if isinstance(v, list) else v) for k, v in L.items()}
         if kind == "band_moves":

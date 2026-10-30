@@ -193,8 +193,18 @@ class RelayWorld(World):
             self.queue = [m for m in self.queue if m["deadline"] >= t]
         return StepResult(observation=self.observe(), cost=cost)
 
-    def shift(self, seed: int) -> ShiftRecord:
-        kind = ["window_period", "sat_latency", "buoy_capacity"][seed % 3]
+    @classmethod
+    def shift_menu(cls) -> list[dict]:
+        return [
+            {"id": "window_period", "label": "Contact window becomes longer and less frequent"},
+            {"id": "sat_latency", "label": "Satellite route gets slower"},
+            {"id": "buoy_capacity", "label": "Buoy can carry fewer messages at once"},
+        ]
+
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
+        kind = kind or ["window_period", "sat_latency", "buoy_capacity"][seed % 3]
+        if kind not in {m["id"] for m in self.shift_menu()}:
+            raise ValueError(f"unknown shift kind {kind!r}")
         key = {"window_period": "period", "sat_latency": "sat_latency", "buoy_capacity": "buoy_cap"}[kind]
         before = self.laws[key]
         after = {"period": before * 3 // 2, "sat_latency": before + 2, "buoy_cap": max(1, before - 1)}[key]

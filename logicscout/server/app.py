@@ -117,6 +117,13 @@ def create_app() -> FastAPI:
         from logicscout.worlds.base import load_all
         return [cls.manual().model_dump() for cls in load_all().values()]
 
+    @app.get("/api/worlds/{world_id}/shifts")
+    def world_shifts(world_id: str):
+        menu = R.shift_menu(world_id)
+        if menu is None:
+            raise HTTPException(404, "unknown world")
+        return menu
+
     # ---- runs ----------------------------------------------------------------------
     @app.post("/api/runs")
     async def create_run(cfg: RunConfig, request: Request):
@@ -186,12 +193,24 @@ def create_app() -> FastAPI:
         return StreamingResponse(gen, media_type="text/event-stream", headers=_headers())
 
     @app.post("/api/runs/{run_id}/shift")
-    def shift(run_id: str):
+    async def shift(run_id: str, request: Request):
         run = reg.runs.get(_check_id(run_id))
         if not run:
             raise HTTPException(404, "run not found")
         if run.done or run.log.phase != "control":
             raise HTTPException(409, "a hidden change can only be triggered during the control phase")
+        kind = None
+        if await request.body():
+            try:
+                kind = (await request.json() or {}).get("kind")
+            except (ValueError, AttributeError):
+                raise HTTPException(400, "body must be JSON like {\"kind\": \"...\"}")
+        if kind is not None:
+            world_id = run.state.config.world_id
+            ids = {m["id"] for m in (R.shift_menu(world_id) or [])}
+            if world_id and kind not in ids:
+                raise HTTPException(400, f"unknown hidden change {kind!r}")
+        run.controls.shift_kind = kind
         run.controls.shift_requested.set()
         return {"ok": True}
 
@@ -261,6 +280,9 @@ def create_app() -> FastAPI:
     @app.get("/api/infra")
     def infra():
         return infra_stats()
+
+    from logicscout.server.whatif import router as _whatif
+    app.include_router(_whatif(reg))
 
     @app.api_route("/api/{rest:path}", methods=["GET", "POST", "PUT", "DELETE"], include_in_schema=False)
     def api_404(rest: str):

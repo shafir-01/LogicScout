@@ -3,6 +3,7 @@ import type { RunView } from "../state";
 import type { Rule } from "../types";
 import { Chip, Meter, Sparkline, fmt, host, pct, statusTone } from "../ui";
 import { focusSeq } from "./Timeline";
+import WhatIf from "./WhatIf";
 
 function RuleRow({ r }: { r: Rule }) {
   const [open, setOpen] = useState(false);
@@ -257,9 +258,10 @@ const TABS = [
   { id: "public", label: "Public vs Observed", C: PublicTab },
   { id: "referee", label: "Referee", C: RefereeTab },
   { id: "model", label: "Model", C: ModelTab },
+  { id: "ask", label: "Ask", C: WhatIf },
 ] as const;
 
-export default function Tabs({ v }: { v: RunView }) {
+export default function Tabs({ v, runId }: { v: RunView; runId?: string }) {
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("theory");
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const idx = TABS.findIndex((t) => t.id === tab);
@@ -292,7 +294,7 @@ export default function Tabs({ v }: { v: RunView }) {
         ))}
       </div>
       <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
-        <Active v={v} />
+        <Active v={v} runId={runId} />
       </div>
     </section>
   );

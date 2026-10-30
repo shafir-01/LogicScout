@@ -62,6 +62,21 @@ def read_json(path: Path) -> Any:
         return None
 
 
+def shift_menu(world_id: str | None) -> list[dict] | None:
+    """Human-only list of hidden changes for a world; never sent to the scout."""
+    from logicscout.worlds.base import REGISTRY, load_all
+    if world_id not in REGISTRY:
+        load_all()
+    cls = REGISTRY.get(world_id or "")
+    return cls.shift_menu() if cls else None
+
+
+def _label_shifts(shifts: list, world_id: str | None) -> list:
+    labels = {m["id"]: m["label"] for m in (shift_menu(world_id) or [])}
+    return [{**s, "label": labels.get(s.get("kind"), s.get("description"))} if isinstance(s, dict) else s
+            for s in shifts]
+
+
 def debrief_from_disk(run_dir: Path) -> dict[str, Any]:
     """Build the debrief from private files. The raw files are never served."""
     private = read_json(run_dir / "private.json") or {}
@@ -70,7 +85,8 @@ def debrief_from_disk(run_dir: Path) -> dict[str, Any]:
         "run_id": state.get("run_id", run_dir.name),
         "world_id": (state.get("config") or {}).get("world_id"),
         "hidden_laws": private.get("truth", []),
-        "shifts": private.get("shifts", private.get("shift_records", [])),
+        "shifts": _label_shifts(private.get("shifts", private.get("shift_records", [])),
+                                (state.get("config") or {}).get("world_id")),
         "final_theory": state.get("theory"),
         "playbook": state.get("playbook"),
         "referee": state.get("referee"),

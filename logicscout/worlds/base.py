@@ -48,8 +48,13 @@ class World(ABC):
         """All variant names, `standard` first. Others are held out for the referee."""
 
     @abstractmethod
-    def shift(self, seed: int) -> ShiftRecord:
-        """Silently rewrite one or more laws (deterministic in seed). Returns what changed."""
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
+        """Silently rewrite one or more laws (deterministic in seed; `kind` picks a shift_menu id). Returns what changed."""
+
+    @classmethod
+    def shift_menu(cls) -> list[dict]:
+        """Hidden changes a human may choose: [{id, label}]. Never shown to the scout."""
+        return []
 
     @abstractmethod
     def success(self, objective_id: str) -> bool:

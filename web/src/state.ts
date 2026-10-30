@@ -50,6 +50,8 @@ export interface RunView {
   shifted: boolean;
   drift: "none" | "suspected" | "confirmed";
   recovered: boolean;
+  driftRules: string[];
+  recoveryDiff: Dict | null;
   queries: string[];
   sources: Source[];
   claims: Hypothesis[];
@@ -64,7 +66,7 @@ export const initialView: RunView = {
   lastSeq: -1, phase: "encounter", live: null, finished: false, failed: false, config: null, manual: null,
   hypotheses: {}, timeline: [], theory: null, versions: [], playbook: null, simulated: null,
   obs: null, prevObs: null, obsT: null, obsTick: 0, lastAction: null, probeSteps: 0, controlSteps: 0,
-  shifted: false, drift: "none", recovered: false, queries: [], sources: [], claims: [], checked: null,
+  shifted: false, drift: "none", recovered: false, driftRules: [], recoveryDiff: null, queries: [], sources: [], claims: [], checked: null,
   mechanisms: [], referee: null, calls: [], metrics: {},
 };
 
@@ -157,6 +159,7 @@ export function apply(s: RunView, ev: LSEvent): RunView {
       return {
         ...s,
         theory: th ?? s.theory,
+        recoveryDiff: s.drift === "confirmed" && d.diff && typeof d.diff === "object" ? (d.diff as Dict) : s.recoveryDiff,
         versions: [...s.versions.filter((v) => v.version !== version), { version, accuracy, baseline }],
         timeline: push({ kind: "theory", seq: ev.seq, version, accuracy, baseline, note: th?.note }),
       };
@@ -203,7 +206,7 @@ export function apply(s: RunView, ev: LSEvent): RunView {
         timeline: push({ kind: "drift", seq: ev.seq, level: "suspected", mismatches: d.mismatches as Mismatch[], surprise: d.surprise as number }),
       };
     case "drift.confirmed":
-      return { ...s, drift: "confirmed", timeline: push({ kind: "drift", seq: ev.seq, level: "confirmed", rules: d.rules_implicated as string[] }) };
+      return { ...s, drift: "confirmed", driftRules: (d.rules_implicated as string[]) ?? [], timeline: push({ kind: "drift", seq: ev.seq, level: "confirmed", rules: d.rules_implicated as string[] }) };
     case "recovery.done":
       return { ...s, recovered: true, drift: "none", timeline: push({ kind: "recovery", seq: ev.seq, stepsDown: d.steps_down as number, probesUsed: d.probes_used as number }) };
     case "briefing.query":

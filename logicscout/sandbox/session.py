@@ -22,7 +22,7 @@ class SandboxAdmin:
     world_class: type[World]
     steps: int
 
-    def shift(self, seed: int) -> ShiftRecord:
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
         raise NotImplementedError
 
     def success(self, objective_id: str) -> bool:
@@ -129,8 +129,8 @@ class LocalAdmin(SandboxAdmin):
     def steps(self) -> int:
         return self._counter["steps"]
 
-    def shift(self, seed: int) -> ShiftRecord:
-        return self._world.shift(seed)
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
+        return self._world.shift(seed, kind) if kind else self._world.shift(seed)
 
     def success(self, objective_id: str) -> bool:
         return self._world.success(objective_id)
@@ -188,8 +188,8 @@ class HttpAdmin(_Http, SandboxAdmin):
     def steps(self) -> int:
         return self._call("GET", "/admin/steps")["steps"]
 
-    def shift(self, seed: int) -> ShiftRecord:
-        return ShiftRecord.model_validate(self._call("POST", "/admin/shift", json={"seed": seed}))
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
+        return ShiftRecord.model_validate(self._call("POST", "/admin/shift", json={"seed": seed, "kind": kind}))
 
     def success(self, objective_id: str) -> bool:
         return self._call("POST", "/admin/success", json={"objective_id": objective_id})["success"]

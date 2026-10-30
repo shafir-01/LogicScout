@@ -15,6 +15,8 @@ export function RunLayout({
   const [busy, setBusy] = useState<"shift" | "stop" | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [debrief, setDebrief] = useState(false);
+  const [menu, setMenu] = useState<{ id: string; label: string }[] | null>(null);
+  const [pick, setPick] = useState("");
   const latest = v.versions.length ? [...v.versions].sort((a, b) => a.version - b.version).at(-1) : undefined;
   const budget = v.config?.probe_budget ?? v.manual?.probe_budget;
   const canShift = controls && !!runId && v.phase === "control" && !v.finished;
@@ -24,7 +26,7 @@ export function RunLayout({
     if (!runId) return;
     setBusy(kind);
     setErr(null);
-    try { await (kind === "shift" ? api.shift(runId) : api.stop(runId)); }
+    try { await (kind === "shift" ? api.shift(runId, pick || null) : api.stop(runId)); setMenu(null); }
     catch (e) { setErr((e as Error).message); }
     finally { setBusy(null); }
   };
@@ -47,10 +49,26 @@ export function RunLayout({
             {conn && conn !== "open" && !v.finished && <span className="chip chip-warn" role="status">{conn === "retrying" ? "reconnecting" : conn}</span>}
             {controls && (
               <>
-                <button className="btn danger" disabled={!canShift || busy !== null} onClick={() => act("shift")}
-                  title={canShift ? "Silently change the hidden rules" : "Available during control"}>
+                <button className="btn danger" disabled={!canShift || busy !== null} onClick={() => {
+                    if (menu) { setMenu(null); return; }
+                    setPick("");
+                    api.shifts(v.config?.world_id ?? "").then(setMenu).catch((e: Error) => setErr(e.message));
+                  }}
+                  aria-expanded={!!menu}
+                  title={canShift ? "Choose a hidden change; the scout is never told" : "Available during control"}>
                   {busy === "shift" ? "Changing…" : "Change the rules"}
                 </button>
+                {menu && canShift && (
+                  <fieldset className="shift-menu" aria-label="Choose a hidden change">
+                    <legend className="label">You change reality</legend>
+                    {[{ id: "", label: "Surprise me" }, ...menu].map((m) => (
+                      <label key={m.id || "random"}>
+                        <input type="radio" name="shift-kind" checked={pick === m.id} onChange={() => setPick(m.id)} /> {m.label}
+                      </label>
+                    ))}
+                    <button className="btn danger" disabled={busy !== null} onClick={() => act("shift")}>Apply</button>
+                  </fieldset>
+                )}
                 <button className="btn" disabled={!canStop || busy !== null} onClick={() => act("stop")}>Stop</button>
               </>
             )}
@@ -62,11 +80,11 @@ export function RunLayout({
         <PhaseRail v={v} />
         {err && <p className="error" role="alert">{err}</p>}
       </header>
-      {debrief && base && <Debrief base={base} rules={v.theory?.rules ?? []} />}
+      {debrief && base && <Debrief base={base} rules={v.theory?.rules ?? []} driftRules={v.driftRules} recoveryDiff={v.recoveryDiff} />}
       <div className="columns">
         <SystemPanel v={v} />
         <Timeline v={v} />
-        <Tabs v={v} />
+        <Tabs v={v} runId={runId} />
       </div>
     </main>
   );

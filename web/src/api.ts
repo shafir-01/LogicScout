@@ -19,7 +19,9 @@ export const api = {
   infra: () => req<unknown>("/api/infra"),
   startRun: (cfg: RunConfig) => req<{ run_id: string }>("/api/runs", { method: "POST", body: JSON.stringify(cfg) }),
   run: (base: string) => req<RunState | { state: RunState }>(base).then((x) => ("state" in x && x.state ? x.state : (x as RunState))),
-  shift: (id: string) => req<unknown>(`/api/runs/${encodeURIComponent(id)}/shift`, { method: "POST" }),
+  shift: (id: string, kind?: string | null) =>
+    req<unknown>(`/api/runs/${encodeURIComponent(id)}/shift`, { method: "POST", body: JSON.stringify(kind ? { kind } : {}) }),
+  shifts: (worldId: string) => req<{ id: string; label: string }[]>(`/api/worlds/${encodeURIComponent(worldId)}/shifts`),
   stop: (id: string) => req<unknown>(`/api/runs/${encodeURIComponent(id)}/stop`, { method: "POST" }),
   debrief: (base: string) =>
     base.startsWith("/api/replays/")
@@ -29,4 +31,17 @@ export const api = {
 
 export function runBase(kind: "run" | "replay", id: string): string {
   return kind === "run" ? `/api/runs/${encodeURIComponent(id)}` : `/api/replays/${encodeURIComponent(id)}`;
+}
+
+export interface WhatIfResult {
+  seed: number; start: Record<string, unknown>; predicted: Record<string, unknown>[]; theory_version: number;
+  observed?: Record<string, unknown>[]; match?: Record<string, boolean>[]; match_rate?: number;
+}
+
+export function whatif(id: string, actions: { name: string; args?: Record<string, unknown> }[], test: boolean): Promise<WhatIfResult> {
+  return req<WhatIfResult>(`/api/runs/${encodeURIComponent(id)}/whatif`, { method: "POST", body: JSON.stringify({ actions, test }) });
+}
+
+export function exportUrl(id: string, file: "manual.md" | "controller.py"): string {
+  return `/api/runs/${encodeURIComponent(id)}/export/${file}`;
 }

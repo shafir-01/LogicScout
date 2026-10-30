@@ -204,9 +204,19 @@ class RoverWorld(World):
         return StepResult(observation=self.observe(), cost=float(cost))
 
     # ---- private ---------------------------------------------------------------------
-    def shift(self, seed: int) -> ShiftRecord:
+    @classmethod
+    def shift_menu(cls) -> list[dict]:
+        return [
+            {"id": "cooling_halves", "label": "Motor cooling becomes half as effective"},
+            {"id": "lockout_threshold_drops", "label": "Overheat lockout triggers sooner"},
+            {"id": "scan_latency_up", "label": "Instrument reports arrive one step later"},
+        ]
+
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
         kinds = ["cooling_halves", "lockout_threshold_drops", "scan_latency_up"]
-        kind = kinds[random.Random(f"rover-shift:{seed}").randrange(len(kinds))]
+        kind = kind or kinds[random.Random(f"rover-shift:{seed}").randrange(len(kinds))]
+        if kind not in {m["id"] for m in self.shift_menu()}:
+            raise ValueError(f"unknown shift kind {kind!r}")
         before = dict(self.laws)
         if kind == "cooling_halves":
             self.laws["passive_cool"] /= 2

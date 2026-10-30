@@ -1,66 +1,55 @@
 import type { RunView } from "../state";
 
-const STAGES = [
-  { key: "unknown", label: "Unknown", phases: ["encounter", "briefing"] },
-  { key: "probing", label: "Probing", phases: ["probing"] },
-  { key: "theory", label: "Theory", phases: ["theory"] },
-  { key: "control", label: "Control", phases: ["control"] },
-  { key: "change", label: "Hidden change", phases: ["drift", "reprobing"] },
-  { key: "recovered", label: "Recovered", phases: ["recovered"] },
-  { key: "referee", label: "Referee", phases: ["referee", "done"] },
-] as const;
+const STEPS = ["Unknown", "Learning", "Understood", "In control", "Rules changed", "Recovered"] as const;
 
-function currentIndex(v: RunView): number {
-  if (v.phase === "control" && v.drift !== "none") return 4;
-  if (v.phase === "control" && v.recovered) return 5;
-  const i = STAGES.findIndex((s) => (s.phases as readonly string[]).includes(v.phase));
-  if (i >= 0) return i;
-  if (v.phase === "failed") {
-    let last = 0;
-    STAGES.forEach((_, j) => { if (reached(v, j)) last = j; });
-    return last;
-  }
-  return 0;
-}
-
-function reached(v: RunView, i: number): boolean {
-  switch (STAGES[i].key) {
-    case "unknown": return true;
-    case "probing": return v.probeSteps > 0;
-    case "theory": return v.versions.length > 0;
-    case "control": return v.controlSteps > 0;
-    case "change": return v.shifted || v.drift !== "none";
-    case "recovered": return v.recovered;
-    case "referee": return !!v.referee;
+export function reached(v: RunView, i: number): boolean {
+  switch (i) {
+    case 0: return true;
+    case 1: return v.probeSteps > 0 || v.phase === "probing";
+    case 2: return v.versions.length > 0 || !!v.playbook;
+    case 3: return v.controlSteps > 0;
+    case 4: return v.shifted || v.drift !== "none" || v.driftRules.length > 0;
+    case 5: return v.recovered;
   }
   return false;
 }
 
+/** Index of the live step, or -1 once the run has ended. */
+export function currentStep(v: RunView): number {
+  if (v.finished) return -1;
+  switch (v.phase) {
+    case "encounter": case "briefing": return 0;
+    case "probing": return 1;
+    case "theory": return 2;
+    case "control":
+      if (v.drift !== "none") return 4;
+      if (v.recovered) return 5;
+      return v.shifted ? 4 : 3;
+    case "drift": case "reprobing": return 4;
+    case "recovered": return 5;
+    default: return -1;
+  }
+}
+
 export default function PhaseRail({ v }: { v: RunView }) {
-  const cur = currentIndex(v);
-  const alarm = v.drift !== "none" || v.phase === "drift" || v.phase === "reprobing";
+  const cur = currentStep(v);
+  let last = 0;
+  STEPS.forEach((_, i) => { if (reached(v, i)) last = i; });
+  const focus = cur >= 0 ? cur : last;
   return (
-    <ol className="rail" aria-label="Run phase">
-      {STAGES.map((s, i) => {
+    <ol className="progress" aria-label="Progress">
+      {STEPS.map((label, i) => {
         const isCur = i === cur;
-        const done = i < cur;
-        const skipped = done && s.key === "change" && !reached(v, i);
-        const cls = [
-          "rail-step",
-          isCur ? "is-current" : "",
-          done && !skipped ? "is-done" : "",
-          skipped ? "is-skipped" : "",
-          s.key === "change" && (alarm || (isCur && v.shifted)) ? "is-alarm" : "",
-          isCur && v.failed ? "is-alarm" : "",
-        ].join(" ");
+        const done = cur >= 0 ? i < cur && (i < 4 || reached(v, i)) : reached(v, i);
+        const tone =
+          (isCur && i === 4) || (v.failed && i === last) ? "bad"
+          : (isCur && i === 5) || (cur < 0 && !v.failed && i === last && last === 5) ? "ok"
+          : "";
+        const cls = ["step", isCur ? "is-current" : "", done ? "is-done" : "", tone ? `is-${tone}` : "", i === focus ? "is-focus" : ""].join(" ");
         return (
-          <li key={s.key} className={cls} aria-current={isCur ? "step" : undefined}>
-            <span className="rail-dot" aria-hidden="true" />
-            <span className="rail-label">
-              {s.label}
-              {s.key === "change" && v.drift !== "none" && <em> · {v.drift}</em>}
-              {isCur && v.failed && <em> · failed</em>}
-            </span>
+          <li key={label} className={cls} aria-current={isCur ? "step" : undefined}>
+            <span className="step-bar" aria-hidden="true" />
+            <span className="step-label">{label}</span>
           </li>
         );
       })}

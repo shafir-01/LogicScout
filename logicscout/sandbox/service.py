@@ -111,7 +111,10 @@ def create_app(ttl: float = TTL_SECONDS, max_sessions: int = MAX_SESSIONS) -> Fa
 
     @app.post("/s/{sid}/admin/shift")
     def shift(sid: str, body: dict = Body(...), x_admin_token: str | None = Header(None)) -> ShiftRecord:
-        return admin(sid, x_admin_token).admin.shift(int(body["seed"]))
+        try:
+            return admin(sid, x_admin_token).admin.shift(int(body["seed"]), body.get("kind"))
+        except ValueError as e:
+            raise HTTPException(400, str(e)) from e
 
     @app.post("/s/{sid}/admin/success")
     def success(sid: str, body: dict = Body(...), x_admin_token: str | None = Header(None)) -> dict:
