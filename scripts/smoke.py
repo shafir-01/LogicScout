@@ -71,7 +71,8 @@ def run_static_checks(c: httpx.Client) -> list[Result]:
         _expect(bool(worlds), "no worlds loaded")
         for w in worlds:
             r = c.get(f"/api/worlds/{w['world_id']}/shifts")
-            _expect(r.status_code == 200 and isinstance(r.json(), list) and bool(r.json()),
+            test_only = w["world_id"].startswith("toy")  # registered by the unit tests in the same process
+            _expect(r.status_code == 200 and isinstance(r.json(), list) and (bool(r.json()) or test_only),
                     f"{w['world_id']} -> {r.status_code}")
         _expect(c.get("/api/worlds/nope/shifts").status_code == 404, "unknown world not 404")
 

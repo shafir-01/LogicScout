@@ -10,6 +10,7 @@ from __future__ import annotations
 import copy
 import math
 import random
+import re
 from functools import lru_cache
 
 from logicscout.contracts import (
@@ -17,7 +18,7 @@ from logicscout.contracts import (
     StepResult, WorldManual,
 )
 from logicscout.worlds.base import World, register
-from logicscout.worlds.mechanisms import LEVELS, SINCE_CAP, action_list, describe, generate_laws, mutate
+from logicscout.worlds.mechanisms import LEVELS, SHIFT_LABELS, SINCE_CAP, action_list, describe, generate_laws, mutate
 
 OBJ_ID = "reach"
 STANDARD_SEED = 1
@@ -25,10 +26,13 @@ _FIELD_TYPES = {"ready": "bool"}
 _CAL_BEAM = 48
 
 
+VARIANT_RE = re.compile(r"^g\d{1,6}$")
+
+
 def variant_seed(variant: str) -> int:
     if variant == "standard":
         return STANDARD_SEED
-    if variant.startswith("g") and variant[1:].isdigit():
+    if isinstance(variant, str) and VARIANT_RE.match(variant):
         return int(variant[1:])
     raise ValueError(f"unknown forge variant {variant!r}; use 'standard' or 'g<seed>'")
 
@@ -171,18 +175,38 @@ def beam_best(sim: _Sim, horizon: int, width: int = _CAL_BEAM) -> int:
 def _generate(seed: int) -> tuple[str, WorldManual]:
     import json
 
-    L = generate_laws(seed)
     rng = random.Random(seed * 7 + 3)
     horizon = rng.randint(24, 36)
-    worst = None
-    for s in range(4):  # different initial settings; output starts at 0 for calibration
-        sim = _Sim(L)
-        sim.reset(s)
-        sim.f["out"] = 0
-        b = beam_best(sim, horizon)
-        worst = b if worst is None else min(worst, b)
-    target = max(4, math.ceil(0.8 * worst))
+    for attempt in range(50):  # reject systems where spamming the producer already reaches the target
+        L = generate_laws(seed, attempt)
+        worst = min(beam_best(_start(L, s, 0), horizon) for s in range(4))
+        target = max(4, math.ceil(0.8 * worst))
+        if spam_best(L, horizon) < target:
+            break
+    else:
+        raise RuntimeError(f"forge seed {seed}: no system resists producer spam")
     return json.dumps(L), _build_manual(seed, L, target, horizon)
+
+
+def _start(L: JSON, seed: int, out: int | None = None) -> _Sim:
+    sim = _Sim(L)
+    sim.reset(seed)
+    if out is not None:
+        sim.f["out"] = out
+    return sim
+
+
+def spam_best(L: JSON, horizon: int) -> int:
+    """Best `out` from using only the producer, over every possible start (output 2, each setting)."""
+    best = 0
+    for lv in range(LEVELS if "control" in L["mechanisms"] else 1):
+        sim = _start(L, 0, 2)
+        if "set" in sim.f:
+            sim.f["set"] = lv
+        for _ in range(horizon):
+            sim.step("P")
+        best = max(best, sim.f["out"])
+    return best
 
 
 def _build_manual(seed: int, L: JSON, target: int, horizon: int) -> WorldManual:
@@ -287,9 +311,14 @@ class ForgeWorld(World):
     def variants(cls) -> list[str]:
         return ["standard"]
 
-    def shift(self, seed: int) -> ShiftRecord:
+    @classmethod
+    def shift_menu(cls) -> list[dict]:
+        return [{"id": k, "label": v} for k, v in SHIFT_LABELS.items()]
+
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
+        """`kind` is honoured when this generated system has that mechanism; otherwise one it has is chosen."""
         before = copy.deepcopy(self.laws)
-        kind, desc = mutate(self.laws, random.Random(seed))
+        kind, desc = mutate(self.laws, random.Random(seed), kind)
         changed = [k for k in self.laws if self.laws[k] != before[k]]
         return ShiftRecord(kind=kind, description=desc, before={k: before[k] for k in changed},
                            after={k: self.laws[k] for k in changed}, at_t=self.t)
@@ -314,4 +343,4 @@ class ForgeWorld(World):
                 for s in (10001, 10002, 10003, 10004, 10005, 10006)]
 
 
-__all__ = ["ForgeWorld", "OBJ_ID", "action_list", "beam_best", "variant_seed"]
+__all__ = ["ForgeWorld", "OBJ_ID", "action_list", "beam_best", "spam_best", "variant_seed", "VARIANT_RE"]

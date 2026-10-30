@@ -147,3 +147,44 @@ def test_instance_manual_reaches_the_port():
     assert s.port.manual() == ForgeWorld.manual_for("g7") != ForgeWorld.manual()
     assert ForgeWorld("g7").instance_manual == ForgeWorld.manual_for("g7")
     assert all(c.seed > 1000 and c.variant == "g7" for c in ForgeWorld.referee_cases_for("g7"))
+
+
+def test_producer_spam_never_reaches_target():
+    for s in SEEDS:
+        w = ForgeWorld.generate(s)
+        P = w.laws["names"]["P"]
+        h = w.manual().objectives[0].horizon
+        for c in w.referee_cases_for(f"g{s}"):
+            w.reset(c.seed)
+            for _ in range(h):
+                w.act(Action(name=P))
+            assert not w.success(OBJ_ID), (s, c.seed, w.laws["mechanisms"])
+
+
+def test_shift_kind_from_menu():
+    ids = {m["id"] for m in ForgeWorld.shift_menu()}
+    assert ids == set(MECHANISMS)
+    w = ForgeWorld.generate(3)
+    mech = w.laws["mechanisms"][0]
+    assert w.shift(0, mech).kind == mech
+    absent = next(iter(ids - set(w.laws["mechanisms"])))
+    assert w.shift(0, absent).kind in w.laws["mechanisms"]
+
+
+def test_server_variant_validation_and_forge_new():
+    from fastapi.testclient import TestClient
+
+    from logicscout.server import runs as R
+    from logicscout.server.app import create_app
+
+    R.check_variant("forge", "g42")
+    R.check_variant("plant", "standard")
+    for wid, v in (("forge", "g1234567"), ("forge", "x1"), ("plant", "g4"), ("plant", "long_line")):
+        with pytest.raises(ValueError):
+            R.check_variant(wid, v)
+    c = TestClient(create_app())
+    r = c.get("/api/forge/new").json()
+    assert re.fullmatch(r"g\d{1,6}", r["variant"]) and r["manual"]["world_id"] == "forge"
+    assert r["manual"] == ForgeWorld.manual_for(r["variant"]).model_dump(mode="json")
+    assert any(m["world_id"] == "forge" and m["title"] == "Unknown system #1" for m in c.get("/api/worlds").json())
+    assert c.post("/api/runs", json={"world_id": "plant", "variant": "g5"}).status_code == 400

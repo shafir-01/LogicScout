@@ -228,6 +228,7 @@ class RunConfig(BaseModel):
     world_id: str
     objective_id: str | None = None  # default: first objective
     seed: int = 7
+    variant: str = "standard"  # "standard" (lab); forge also accepts "g<seed>" = a freshly generated system
     use_briefing: bool = True  # Tavily public-knowledge priors
     use_transfer: bool = False  # mechanisms learned in other worlds
     probe_budget: int | None = None  # default: manual.probe_budget

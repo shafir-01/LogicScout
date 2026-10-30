@@ -117,6 +117,14 @@ def create_app() -> FastAPI:
         from logicscout.worlds.base import load_all
         return [cls.manual().model_dump() for cls in load_all().values()]
 
+    @app.get("/api/forge/new")
+    def forge_new():
+        import secrets
+
+        from logicscout.worlds.forge import ForgeWorld
+        variant = f"g{secrets.randbelow(999_999) + 1}"
+        return {"variant": variant, "manual": ForgeWorld.manual_for(variant).model_dump()}
+
     @app.get("/api/worlds/{world_id}/shifts")
     def world_shifts(world_id: str):
         menu = R.shift_menu(world_id)

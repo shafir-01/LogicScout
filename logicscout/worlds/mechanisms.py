@@ -20,9 +20,9 @@ SINCE_CAP = 50
 LEVELS = 4  # control action takes level 0..3
 
 
-def generate_laws(seed: int) -> JSON:
+def generate_laws(seed: int, attempt: int = 0) -> JSON:
     """Deterministically compose 3-5 mechanisms with seed-chosen parameters and neutral names."""
-    rng = random.Random(seed * 1_000_003 + 17)
+    rng = random.Random(seed * 1_000_003 + 17 + 7919 * attempt)
     adders = ["ordering", "capacity", "control"]
     plain = ["delay", "cooldown", "window", "resource", "threshold"]
     n = rng.randint(3, 5)
@@ -234,10 +234,23 @@ def reference_theory(L: JSON, world_id: str = "forge") -> Theory:
 # ---- hidden change ----------------------------------------------------------------------
 
 
-def mutate(L: JSON, rng: random.Random) -> tuple[str, str]:
-    """Change one mechanism parameter in place. Returns (kind, description)."""
+SHIFT_LABELS = {
+    "delay": "Produced output arrives after a different lag",
+    "cooldown": "Producer needs a different rest between uses",
+    "window": "Producer's working window narrows or widens",
+    "capacity": "Buffer holds a different amount",
+    "resource": "Hidden reserve refills at a different rate",
+    "ordering": "Arming lasts a different number of steps",
+    "control": "Level control changes how it responds",
+    "threshold": "Overheat limit changes",
+}
+
+
+def mutate(L: JSON, rng: random.Random, kind: str | None = None) -> tuple[str, str]:
+    """Change one mechanism parameter in place (`kind` if this system has it). Returns (kind, description)."""
     m = L["mechanisms"]
-    kind = rng.choice(m)
+    pick = rng.choice(m)
+    kind = kind if kind in m else pick
     if kind == "delay":
         L["delay_steps"] = L["delay_steps"] + 1 if L["delay_steps"] < 3 else 1
     elif kind == "cooldown":
@@ -254,4 +267,4 @@ def mutate(L: JSON, rng: random.Random) -> tuple[str, str]:
         L["control_mode"] = "rate_limited" if L["control_mode"] == "inverted" else "inverted"
     else:
         L["heat_limit"] = L["heat_limit"] - 2 if L["heat_limit"] > 2 else L["heat_limit"] + 3
-    return kind, f"{kind} mechanism parameter changed"
+    return kind, SHIFT_LABELS[kind]

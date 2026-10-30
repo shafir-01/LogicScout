@@ -47,6 +47,18 @@ def _deps():
     return run_mission, MissionControls, open_session, Nemotron
 
 
+def check_variant(world_id: str, variant: str) -> None:
+    """Runs use the lab variant; forge also accepts g<seed> (a generated system). ValueError -> HTTP 400."""
+    if variant == "standard":
+        return
+    if world_id == "forge":
+        from logicscout.worlds.forge import VARIANT_RE
+        if VARIANT_RE.match(variant or ""):
+            return
+        raise ValueError(f"forge variant must be 'standard' or g<seed> (1-6 digits), got {variant!r}")
+    raise ValueError(f"world {world_id!r} only runs the 'standard' variant")
+
+
 def runs_dir() -> Path:
     return config.DATA_DIR / "runs"
 
@@ -127,7 +139,8 @@ class RunRegistry:
         d.mkdir(parents=True, exist_ok=True)
         log = Logbook(run_id, d / "events.jsonl")
         llm = llm_cls(on_call=lambda c: log.append("model.call", c.model_dump()), prompt_log=d / "prompts.jsonl")
-        session = opener(cfg.world_id)
+        check_variant(cfg.world_id, cfg.variant)
+        session = opener(cfg.world_id, cfg.variant)
         state = RunState(run_id=run_id, config=cfg, phase="encounter", live=True, started_at=time.time())
         run = Run(run_id, log, state, controls_cls(), session, ip, dir=d)
         self.runs[run_id] = run
