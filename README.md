@@ -6,31 +6,28 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 
-LogicScout is dropped in front of a system with no manual of its laws: only the names of its controls and readings. It designs experiments, proposes hypotheses, turns what survives into an **executable theory**, compiles a **playbook** that runs the system without calling the model each step, notices when the hidden laws silently change, re-investigates, and recovers. An independent **referee** then scores it on held-out cases the scout never saw.
+LogicScout is placed in front of a system whose laws are never written down for it, so all it receives are the names of the controls, the names of the readings and a goal. From there it designs experiments and proposes hypotheses, turns whatever survives into an **executable theory**, and compiles a **playbook** that runs the system without calling the model at each step, while it keeps watching for the moment the hidden laws silently change so that it can investigate again and recover. Once the run is over, an independent **referee** scores the result on cases the scout never saw.
 
 ## Try it
 
-**Live: [logicscout.onrender.com](https://logicscout.onrender.com)** — pick a system (or "Unknown system", generated fresh for you), press **Start**, and watch it learn. The free instance sleeps when idle; the first load can take up to a minute.
+The live app runs at **[logicscout.onrender.com](https://logicscout.onrender.com)**, where you pick a system (or "Unknown system", which is generated fresh for you), press **Start** and watch it learn. Because the free instance sleeps when idle, the first load can take up to a minute. The app also includes a recording of a real live run with Nemotron on the relay world, published as `relay-live`, which you can replay without starting a run of your own.
 
-Or run it locally in two commands (after setup below):
+Once the setup below is done you can also run it locally with two commands.
 
 ```bash
 uv run python scripts/serve.py      # API + web UI on http://localhost:8787
 uv run logicscout run --world relay --shift-after 10   # same mission, streamed in the terminal
 ```
 
-In the web UI you pick a system and watch the run move through its phases: hypotheses proposed and refuted, probes stepping through the sandbox, theory revisions with prediction accuracy against a "nothing changes" baseline, the compiled playbook taking control, a **hidden change** (press the button or use `--shift-after`), the drift monitor raising suspicion then confirmation, re-investigation, recovery, and finally the referee report. After the run, a debrief reveals the true laws so you can compare them to what LogicScout learned.
+In the web UI you pick a system and follow the run through its phases, as hypotheses are proposed and refuted, probes step through the sandbox and theory revisions report their prediction accuracy next to a "nothing changes" baseline. The compiled playbook then takes control until a **hidden change** arrives, which you trigger with the **Change the rules** button (choosing what changes) or with `--shift-after`, after which the drift monitor first raises suspicion and then confirms the change, the scout re-investigates and recovers, and the referee report closes the run. A debrief afterwards reveals the true laws so that you can compare them with what LogicScout learned, and during or after a run you can ask the theory a what-if question about a sequence of actions and then test that same sequence on the real system, as well as export the operating manual LogicScout wrote and a standalone `controller.py`.
 
 ## Features
 
-- **Active investigation**: Nemotron proposes hypotheses; probes are designed to discriminate between them and scored in code, not by the model's opinion.
-- **Executable theory**: rules written in a small, safe expression DSL (AST whitelist, no imports or attribute calls) that a predictor runs step by step, including memory and delayed effects.
-- **Compiled playbooks**: a controller checked in simulation against the learned theory; falls back to a model-free lookahead planner on the theory.
-- **Drift detection**: an evidence-based monitor (never a timer) flags prediction mismatches, confirms a hidden change, and triggers focused re-investigation.
-- **Public-knowledge briefing**: Tavily search results become cited prior hypotheses that experiments confirm or overturn.
-- **Mechanism library**: mechanisms learned in one world are offered as priors in another.
-- **Independent referee**: held-out seeds and variants, baselines, and a leakage audit; the scout can never import it.
-- **Logbook**: every event and model call is recorded with a verifiable digest chain and streamed live over SSE.
+Investigation is active rather than passive, because Nemotron proposes rival hypotheses while code designs each probe to discriminate between them and scores the outcome, so a hypothesis is never judged by the model's own opinion. The theory that results is executable, since its rules are written in a small and safe expression DSL whose syntax tree is checked against a whitelist that forbids imports and attribute calls, and a predictor runs those rules step by step with support for memory and delayed effects.
+
+From that theory LogicScout compiles a playbook, which is a controller checked in simulation against the learned theory before it is used, and when no compiled playbook passes that check it falls back to a lookahead planner that searches the theory without any model calls. While the playbook operates, a drift monitor driven purely by evidence (never by a timer) flags prediction mismatches, confirms a hidden change once the evidence is strong enough and triggers a re-investigation focused on the implicated rules.
+
+Public knowledge enters through a briefing in which Tavily search results become cited prior hypotheses that experiments then confirm or overturn, and a mechanism library carries mechanisms learned in one world over as priors for another. An independent referee evaluates the result on held out seeds and variants with baselines and a leakage audit, and the scout can never import it. Every event and model call is recorded in a logbook protected by a verifiable digest chain and streamed live over SSE.
 
 ## How it works
 
@@ -52,15 +49,11 @@ flowchart LR
   T & C --> F[Referee<br/>held-out cases, baselines,<br/>leakage audit]
 ```
 
-1. **Encounter**: the scout reads the public manual (actions, fields, objectives, probe budget). It never sees the laws.
-2. **Briefing** (optional): Tavily searches public material about this *kind* of system; one fast model call turns sources into testable priors with citations.
-3. **Investigate**: hypotheses are written as DSL rules; probes run through the sandbox `WorldPort`, and each prediction is compared with what actually happened.
-4. **Theory**: surviving rules form a theory; accuracy is reported next to the persistence baseline.
-5. **Playbook**: the model compiles a controller, validated by simulation on the theory; the planner is the fallback.
-6. **Control and drift**: the controller operates the world while the predictor keeps forecasting; repeated mismatches confirm a hidden change, and the investigator re-probes the implicated rules.
-7. **Referee**: evaluates theory and playbook on held-out cases and audits for leakage.
+A run begins with the encounter, in which the scout reads the public manual listing the actions, fields, objectives and probe budget, and it never sees the laws themselves. If briefing is enabled, Tavily then searches public material about this kind of system and a single fast model call turns the sources into testable priors that carry their citations. The investigation that follows writes hypotheses as DSL rules and runs probes through the sandbox `WorldPort`, comparing every prediction with what actually happened, so that the rules which survive form a theory whose accuracy is always reported next to the persistence baseline.
 
-Isolation is enforced in code and tested: `logicscout/scout`, `logicscout/llm` and `logicscout/briefing` must not import worlds or the referee (`tests/test_isolation.py`, plus the referee's `scout_imports_clean` audit).
+The model then compiles a playbook from that theory, which is validated by simulation on the theory and replaced by the planner when it fails. During control the playbook operates the world while the predictor keeps forecasting each step, and because repeated mismatches confirm a hidden change, the investigator is sent back to re-probe the rules that are implicated. At the end the referee evaluates both the theory and the playbook on held out cases and audits the run for leakage.
+
+Isolation is enforced in code and covered by tests, because `logicscout/scout`, `logicscout/llm` and `logicscout/briefing` must not import the worlds or the referee, which `tests/test_isolation.py` checks together with the referee's own `scout_imports_clean` audit.
 
 ## The worlds
 
@@ -71,36 +64,32 @@ Isolation is enforced in code and tested: `logicscout/scout`, `logicscout/llm` a
 | `orbit` | Orbit payload console | spacecraft operations | Undocumented command semantics and power/payload dependencies |
 | `plant` | Water-treatment tank | industrial process control | How pump, valve, level and pressure respond to each other, including lags |
 | `gate` | Field station job controller | remote device command API | A real HTTP service (own process) whose dispatch rules must be learned from responses |
+| `forge` | Unknown system | generated | A new system composed from hidden mechanisms (delays, cooldowns, windows, capacities, lockouts) for every seed, which nobody has seen before |
 
-| `forge` | Unknown system | generated | A new system composed from hidden mechanisms (delays, cooldowns, windows, capacities, lockouts) for every seed — nobody has seen it before |
-
-Each world also has non-standard variants that the referee uses and the scout never meets in the lab.
+Each world also has variants beyond the standard one, which the referee uses and the scout never meets in the lab. Forge systems are learnable by design, since a theory written from the true rules predicts all 36 generated systems in the test suite with full accuracy while a random policy reaches the goal on only 3 of 72 referee cases, and [docs/forge.md](docs/forge.md) describes how a seed composes its mechanisms.
 
 ## Models: NVIDIA Nemotron on Nebius Token Factory
 
-All reasoning goes through `logicscout.llm.Nemotron`, an OpenAI-compatible client pointed at Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1/`).
+All reasoning goes through `logicscout.llm.Nemotron`, a client for the OpenAI API format that points at Nebius Token Factory (`https://api.tokenfactory.nebius.com/v1/`).
 
 | Tier | Env var | Model | Used for |
 |---|---|---|---|
-| deep | `LS_MODEL_DEEP` | Nemotron 3 Ultra | theory building, playbook synthesis, harder reasoning |
-| fast | `LS_MODEL_FAST` | Nemotron 3 Super (`nvidia/nemotron-3-super-120b-a12b`) | hypotheses, briefing priors, routine calls |
+| deep | `LS_MODEL_DEEP` | Nemotron 3 Ultra (`nvidia/Nemotron-3-Ultra-550b-a55b`) | hypotheses, theory revision, playbook synthesis |
+| fast | `LS_MODEL_FAST` | Nemotron 3 Super (`nvidia/nemotron-3-super-120b-a12b`) | probe design, briefing priors, mechanism transfer |
 
-Calls request JSON output, strip `<think>` blocks, validate against a schema, and escalate fast to deep after repeated invalid output. Every call is logged as a `model.call` event with the real model id and latency. List available model ids with `uv run python -m logicscout.llm.models` and smoke-test with `uv run python -m logicscout.llm.smoke`. See [docs/models.md](docs/models.md) and [docs/nvidia-ecosystem.md](docs/nvidia-ecosystem.md).
+Every call requests JSON output, strips `<think>` blocks and validates the result against a schema, and a call that stops at the token limit is retried with a larger budget, while fast calls escalate to the deep tier after repeated invalid output. Each call is logged as a `model.call` event carrying the real model id returned by the API together with its latency. You can list the available model ids with `uv run python -m logicscout.llm.models` and run a smoke test with `uv run python -m logicscout.llm.smoke`, and the details are in [docs/models.md](docs/models.md) and [docs/nvidia-ecosystem.md](docs/nvidia-ecosystem.md).
 
-**Tavily** (`POST https://api.tavily.com/search`, basic depth, at most 3 topics per run) supplies the briefing. Results are never treated as ground truth. See [docs/tavily.md](docs/tavily.md).
+**Tavily** supplies the briefing through `POST https://api.tavily.com/search` with advanced search depth and at most 3 topics per run, and its results are never treated as ground truth, as [docs/tavily.md](docs/tavily.md) explains.
 
-There are no mocked or cached model or search responses in the product path; if a key is missing, LogicScout fails with a clear message.
+The product path contains no mocked or cached model or search responses, so if a key is missing LogicScout stops with a clear message instead of pretending.
 
 ## Tech stack
 
-- Python 3.12, [uv](https://docs.astral.sh/uv/), FastAPI, Uvicorn, Pydantic v2, httpx, OpenAI SDK
-- React + TypeScript + Vite (`web/`)
-- pytest + pytest-asyncio, GitHub Actions
-- Docker; Hugging Face Spaces / Render / Nebius for hosting
+The backend is written in Python 3.12 and managed with [uv](https://docs.astral.sh/uv/), using FastAPI and Uvicorn for the server, Pydantic v2 for the shared types, httpx for HTTP and the OpenAI SDK for model calls. The interface in `web/` is built with React, TypeScript and Vite. Tests run on pytest with pytest-asyncio under GitHub Actions, and the app ships as a Docker image that can be hosted on Render, Hugging Face Spaces or Nebius.
 
 ## Getting started
 
-**Prerequisites:** Python 3.12, [uv](https://docs.astral.sh/uv/), Node 22 (for the web UI), a Nebius Token Factory API key, and a Tavily API key (optional; use `--no-briefing` without it).
+You will need Python 3.12, [uv](https://docs.astral.sh/uv/), Node 22 for the web UI, a Nebius Token Factory API key and, optionally, a Tavily API key, since without one you can run with `--no-briefing`.
 
 ```bash
 git clone https://github.com/shafir-01/LogicScout.git
@@ -109,7 +98,7 @@ uv sync
 cp .env.example .env        # then fill in the keys
 ```
 
-`.env` settings:
+The settings in `.env` are listed below.
 
 | Variable | Purpose |
 |---|---|
@@ -123,14 +112,14 @@ cp .env.example .env        # then fill in the keys
 | `LS_DATA_DIR` | where run logs are written, default `./data` |
 | `LS_MAX_LIVE_RUNS` | concurrent live runs allowed by the server |
 
-Build the web UI and start everything:
+Then build the web UI and start everything.
 
 ```bash
 cd web && npm ci && npm run build && cd ..
 uv run python scripts/serve.py
 ```
 
-`scripts/serve.py` starts the gate service on `:8790` and the API on `$PORT` (default `8787`), which also serves `web/dist`. Open http://localhost:8787.
+`scripts/serve.py` starts the gate service on `:8790` and the API on `$PORT` (default `8787`), and the API also serves `web/dist`, so you can open http://localhost:8787 once both are up.
 
 ## Usage
 
@@ -143,7 +132,7 @@ uv run logicscout run --world plant --no-briefing --budget 20
 uv run logicscout run --world orbit --transfer --seed 8   # use mechanisms learned in earlier worlds
 ```
 
-Options for `run`: `--world` (required), `--objective`, `--seed`, `--shift-after`, `--no-briefing`, `--transfer`, `--budget`. Each run writes `data/runs/<run_id>/events.jsonl` and `prompts.jsonl`.
+The `run` command requires `--world` and also accepts `--objective`, `--seed`, `--shift-after`, `--no-briefing`, `--transfer` and `--budget`, and every run writes its events to `data/runs/<run_id>/events.jsonl` and its prompts to `prompts.jsonl` in the same folder.
 
 ### HTTP API
 
@@ -151,12 +140,16 @@ Options for `run`: `--world` (required), `--objective`, `--seed`, `--shift-after
 |---|---|---|
 | GET | `/api/health` | health check |
 | GET | `/api/worlds` | public manuals of available worlds |
+| GET | `/api/worlds/{id}/shifts` | menu of hidden changes you can choose for a world |
+| GET | `/api/forge/new` | a freshly generated unknown system (variant and manual) |
 | POST | `/api/runs` | start a run (`RunConfig` body), returns `{run_id}` |
 | GET | `/api/runs` | list runs |
 | GET | `/api/runs/{id}` | run state |
 | GET | `/api/runs/{id}/events` | Server-Sent Events: history replay, then live |
-| POST | `/api/runs/{id}/shift` | apply a hidden change now |
+| POST | `/api/runs/{id}/shift` | apply a hidden change now (optional body `{"kind": ...}`) |
 | POST | `/api/runs/{id}/stop` | stop the run |
+| POST | `/api/runs/{id}/whatif` | predict a sequence of actions with the theory, then test it |
+| GET | `/api/runs/{id}/export/manual.md`, `/api/runs/{id}/export/controller.py` | operating manual and standalone controller |
 | GET | `/api/runs/{id}/debrief` | true laws and change records (only after the run finished) |
 | GET | `/api/replays`, `/api/replays/{name}`, `/api/replays/{name}/events` | recorded runs |
 | GET | `/api/infra` | infrastructure / model info |
@@ -170,7 +163,7 @@ curl -s -X POST localhost:8787/api/runs/$RUN/shift
 curl -s localhost:8787/api/runs/$RUN/debrief
 ```
 
-`RunConfig` fields: `world_id`, `objective_id`, `seed`, `use_briefing`, `use_transfer`, `probe_budget`, `shift_after`.
+A `RunConfig` body accepts `world_id`, `objective_id`, `seed`, `use_briefing`, `use_transfer`, `probe_budget` and `shift_after`.
 
 ## Project structure
 
@@ -200,20 +193,16 @@ tests/             pytest suite
 
 ## Evaluation
 
-The full protocol, written before any results were collected, is in [docs/evaluation.md](docs/evaluation.md):
+The full protocol was written before any results were collected and lives in [docs/evaluation.md](docs/evaluation.md). The referee builds fresh worlds for cases held out from the scout, using seeds outside the lab range and variants the scout never met, runs the compiled controller on them and checks success against the world's ground truth. Prediction accuracy is measured on transitions the scout cannot influence and always reported next to the "nothing changes" baseline, while the random and idle baselines run on exactly the same cases.
 
-- **Referee** builds fresh worlds for held-out cases (seeds outside the lab range and variants the scout never met), runs the compiled controller, and checks success against the world's ground truth.
-- **Prediction accuracy** is measured on transitions the scout cannot influence, next to the "nothing changes" baseline.
-- **Baselines** (random, idle) run on the same cases.
-- **Bench arms** with matched budgets: full, random probing, passive learning, zero-shot model control, prompt-only control, no briefing, no transfer, no adaptation.
-- **Leakage audit**: no law text in prompts, clean scout imports, referee cases unseen, logbook digest verifies. Missing inputs are recorded as unverified failures, never silent passes.
+The bench compares arms with matched budgets, namely the full pipeline, random probing, passive learning, zero shot model control, prompt only control, and runs without briefing, without transfer or without adaptation. Each run also passes through a leakage audit that checks that no law text reached a prompt, that the scout's imports are clean, that the referee cases were unseen and that the logbook digest verifies, and any missing input is recorded as an unverified failure rather than a silent pass.
 
 ```bash
 uv run python -m logicscout.bench --world relay --seeds 2 --dry-run   # plan and call estimate
 uv run python -m logicscout.bench --world relay --seeds 2             # real model calls
 ```
 
-Results are written to `docs/results.md` (raw per-seed JSON in `data/bench/`) and reported as-is.
+Results are written to `docs/results.md`, with the raw JSON for every seed in `data/bench/`, and they are reported as they came out.
 
 ### Results so far (relay, objective `bulk8`, 2 seeds, live Nemotron)
 
@@ -226,7 +215,7 @@ Results are written to `docs/results.md` (raw per-seed JSON in `data/bench/`) an
 | No adaptation (drift monitor off) | 0.00 / 0.00 | 0.88–0.89 vs. 0.76 | 14 |
 | Code-side induction only, no model | 0.50 / 0.25 | 0.91 / 0.90 vs. 0.76 | 0 |
 
-\*Capped subset of cases. Random and idle baselines scored 0.00 on every case, and every leakage check passed. Two honest readings: only the learn-a-theory-then-compile pipeline reaches the goal at all, and on this world the code-side rule fitting alone matched the model-assisted run — the model's share of the win is not separable here. Drift was detected and recovered on one of two seeds. See [docs/results.md](docs/results.md).
+\*These arms were measured on a capped subset of cases. The random and idle baselines scored 0.00 on every case and every leakage check passed. We read two honest conclusions from this table, the first being that only the pipeline which learns a theory and then compiles a controller reaches the goal at all, and the second being that on this world the rule fitting done in code matched the run assisted by the model, so the model's share of the win cannot be separated here. The hidden change was detected and recovered from on one of the two seeds, and [docs/results.md](docs/results.md) has every row in full.
 
 ## Testing
 
@@ -235,29 +224,26 @@ uv run pytest -q
 cd web && npx tsc --noEmit && npm run build
 ```
 
-CI runs both on every push and pull request. Tests use `Fake*` doubles only under `tests/`.
+CI runs both on every push and pull request, and test doubles named `Fake*` exist only under `tests/`.
 
 ## Deployment
 
-See [docs/deploy.md](docs/deploy.md).
+The full guide is in [docs/deploy.md](docs/deploy.md), and the supported targets are summarized below.
 
-- **Docker**: `docker build -t logicscout . && docker run -p 8787:8787 --env-file .env logicscout`
-- **Render** (live demo): free web service built from the `Dockerfile`, auto-deploys on push
-- **Hugging Face Spaces** (Docker Space, port 7860): see [deploy/hf/README.md](deploy/hf/README.md)
-- **Render**: Blueprint from `render.yaml`
-- **Nebius**: see [deploy/nebius/README.md](deploy/nebius/README.md)
+| Target | How |
+|---|---|
+| Docker | `docker build -t logicscout . && docker run -p 8787:8787 --env-file .env logicscout` |
+| Render (live demo) | free web service built from the `Dockerfile`, deployed automatically on push, or as a Blueprint from `render.yaml` |
+| Hugging Face Spaces | Docker Space on port 7860, see [deploy/hf/README.md](deploy/hf/README.md) |
+| Nebius | see [deploy/nebius/README.md](deploy/nebius/README.md) |
 
 ## Limitations and roadmap
 
-- Worlds are compact simulations (plus one real HTTP service); real plants and devices are larger and noisier.
-- The DSL covers arithmetic, comparisons and simple memory/delays; richer dynamics may not be expressible.
-- Investigation quality depends on the model and probe budget; a run can end with an incomplete theory, and the referee reports that honestly.
-- Drift detection needs enough mismatching evidence, so very subtle changes can be detected late.
-- Planned: more worlds, richer mechanism transfer across domains, and longer multi-change runs.
+The worlds are compact simulations plus one real HTTP service, whereas real plants and devices are larger and noisier, and the DSL covers arithmetic, comparisons and simple memory and delays, so richer dynamics may not be expressible in it yet. Investigation quality depends on the model and on the probe budget, which means a run can end with an incomplete theory, and when that happens the referee reports it honestly. Drift detection needs enough mismatching evidence before it confirms anything, so very subtle changes can be detected late, and in the benchmark above the change was caught and recovered from on only one of two seeds. Planned work includes more worlds, richer transfer of mechanisms across domains, and longer runs with several changes in sequence.
 
 ## Contributing
 
-Issues and pull requests are welcome. Keep `uv run pytest -q` green, put tests in `tests/test_<area>_*.py`, and never let scout, LLM or briefing code import worlds or the referee.
+Issues and pull requests are welcome, as long as `uv run pytest -q` stays green, new tests go in `tests/test_<area>_*.py`, and scout, LLM and briefing code never imports the worlds or the referee.
 
 ## License
 
