@@ -13,7 +13,7 @@ from logicscout.contracts import JSON, Rule, Theory
 MECHANISMS = ("delay", "cooldown", "window", "capacity", "resource", "ordering", "control", "threshold")
 ACTION_WORDS = ["pulse", "vent", "route", "prime", "hold", "cycle", "shunt", "latch", "sweep", "draw",
                 "tap", "align", "bleed", "kick", "settle", "trim", "press", "spin"]
-FIELD_WORDS = ["flux", "charge", "output", "relay_ready", "level", "bias", "gauge", "drift", "phase_mark",
+FIELD_WORDS = ["flux", "charge", "output", "relay_ready", "bias", "gauge", "drift", "phase_mark",
                "tally", "store", "signal", "quiet", "beacon", "count", "trace", "yield_mark", "span"]
 PADDING = ("uses", "idle", "last", "moves")
 SINCE_CAP = 50
@@ -245,7 +245,7 @@ def mutate(L: JSON, rng: random.Random) -> tuple[str, str]:
     elif kind == "window":
         L["window_open"] = L["window_open"] - 1 if L["window_open"] > 1 else 2
     elif kind == "capacity":
-        L["cap"] = max(L["gain"], L["cap"] - L["gain"])
+        L["cap"] = L["cap"] - L["gain"] if L["cap"] >= 2 * L["gain"] else L["cap"] + 2 * L["gain"]
     elif kind == "resource":
         L["res_regen"] = L["res_regen"] - 1 if L["res_regen"] > 1 else L["res_regen"] + 1
     elif kind == "ordering":
@@ -253,5 +253,5 @@ def mutate(L: JSON, rng: random.Random) -> tuple[str, str]:
     elif kind == "control":
         L["control_mode"] = "rate_limited" if L["control_mode"] == "inverted" else "inverted"
     else:
-        L["heat_limit"] = max(1, L["heat_limit"] - 2)
+        L["heat_limit"] = L["heat_limit"] - 2 if L["heat_limit"] > 2 else L["heat_limit"] + 3
     return kind, f"{kind} mechanism parameter changed"
