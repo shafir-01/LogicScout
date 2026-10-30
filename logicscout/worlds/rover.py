@@ -64,7 +64,7 @@ class RoverWorld(World):
                 FieldSpec(name="locked", type="bool", description="motor controller fault light"),
                 FieldSpec(name="terrain", type="str", description="terrain at current position: smooth|rough"),
                 FieldSpec(name="sites_confirmed", type="int", description="sites confirmed by the instrument"),
-                FieldSpec(name="scan_result", type="str", description="latest instrument report: none|confirmed|blurred|empty"),
+                FieldSpec(name="scan_result", type="str", description="instrument report delivered this step: none|confirmed|blurred|empty"),
             ],
             objectives=[Objective(
                 id=OBJECTIVE_ID, text="Confirm 3 inspection sites with energy to spare",
@@ -195,6 +195,7 @@ class RoverWorld(World):
         self.t += 1
         arrived = [p for p in self.pending if p[0] <= self.t]
         self.pending = [p for p in self.pending if p[0] > self.t]
+        self.scan_result = "none"
         for _, res, site in arrived:
             if res == "confirmed" and site in self.confirmed:
                 res = "empty"

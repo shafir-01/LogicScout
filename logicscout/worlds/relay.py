@@ -55,10 +55,10 @@ class RelayWorld(World):
                 FieldSpec(name="lost", type="int", description="Messages that never reached shore."),
             ],
             objectives=[
-                Objective(id="priority5", text="Deliver 5 priority messages to shore before their deadlines",
-                          success="obs.priority_delivered >= 5", horizon=40),
                 Objective(id="bulk8", text="Deliver 8 messages to shore while losing at most 2",
                           success="obs.delivered >= 8 and obs.lost <= 2", horizon=40),
+                Objective(id="priority5", text="Deliver 5 priority messages to shore before their deadlines",
+                          success="obs.priority_delivered >= 5", horizon=40),
             ],
             probe_budget=50,
             lab_seeds=(0, 1000),
