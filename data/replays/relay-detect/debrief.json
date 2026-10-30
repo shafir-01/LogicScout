@@ -1,0 +1,630 @@
+{
+  "run_id": "relay-20261030-154747-59ba",
+  "world_id": "relay",
+  "hidden_laws": [
+    "The buoy link only works when t mod 6 is below 2; sends outside that window are silently lost.",
+    "The buoy carries at most 2 messages per send; extra messages are lost.",
+    "The buoy battery holds 4 sends, each message costs 1, it recovers 1 every 3 steps; at 0 messages are lost. buoy_signal is a coarse 0-3 battery gauge.",
+    "Satellite sends always work but cost 3 vessel energy per message (start 10) and arrive 2 steps later.",
+    "The queue is served newest-first (LIFO) unless prioritize was used on the previous step, in which case priority messages with the earliest deadline go first.",
+    "A new routine message arrives every 3 steps; queued messages past their deadline are dropped and counted as lost."
+  ],
+  "shifts": [
+    {
+      "control_step": 24,
+      "kind": "window_period",
+      "description": "period changed from 6 to 9",
+      "before": {
+        "period": 6
+      },
+      "after": {
+        "period": 9
+      },
+      "at_t": 3,
+      "label": "Contact window becomes longer and less frequent"
+    }
+  ],
+  "final_theory": {
+    "world_id": "relay",
+    "version": 17,
+    "parent": 16,
+    "memory": {
+      "buoy_send_count": 0,
+      "buoy_in_transit": 0,
+      "arrival_timer": 0,
+      "pending_delivery": 0,
+      "buoy_cycle": 0,
+      "buoy_recover": 0
+    },
+    "rules": [
+      {
+        "id": "R74",
+        "statement": "After every step, buoy_signal becomes 3 (fits 25/30 past steps)",
+        "kind": "transition",
+        "action": "*",
+        "when": "True",
+        "effects": {
+          "buoy_signal": "3"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.846,
+        "evidence": [
+          167,
+          168,
+          169,
+          170
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R123",
+        "statement": "Next deadline becomes -1 when no priority messages waiting",
+        "kind": "transition",
+        "action": "*",
+        "when": "obs.priority_waiting == 0",
+        "effects": {
+          "next_deadline": "-1"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.5,
+        "evidence": [
+          306,
+          307,
+          308,
+          310
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R149",
+        "statement": "After every step, next_deadline becomes max(obs.next_deadline + -1, -1) (fits 71/84 past steps)",
+        "kind": "transition",
+        "action": "*",
+        "when": "True",
+        "effects": {
+          "next_deadline": "max(obs.next_deadline + -1, -1)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.806,
+        "evidence": [
+          321,
+          322,
+          323,
+          324,
+          327
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R165",
+        "statement": "After every step, next_deadline becomes max(obs.next_deadline + -1, -1) (fits 81/94 past steps)",
+        "kind": "transition",
+        "action": "*",
+        "when": "True",
+        "effects": {
+          "next_deadline": "max(obs.next_deadline + -1, -1)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.778,
+        "evidence": [
+          376,
+          379
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R202",
+        "statement": "After every step, next_deadline becomes max(obs.next_deadline + -1, -1) (fits 71/84 past steps)",
+        "kind": "transition",
+        "action": "*",
+        "when": "True",
+        "effects": {
+          "next_deadline": "max(obs.next_deadline + -1, -1)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.77,
+        "evidence": [
+          442,
+          454
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R50",
+        "statement": "After 'send', queue becomes (obs.queue - min(args.n, obs.queue)) if t % 3 < 2 else (obs.queue + -2) (fits 8/9 past steps)",
+        "kind": "periodic",
+        "action": "send",
+        "when": "True",
+        "effects": {
+          "queue": "(obs.queue - min(args.n, obs.queue)) if t % 3 < 2 else (obs.queue + -2)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.8,
+        "evidence": [
+          82,
+          93
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R53",
+        "statement": "After 'send' when args.via == 'buoy', queue becomes (obs.queue - min(args.n, obs.queue)) if t % 3 < 2 else (obs.vessel_energy) (fits 6/6 past steps)",
+        "kind": "periodic",
+        "action": "send",
+        "when": "args.via == 'buoy'",
+        "effects": {
+          "queue": "(obs.queue - min(args.n, obs.queue)) if t % 3 < 2 else (obs.vessel_energy)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.75,
+        "evidence": [
+          82,
+          96
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R67",
+        "statement": "A hidden arrival timer mem.arrival_timer increments each step; when it reaches 3, a message arrives (queue+1) and timer resets. Delivered increases on wait if mem.pending_delivery > 0 (set by prior buoy sends).",
+        "kind": "delay",
+        "action": "wait",
+        "when": "True",
+        "effects": {
+          "queue": "obs.queue + (1 if (mem.arrival_timer + 1) % 3 == 0 else 0)",
+          "delivered": "obs.delivered + (1 if mem.pending_delivery > 0 else 0)"
+        },
+        "memory": {
+          "arrival_timer": "(mem.arrival_timer + 1) % 3",
+          "pending_delivery": "max(mem.pending_delivery - 1, 0)"
+        },
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.75,
+        "evidence": [
+          116,
+          128
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R68",
+        "statement": "After 'wait', queue becomes (obs.queue) if t % 3 < 2 else (obs.queue + 1) (fits 6/6 past steps)",
+        "kind": "periodic",
+        "action": "wait",
+        "when": "True",
+        "effects": {
+          "queue": "(obs.queue) if t % 3 < 2 else (obs.queue + 1)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.938,
+        "evidence": [
+          138,
+          145
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R70",
+        "statement": "After 'send', queue becomes (obs.queue - min(args.n, obs.queue) + 1) if (t + 1) % 3 == 0 else (obs.queue - min(args.n, obs.queue)) (fits 13/13 past steps)",
+        "kind": "periodic",
+        "action": "send",
+        "when": "True",
+        "effects": {
+          "queue": "(obs.queue - min(args.n, obs.queue) + 1) if (t + 1) % 3 == 0 else (obs.queue - min(args.n, obs.queue))"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.988,
+        "evidence": [
+          137,
+          139,
+          141,
+          147
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R75",
+        "statement": "After 'wait', buoy_signal becomes 3 (fits 7/7 past steps)",
+        "kind": "transition",
+        "action": "wait",
+        "when": "True",
+        "effects": {
+          "buoy_signal": "3"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.875,
+        "evidence": [
+          168,
+          171
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R83",
+        "statement": "Satellite send consumes min(3*n, vessel_energy - 1) energy (floor at 1); lost increases by n when vessel_energy <= 3*n (insufficient power causes total loss).",
+        "kind": "resource",
+        "action": "send",
+        "when": "args.via == 'sat'",
+        "effects": {
+          "vessel_energy": "max(obs.vessel_energy - 3 * args.n, 1)",
+          "lost": "obs.lost + args.n if obs.vessel_energy <= 3 * args.n else obs.lost"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.882,
+        "evidence": [
+          167,
+          173
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R73",
+        "statement": "After 'send' when args.via == 'buoy', lost becomes (obs.lost + max(args.n - 2, 0)) if t % 6 < 2 else (obs.lost + args.n) (fits 9/12 past steps)",
+        "kind": "periodic",
+        "action": "send",
+        "when": "args.via == 'buoy'",
+        "effects": {
+          "lost": "(obs.lost + max(args.n - 2, 0)) if t % 6 < 2 else (obs.lost + args.n)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.72,
+        "evidence": [
+          180,
+          181,
+          182,
+          183,
+          184
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R151",
+        "statement": "After 'send', buoy_signal becomes (args.n) if obs.lost <= 1 else (obs.buoy_signal) (fits 42/66 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "True",
+        "effects": {
+          "buoy_signal": "(args.n) if obs.lost <= 1 else (obs.buoy_signal)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.857,
+        "evidence": [
+          348,
+          349,
+          350,
+          351,
+          353
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R152",
+        "statement": "After 'send' when args.via == 'buoy', buoy_signal becomes (2) if obs.lost == 0 else (obs.buoy_signal) (fits 25/39 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "args.via == 'buoy'",
+        "effects": {
+          "buoy_signal": "(2) if obs.lost == 0 else (obs.buoy_signal)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.685,
+        "evidence": [
+          348,
+          350,
+          351,
+          354
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R154",
+        "statement": "After 'send', priority_waiting becomes (obs.priority_waiting - 1) if obs.queue >= 9 else (obs.priority_waiting) (fits 43/66 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "True",
+        "effects": {
+          "priority_waiting": "(obs.priority_waiting - 1) if obs.queue >= 9 else (obs.priority_waiting)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.655,
+        "evidence": [
+          348,
+          349,
+          350,
+          351,
+          356
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R155",
+        "statement": "After 'send' when args.via == 'sat', delivered becomes (obs.delivered + min(args.n, 1)) if obs.buoy_signal == 1 else (obs.delivered) (fits 23/27 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "args.via == 'sat'",
+        "effects": {
+          "delivered": "(obs.delivered + min(args.n, 1)) if obs.buoy_signal == 1 else (obs.delivered)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.857,
+        "evidence": [
+          349,
+          357
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R167",
+        "statement": "After 'prioritize', next_deadline becomes max(obs.next_deadline + -1, -1) (fits 15/15 past steps)",
+        "kind": "transition",
+        "action": "prioritize",
+        "when": "True",
+        "effects": {
+          "next_deadline": "max(obs.next_deadline + -1, -1)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.962,
+        "evidence": [
+          377,
+          381
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R169",
+        "statement": "After 'send' when args.via == 'buoy', delivered becomes (obs.delivered + min(args.n, 2)) if obs.lost <= 1 else (obs.delivered) (fits 36/42 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "args.via == 'buoy'",
+        "effects": {
+          "delivered": "(obs.delivered + min(args.n, 2)) if obs.lost <= 1 else (obs.delivered)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.778,
+        "evidence": [
+          376,
+          383
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R174",
+        "statement": "After 'wait', next_deadline becomes max(obs.next_deadline + -1, -1) (fits 10/10 past steps)",
+        "kind": "transition",
+        "action": "wait",
+        "when": "True",
+        "effects": {
+          "next_deadline": "max(obs.next_deadline + -1, -1)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.938,
+        "evidence": [
+          417,
+          418,
+          424
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R203",
+        "statement": "After 'send', queue becomes (obs.queue - min(args.n, obs.queue) + 1) if (t + 1) % 3 == 0 else (obs.queue - min(args.n, obs.queue)) (fits 13/13 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "True",
+        "effects": {
+          "queue": "(obs.queue - min(args.n, obs.queue) + 1) if (t + 1) % 3 == 0 else (obs.queue - min(args.n, obs.queue))"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.989,
+        "evidence": [
+          442,
+          455
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R206",
+        "statement": "After 'send' when args.via == 'buoy', lost becomes (obs.lost + max(args.n - 2, 0)) if t % 6 < 2 else (obs.lost + args.n) (fits 9/12 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "args.via == 'buoy'",
+        "effects": {
+          "lost": "(obs.lost + max(args.n - 2, 0)) if t % 6 < 2 else (obs.lost + args.n)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.685,
+        "evidence": [
+          442,
+          456
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R216",
+        "statement": "After 'send', priority_delivered becomes (obs.priority_delivered + min(args.n, 1)) if obs.delivered <= 2 else (obs.priority_delivered) (fits 64/79 past steps)",
+        "kind": "transition",
+        "action": "send",
+        "when": "True",
+        "effects": {
+          "priority_delivered": "(obs.priority_delivered + min(args.n, 1)) if obs.delivered <= 2 else (obs.priority_delivered)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.805,
+        "evidence": [
+          442,
+          458
+        ],
+        "source": "probe",
+        "citations": []
+      },
+      {
+        "id": "R217",
+        "statement": "After 'prioritize', queue becomes (obs.queue + 1) if (t + 1) % 3 == 0 else (obs.queue) (fits 21/21 past steps)",
+        "kind": "periodic",
+        "action": "prioritize",
+        "when": "True",
+        "effects": {
+          "queue": "(obs.queue + 1) if (t + 1) % 3 == 0 else (obs.queue)"
+        },
+        "memory": {},
+        "delay": 0,
+        "status": "supported",
+        "confidence": 0.962,
+        "evidence": [
+          465,
+          466,
+          468,
+          470
+        ],
+        "source": "probe",
+        "citations": []
+      }
+    ],
+    "unknowns": [
+      "Buoy signal drop/recovery trigger (periodic counter vs queue threshold vs energy threshold)",
+      "Priority delivery condition on buoy sends (t%6 window vs deadline urgency vs signal strength)",
+      "Satellite energy floor and loss mechanics when energy is insufficient",
+      "Exact priority_waiting transition on buoy send (depends on buoy_signal, deadline, or re-queue)",
+      "Next_deadline jump mechanism on buoy send (backlog pressure vs reset vs max-tracking)"
+    ],
+    "note": "Cycle 4: more experience, no rule changes."
+  },
+  "playbook": {
+    "id": "planner-relay-v17",
+    "world_id": "relay",
+    "objective_id": "bulk8",
+    "theory_version": 17,
+    "origin": "planner",
+    "memory": {},
+    "updates": {},
+    "rules": [],
+    "fallback": {
+      "name": "send",
+      "args": {
+        "via": "'buoy'",
+        "n": "1"
+      }
+    }
+  },
+  "referee": {
+    "run_id": "relay-20261030-154747-59ba",
+    "world_id": "relay",
+    "theory_version": 17,
+    "playbook_id": "planner-relay-v17",
+    "cases": [
+      {
+        "case_id": "case-0",
+        "success": true,
+        "steps": 7,
+        "cost": 9.0,
+        "note": ""
+      },
+      {
+        "case_id": "case-1",
+        "success": false,
+        "steps": 40,
+        "cost": 9.0,
+        "note": ""
+      },
+      {
+        "case_id": "case-2",
+        "success": false,
+        "steps": 40,
+        "cost": 9.0,
+        "note": ""
+      },
+      {
+        "case_id": "case-3",
+        "success": false,
+        "steps": 40,
+        "cost": 9.0,
+        "note": ""
+      }
+    ],
+    "success_rate": 0.25,
+    "prediction_accuracy": 0.8958,
+    "baselines": {
+      "random": 0.0,
+      "idle": 0.0,
+      "persistence_accuracy": 0.7604
+    },
+    "leakage_checks": {
+      "no_law_text_in_prompts": true,
+      "scout_imports_clean": true,
+      "referee_cases_unseen": true,
+      "events_digest_ok": true
+    },
+    "notes": [
+      "rules contradicted on held-out standard cases: R151 x2, R152 x1, R154 x3, R167 x1, R169 x1, R202 x3, R203 x2, R206 x4, R216 x2, R217 x2, R67 x2, R83 x2",
+      "4 held-out cases; prediction accuracy over 120 random-policy transitions",
+      "digest = sha256 of this report: proves integrity (not edited), not correctness"
+    ],
+    "digest": "a285438a46f7579a31e8307384a6b0945f66a6dad043ea38c406826286fcf8af"
+  }
+}
