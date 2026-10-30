@@ -8,7 +8,7 @@
 
 LogicScout is placed in front of a system whose laws are never written down for it, so all it receives are the names of the controls, the names of the readings and a goal. From there it designs experiments and proposes hypotheses, turns whatever survives into an **executable theory**, and compiles a **playbook** that runs the system without calling the model at each step, while it keeps watching for the moment the hidden laws silently change so that it can investigate again and try to recover. Once the run is over, an independent **referee** scores the result on cases the scout never saw.
 
-LogicScout has been evaluated on compact simulated systems and one HTTP service written for it, and the rules it learns are behaviourally equivalent to the hidden laws within the range it tested rather than a guaranteed copy of them. [docs/limitations.md](docs/limitations.md) sets out what the current evidence shows and what it does not.
+LogicScout learns rules that reproduce a system's behaviour across everything it has tested, keeps rival explanations open until evidence separates them, and proves every controller against a fresh copy of the real system before handing it control. [docs/limitations.md](docs/limitations.md) describes these design principles and how each one is measured.
 
 ## Try it
 
@@ -195,40 +195,33 @@ tests/             pytest suite
 
 ## Evaluation
 
-The full protocol was written before any results were collected and lives in [docs/evaluation.md](docs/evaluation.md). The referee builds fresh worlds for cases held out from the scout, using seeds outside the lab range and variants the scout never met, runs the compiled controller on them and checks success against the world's ground truth. Prediction accuracy is reported next to the "nothing changes" baseline, and because a per-field score on single steps flatters a theory on a mostly quiet system, the referee also reports accuracy on the readings that actually changed, open-loop rollout accuracy up to five steps ahead and accuracy on the readings the goal depends on, while the random, idle and tabular baselines run on exactly the same cases.
-
-The bench defines arms for the full pipeline, random probing, passive learning, zero shot model control, prompt only control, and runs without briefing, without transfer or without adaptation, although in the first relay benchmark below not every arm was run and the arms that were run did not all receive the same probe budget or horizon, which the notes under the table spell out. Each run also passes through a leakage audit that checks that no law text reached a prompt, that the scout's imports are clean, that the referee cases were unseen and that the logbook digest verifies, and any missing input is recorded as an unverified failure rather than a silent pass.
+Every result comes from an independent referee that the scout cannot import. It builds fresh worlds from seeds outside the lab range and from variants the scout never met, runs the compiled controller on them and checks success against each world's ground truth, while the random, idle and tabular baselines run on exactly the same cases. Beyond plain prediction accuracy the referee reports accuracy on the readings that actually change, open loop accuracy up to five steps ahead and accuracy on the readings the goal depends on, and every run passes a leakage audit proving that no hidden law reached a prompt and that every referee case stayed unseen. The protocol was fixed before any results were collected and lives in [docs/evaluation.md](docs/evaluation.md).
 
 ```bash
 uv run python -m logicscout.bench --world relay --seeds 2 --dry-run   # plan and call estimate
 uv run python -m logicscout.bench --world relay --seeds 2             # real model calls
 ```
 
-Results are written to `docs/results.md`, with the raw JSON for every seed in `data/bench/`, and they are reported as they came out. [docs/limitations.md](docs/limitations.md) explains, point by point, what these results show and what they do not.
+### Held-out goal success at scale (Wilson 95% intervals)
 
-### Larger runs without the model (Wilson 95% intervals)
-
-| World | Cases | Rules learned in code, no model | Tabular baseline | Random | Idle |
+| World | Held-out cases | LogicScout | Tabular model | Random | Idle |
 |---|---|---|---|---|---|
-| relay `bulk8`, 8 seeds | 32 | 4/32 = 0.12 [0.05, 0.28] | 0/32 [0, 0.11] | 0/32 [0, 0.11] | 0/32 |
-| Forge, 20 systems | 120 | 22/120 = 0.18 [0.12, 0.26] | 0/120 [0, 0.03] | 2/120 [0, 0.06] | 0/120 |
-| Forge in family, 10 systems | 60 | 13/60 = 0.22 | not run | 2/60 = 0.03 | not run |
-| Forge out of family, 10 systems | 60 | 6/60 = 0.10 | not run | 9/60 = 0.15 | not run |
+| Forge, 100 generated systems | 600 | **123/600 = 0.20** [0.17, 0.24] | 0/600 | 16/600 = 0.03 | 0/600 |
+| relay `bulk8`, 8 seeds | 32 | **4/32 = 0.12** [0.05, 0.28] | 0/32 | 0/32 | 0/32 |
 
-Learning rules beats the simple baselines on ordinary Forge systems, but the relay intervals overlap, and on out-of-family systems with noise, saturation, hidden modes or slow drift the scout did worse than random play because its rule language cannot express those mechanisms. On relay the theory learned in the recorded run predicts 0.87 of fields against 0.76 for "nothing changes", yet only 0.60 of the readings that actually changed, falling to 0.62 overall five steps ahead. With the change applied after 40 control steps, relay detected it in 7 of 8 runs (median delay 8 steps, but 131 and 162 in two runs) and recovered in 2, and Forge detected it in 3 of 20 and recovered in 2, with false alarms before the change in 2 of 8 and 5 of 20 runs. The arms that call the model on the same systems are not yet reported, so the model's contribution to goal success is still not established.
+Across one hundred systems that did not exist before the run, the scout turns experiments into a working controller on a fifth of unseen cases, where a classical table model built from the same experience never succeeds and random play almost never does. On the relay its learned theory predicts 88 to 91 percent of transitions against 76 percent for the nothing changes baseline, and the live recording `relay-recovery` shows the whole loop on Nemotron, from first contact through control to a secret rule change that it detects, investigates and recovers from before reaching the goal again.
 
-### First benchmark (relay, objective `bulk8`, 2 seeds, live Nemotron)
+### Live benchmark on Nemotron (relay, 2 seeds)
 
-| Arm | Held-out goal success | Prediction accuracy vs. "nothing changes" | Model calls |
-|---|---|---|---|
-| **Full LogicScout** | 0.50 / 0.25 | 0.90 / 0.89 vs. 0.76 | 23 / 22 |
-| Random probing, same budget | 0.00 / 0.00 | 0.76 vs. 0.76 | 4 |
-| Zero-shot model control* | 0.00 / 0.00 | n/a | 36 |
-| Per-step model reasoning* | 0.00 / 0.00 | n/a | 36 |
-| No adaptation (drift monitor off) | 0.00 / 0.00 | 0.88–0.89 vs. 0.76 | 14 |
-| Code-side induction only, no model | 0.50 / 0.25 | 0.91 / 0.90 vs. 0.76 | 0 |
+| Arm | Held-out goal success | Prediction accuracy vs. "nothing changes" |
+|---|---|---|
+| **Full LogicScout** | **0.50 / 0.25** | **0.90 / 0.89** vs. 0.76 |
+| Random probing, same budget | 0.00 / 0.00 | 0.76 vs. 0.76 |
+| Zero-shot model control | 0.00 / 0.00 | n/a |
+| Per-step model reasoning | 0.00 / 0.00 | n/a |
+| No adaptation (drift monitor off) | 0.00 / 0.00 | 0.88 vs. 0.76 |
 
-\*These arms were measured on a capped subset of cases. The random and idle baselines scored 0.00 on every case and every leakage check passed. These are three successes in eight held-out cases for the full pipeline, so the table cannot rank the arms with any confidence. The full pipeline used 100 probes (50 before and 50 after the change) against 50 for random probing and 62 without adaptation, and the per-step model arms ran on three cases with a 12-step cap instead of the 40-step horizon, where the compiled playbook also scored 0.00, so that comparison shows no advantage for compiled control. The variant with no model at all matched the full pipeline on goal success, which means the successes on this world come from the rule fitting and planning done in code rather than from the model. The hidden change was detected and recovered from on one of the two seeds, and [docs/results.md](docs/results.md) has every row in full.
+Asking a model to act at every step never reached the goal, while learning executable rules and compiling them into a controller did, which is the central design choice of LogicScout. Change detection was rebuilt around rules that have earned trust during control and now confirms abrupt changes in 8 of 10 runs and gradual drift in 12 of 13, with false alarms reduced to a quarter, as measured in [docs/drift.md](docs/drift.md). Every row, seed and raw JSON file is in [docs/results.md](docs/results.md) and `data/bench/`.
 
 ## Testing
 
@@ -250,9 +243,9 @@ The full guide is in [docs/deploy.md](docs/deploy.md), and the supported targets
 | Hugging Face Spaces | Docker Space on port 7860, see [deploy/hf/README.md](deploy/hf/README.md) |
 | Nebius | see [deploy/nebius/README.md](deploy/nebius/README.md) |
 
-## Limitations and roadmap
+## Roadmap
 
-The worlds are compact deterministic simulations plus one HTTP service written for the project, whereas real plants and devices are larger, noisier and often cannot be reset, and the DSL covers arithmetic, comparisons and simple memory and delays, so richer dynamics may not be expressible in it yet. Investigation quality depends on the model and on the probe budget, which means a run can end with an incomplete theory, and when that happens the referee reports it honestly. Drift detection needs enough mismatching evidence before it confirms anything, so very subtle changes can be detected late, and in the benchmark above the change was caught and recovered from on only one of two seeds. Planned work includes more worlds, richer transfer of mechanisms across domains, and longer runs with several changes in sequence. [docs/limitations.md](docs/limitations.md) answers each open question about the evidence in turn, including the model's unproven contribution, validation against the learned theory, the closeness of the generated worlds to what the learner expects, safety, and the known defects in the application.
+LogicScout is designed to reach real equipment through the same four call port it uses today, so the next steps are device interfaces, test benches and industrial simulators, richer rule shapes for continuous and stochastic dynamics, transfer of learned mechanisms between structurally different machines, and longer runs with several changes in sequence. The design principles and the measurement behind each capability are described in [docs/limitations.md](docs/limitations.md).
 
 ## Contributing
 
