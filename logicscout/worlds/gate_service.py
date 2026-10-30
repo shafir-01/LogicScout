@@ -41,6 +41,8 @@ class NS:
             "t": self.t, "last_status": self.last_status, "last_job": self.last_job,
             "jobs_draft": states.count("draft"), "jobs_armed": states.count("armed"),
             "committed": self.committed, "locked": self.t < self.lock_until, "lockouts": self.lockouts,
+            "tokens": self.tokens, "strikes": self.strikes,
+            "arm_age": min((self.t - j["armed_at"] for j in self.jobs if j["state"] == "armed"), default=-1),
         }
 
     def tick(self) -> None:

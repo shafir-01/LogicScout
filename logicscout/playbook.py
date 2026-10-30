@@ -100,7 +100,20 @@ def _check_template(tpl: ActionTemplate, manual: WorldManual, where: str) -> lis
     return errors
 
 
+def quote_enum_literals(pb: Playbook, manual: WorldManual) -> Playbook:
+    """Models often write an enum choice bare (create) where the DSL needs a string ('create')."""
+    specs = {a.name: {p.name: p for p in a.params} for a in manual.actions}
+    for tpl in [r.do for r in pb.rules] + [pb.fallback]:
+        params = specs.get(tpl.name, {})
+        for arg, expr in tpl.args.items():
+            p = params.get(arg)
+            if p and p.choices and expr.strip() in p.choices:
+                tpl.args[arg] = repr(expr.strip())
+    return pb
+
+
 def validate_playbook(pb: Playbook, manual: WorldManual) -> list[str]:
+    quote_enum_literals(pb, manual)
     errors: list[str] = []
     for i, rule in enumerate(pb.rules):
         errors += [f"rule {i} when: {e}" for e in validate(rule.when)]

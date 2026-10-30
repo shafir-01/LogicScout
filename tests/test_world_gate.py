@@ -171,3 +171,11 @@ def test_manual_has_no_laws():
     text = Gate.manual().model_dump_json().lower()
     for word in ("token bucket", "window", "oldest", "capacity", "refill"):
         assert word not in text.split("briefing_topics")[0]
+
+
+def test_meter_fields_observable():
+    from logicscout.worlds.gate import Gate
+    w = Gate()
+    o = w.reset(0)
+    assert {"tokens", "strikes", "arm_age"} <= set(o.fields) and o.fields["arm_age"] == -1
+    w.close()

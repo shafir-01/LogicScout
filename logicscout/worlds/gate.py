@@ -61,6 +61,9 @@ class Gate(World):
                 FieldSpec(name="committed", type="int", description="jobs committed so far"),
                 FieldSpec(name="locked", type="bool", description="controller refusing requests (423)"),
                 FieldSpec(name="lockouts", type="int", description="number of lockouts so far"),
+                FieldSpec(name="tokens", type="int", description="request allowance left on the controller's meter"),
+                FieldSpec(name="strikes", type="int", description="consecutive refused requests counted toward a lockout"),
+                FieldSpec(name="arm_age", type="int", description="ticks since the longest-armed job was armed (-1 none)"),
             ],
             objectives=[Objective(id="commit5", text="Commit 5 jobs without triggering a lockout",
                                   success="obs.committed >= 5 and obs.lockouts == 0", horizon=40)],
@@ -126,9 +129,19 @@ class Gate(World):
             return StepResult(observation=self.observe(), error=f"unknown action {action.name!r}")
         return StepResult(observation=self.observe(), cost=1.0)
 
-    def shift(self, seed: int) -> ShiftRecord:
+    @classmethod
+    def shift_menu(cls) -> list[dict]:
+        return [
+            {"id": "bucket_capacity_drop", "label": "Request bucket holds fewer tokens"},
+            {"id": "arm_window_shortens", "label": "Armed state expires almost immediately"},
+            {"id": "concurrency_drops", "label": "Only one item can be armed at a time"},
+        ]
+
+    def shift(self, seed: int, kind: str | None = None) -> ShiftRecord:
         rng = random.Random(seed)
-        kind = rng.choice(["bucket_capacity_drop", "arm_window_shortens", "concurrency_drops"])
+        kind = kind or rng.choice(["bucket_capacity_drop", "arm_window_shortens", "concurrency_drops"])
+        if kind not in {m["id"] for m in self.shift_menu()}:
+            raise ValueError(f"unknown shift kind {kind!r}")
         key, new = {
             "bucket_capacity_drop": ("capacity", max(1, self.laws["capacity"] - 2)),
             "arm_window_shortens": ("arm_window", 1),
