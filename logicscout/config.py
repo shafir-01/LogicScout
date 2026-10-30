@@ -23,3 +23,6 @@ SANDBOX_TOKEN = os.getenv("LS_SANDBOX_TOKEN", "dev-sandbox-token")
 GATE_URL = os.getenv("LS_GATE_URL", "http://127.0.0.1:8790")  # the separate HTTP device service
 
 MAX_LIVE_RUNS = int(os.getenv("LS_MAX_LIVE_RUNS", "3"))
+MAX_RUNS_PER_DAY = int(os.getenv("LS_MAX_RUNS_PER_DAY", "40"))  # hard ceiling on paid inference per UTC day
+LIVE_RUNS_ENABLED = os.getenv("LS_LIVE_RUNS", "on").lower() not in ("off", "0", "false")  # kill switch; recordings stay up
+MAX_PROBE_BUDGET = 60

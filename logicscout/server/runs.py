@@ -122,6 +122,13 @@ class RunRegistry:
     def __init__(self) -> None:
         self.runs: dict[str, Run] = {}
         self._ip_hits: dict[str, list[float]] = {}
+        self._day: tuple[str, int] = ("", 0)
+
+    def daily_left(self) -> int:
+        today = time.strftime("%Y-%m-%d", time.gmtime())
+        if self._day[0] != today:
+            self._day = (today, 0)
+        return config.MAX_RUNS_PER_DAY - self._day[1]
 
     def live_count(self) -> int:
         return sum(1 for r in self.runs.values() if not r.done)
@@ -145,6 +152,8 @@ class RunRegistry:
         run = Run(run_id, log, state, controls_cls(), session, ip, dir=d)
         self.runs[run_id] = run
         self._ip_hits.setdefault(ip, []).append(time.time())
+        self.daily_left()
+        self._day = (self._day[0], self._day[1] + 1)
         run.task = asyncio.create_task(self._drive(run, mission, llm))
         return run
 

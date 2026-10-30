@@ -135,7 +135,15 @@ def create_app() -> FastAPI:
     # ---- runs ----------------------------------------------------------------------
     @app.post("/api/runs")
     async def create_run(cfg: RunConfig, request: Request):
-        ip = request.client.host if request.client else "unknown"
+        # behind a hosting proxy every request comes from the proxy, so the visitor is the first forwarded hop
+        fwd = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+        ip = fwd or (request.client.host if request.client else "unknown")
+        if cfg.probe_budget is not None:
+            cfg.probe_budget = max(1, min(cfg.probe_budget, config.MAX_PROBE_BUDGET))
+        if not config.LIVE_RUNS_ENABLED:
+            raise HTTPException(503, "live runs are paused; recordings are still available")
+        if reg.daily_left() <= 0:
+            raise HTTPException(429, "today's live runs are used up; watch a recording or try tomorrow")
         try:  # bad input is a 400 whatever the server's own state is
             R.check_variant(cfg.world_id, cfg.variant)
         except ValueError as e:
