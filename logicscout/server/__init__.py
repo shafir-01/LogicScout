@@ -1,0 +1,1 @@
+"""LogicScout HTTP API (FastAPI)."""
