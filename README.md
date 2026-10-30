@@ -8,16 +8,18 @@
 
 LogicScout is dropped in front of a system with no manual of its laws: only the names of its controls and readings. It designs experiments, proposes hypotheses, turns what survives into an **executable theory**, compiles a **playbook** that runs the system without calling the model each step, notices when the hidden laws silently change, re-investigates, and recovers. An independent **referee** then scores it on held-out cases the scout never saw.
 
-## What you'll see
+## Try it
 
-Run it locally in two commands (after setup below):
+**Live: [logicscout.onrender.com](https://logicscout.onrender.com)** — pick a system (or "Unknown system", generated fresh for you), press **Start**, and watch it learn. The free instance sleeps when idle; the first load can take up to a minute.
+
+Or run it locally in two commands (after setup below):
 
 ```bash
 uv run python scripts/serve.py      # API + web UI on http://localhost:8787
 uv run logicscout run --world relay --shift-after 10   # same mission, streamed in the terminal
 ```
 
-In the web UI you pick a world and watch the run move through its phases: hypotheses proposed and refuted, probes stepping through the sandbox, theory revisions with prediction accuracy against a "nothing changes" baseline, the compiled playbook taking control, a **hidden change** (press the button or use `--shift-after`), the drift monitor raising suspicion then confirmation, re-investigation, recovery, and finally the referee report. After the run, a debrief reveals the true laws so you can compare them to what LogicScout learned.
+In the web UI you pick a system and watch the run move through its phases: hypotheses proposed and refuted, probes stepping through the sandbox, theory revisions with prediction accuracy against a "nothing changes" baseline, the compiled playbook taking control, a **hidden change** (press the button or use `--shift-after`), the drift monitor raising suspicion then confirmation, re-investigation, recovery, and finally the referee report. After the run, a debrief reveals the true laws so you can compare them to what LogicScout learned.
 
 ## Features
 
