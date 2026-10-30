@@ -10,7 +10,13 @@ Verified 2026-10-30 against official docs.
 | Koyeb / Fly.io | Card required in practice | Not recommended |
 
 ## Hugging Face Space
-Create a Docker Space, push the repo with `deploy/hf/README.md` as the root README.md, add secrets (NEBIUS_API_KEY, TAVILY_API_KEY, LS_MODEL_DEEP, LS_MODEL_FAST, LS_SANDBOX_TOKEN) and variable PORT=7860. Container runs as uid 1000 (the Dockerfile user matches).
+Put `HF_TOKEN` (write access), `NEBIUS_API_KEY`, `TAVILY_API_KEY`, `LS_MODEL_DEEP`, `LS_MODEL_FAST` in the repo `.env`, then:
+
+```
+uv run --with huggingface_hub --with python-dotenv python deploy/hf/push.py
+```
+
+It creates the public Space `shafir-01/logicscout` (Docker, free cpu-basic), sets the secrets and variables (PORT=7860, LS_MAX_LIVE_RUNS=3), uploads the repo with `deploy/hf/README.md` as the Space README, and waits until it is RUNNING at https://shafir-01-logicscout.hf.space. The image builds `web/` with `npm ci && npm run build`; the API serves `web/dist`. The container runs as uid 1000 with a writable `/app/data`. `LS_SANDBOX_TOKEN` is generated per boot if unset. Disk is ephemeral.
 
 ## Render
 New > Blueprint from the GitHub repo (render.yaml), fill secrets.

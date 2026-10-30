@@ -6,8 +6,14 @@ colorTo: blue
 sdk: docker
 app_port: 7860
 pinned: false
+license: mit
+short_description: An AI scout that discovers a system's hidden laws and recovers from drift.
 ---
 
-LogicScout Space. Push the repo to a Docker Space, replacing README.md with this file,
-and set secrets NEBIUS_API_KEY, TAVILY_API_KEY, LS_MODEL_DEEP, LS_MODEL_FAST, LS_SANDBOX_TOKEN.
-Set variable PORT=7860 so the app listens on the Space port.
+# LogicScout
+
+LogicScout meets an unfamiliar system with no manual, runs experiments to discover its hidden laws,
+compiles a controller from the resulting theory, notices when the laws silently change, and recovers.
+An independent referee scores it on held-out cases. Reasoning runs on NVIDIA Nemotron via Nebius Token Factory.
+
+Source: https://github.com/shafir-01/LogicScout

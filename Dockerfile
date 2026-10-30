@@ -9,7 +9,7 @@ RUN if [ -f package.json ]; then \
 FROM python:3.12-slim
 COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /usr/local/bin/uv
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy PYTHONUNBUFFERED=1 \
-    PATH="/app/.venv/bin:$PATH" PORT=8787 DATA_DIR=/app/data
+    PATH="/app/.venv/bin:$PATH" PORT=8787 LS_DATA_DIR=/app/data
 RUN useradd -m -u 1000 app
 WORKDIR /app
 COPY pyproject.toml uv.lock README.md ./
