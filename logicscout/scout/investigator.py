@@ -245,6 +245,48 @@ class Investigator:
             pred.advance(o)
             prev = o
 
+    def refit_recent(self, theory: Theory, window: int = 60) -> Theory:
+        """No probes left: fit rules to the most recent experience only (the current regime) and keep each
+        one that raises accuracy on it. Returns the theory unchanged when nothing helps."""
+        recent = self.transitions[-window:]
+        if len(recent) < 8:
+            return theory
+        new = self._base(theory)
+        try:
+            acc = accuracy(new, recent)
+            cands = induce.induce(self.manual, recent)
+        except Exception as e:
+            self.log.append("error", {"message": f"refit failed: {e}"})
+            return theory
+        learned = []
+        for c in sorted(cands, key=lambda c: c["unchanged"] - c["fits"][0]["hits"]):
+            f, when = c["fits"][0], c.get("when", "True")
+            rule = Rule(id=self._new_rule_id(), statement=f"After {'every step' if c['action'] == '*' else repr(c['action'])}"
+                        f"{'' if when == 'True' else ' when ' + when}, {c['field']} becomes {f['expr']} (refit on recent control)",
+                        kind="periodic" if "%" in f["expr"] else "transition", action=c["action"], when=when,
+                        effects={c["field"]: f["expr"]}, status="supported")
+            if self._rule_errors(rule, new):
+                continue
+            rep = {r.id for r in new.rules if r.action == rule.action and r.when == when
+                   and c["field"] in r.effects and r.status in ("tentative", "supported")}
+            cand = new.model_copy(deep=True)
+            for r in cand.rules:
+                if r.id in rep and set(r.effects) == {c["field"]}:
+                    r.status = "retired"
+            cand.rules = _ordered(cand.rules + [rule])
+            a = accuracy(cand, recent)
+            if a > acc + 1e-3:
+                new, acc = cand, a
+                learned.append(f"{rule.id}: {rule.statement}")
+        if not learned:
+            return theory
+        new.version, new.parent = theory.version + 1, theory.version
+        new.note = ("Refit on recent control experience: " + "; ".join(learned))[:600]
+        self.log.append("theory.revised", {"theory": new.model_dump(), "diff": diff(theory, new),
+                                           "accuracy": round(self._accuracy(new), 4),
+                                           "baseline_accuracy": round(persistence_accuracy(self.transitions), 4)})
+        return new
+
     def residuals(self, theory: Theory, last: int = 60) -> list[list[Mismatch]]:
         """Per-step mispredictions of `theory` on the most recent experience (empty list = all right)."""
         out: list[list[Mismatch]] = []

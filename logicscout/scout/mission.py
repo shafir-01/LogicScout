@@ -30,7 +30,7 @@ from logicscout.theory import Predictor, accuracy, compare, persistence_accuracy
 EPISODES = 4
 MAX_EPISODES = 8  # extra episodes are allowed only while a hidden change is still unrecovered
 MAX_REPROBES = 3
-MAX_REFITS = 2
+MAX_REFITS = 3
 REFIT_BUDGET = 6
 REPROBE_CAPS = {"hypothesize": 2, "design_probe": 1, "revise_theory": 1}  # model calls are finite
 RefereeFn = Callable[..., Any]
@@ -306,8 +306,12 @@ class Mission:
                 await self.refit(seeds[min(ep + 1, len(seeds) - 1)])
             if result["drift"]:
                 if reprobes >= MAX_REPROBES:
-                    self.note("drift confirmed again but the re-investigation limit is reached")
-                    break
+                    self.note("drift confirmed again but the re-investigation limit is reached; refitting on control experience")
+                    if refits >= MAX_REFITS + 2:
+                        break
+                    refits += 1
+                    await self.refit(seeds[min(ep + 1, len(seeds) - 1)])
+                    continue
                 reprobes += 1
                 await self.reprobe(result["focus"], seeds[min(ep + 1, len(seeds) - 1)])
 
@@ -397,13 +401,17 @@ class Mission:
     async def refit(self, next_seed: int) -> None:
         """A failed episode is experience too: refit the theory on it (code-side fits, a few test probes,
         no model calls) and recompile; a model playbook is re-synthesized only if it was in use."""
-        if self.adapt_budget(REFIT_BUDGET) <= 0:
+        recent = getattr(self.inv, "refit_recent", None)
+        if self.adapt_budget(REFIT_BUDGET) <= 0 and not callable(recent):
             return
         self.phase("reprobing")
         self.note("episode missed the goal: refitting the theory on the control experience")
         before = self.theory.version
-        self.theory = await self.inv.investigate(self.theory, budget=self.adapt_budget(REFIT_BUDGET),
-                                                 caps={"hypothesize": 0, "design_probe": 0, "revise_theory": 0})
+        if self.adapt_budget(REFIT_BUDGET) > 0:
+            self.theory = await self.inv.investigate(self.theory, budget=self.adapt_budget(REFIT_BUDGET),
+                                                     caps={"hypothesize": 0, "design_probe": 0, "revise_theory": 0})
+        else:  # probe allowance spent: learn from the latest control experience alone
+            self.theory = recent(self.theory)
         self.sync_hypotheses()
         self.score_theory()
         self.check_stop()
